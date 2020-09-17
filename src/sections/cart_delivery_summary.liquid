@@ -1,0 +1,45 @@
+<div data-section-id="{{ section.id }}" data-section-type="content">
+    <div class="col-sm-12">
+      <ul class="list-unstyled">
+        {%- capture place_img_src -%}
+        {% unless section.settings.place_icon == blank %}
+        {{ section.settings.place_icon  | img_url: '18x18' }}
+        {% else %}
+        {{ 'icon-delivery-place.png'  | asset_img_url: '18x18' }}
+        {% endunless %}
+        {%- endcapture -%}
+        <li><img src="{{ place_img_src }}" class="icon pull-left"> <span id="cartAddress"></span></li>
+        {%- capture date_img_src -%}
+        {% unless section.settings.date_icon == blank %}
+        {{ section.settings.date_icon  | img_url: 'x18' }}
+        {% else %}
+        {{ 'icon-delivery-day.png'  | asset_img_url: 'x18' }}
+        {% endunless %}
+        {%- endcapture -%}        
+        <li><img src="{{ date_img_src }}" class="icon pull-left"> <span id="cartDate"></span></li>
+      </ul>
+    </div>
+</div>
+{% schema %}
+  {
+    "name": "Panier Infos Livraison",
+    "settings": [
+      {
+      "type":"image_picker",
+      "id": "place_icon",
+      "label": "Icône d'adresse"
+      },
+      {
+      "type":"image_picker",
+      "id": "date_icon",
+      "label": "Icône de date"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

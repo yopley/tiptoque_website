@@ -1,0 +1,75 @@
+{% assign unfiltered = true %}
+{% if current_tags.first %}
+{% assign unfiltered = false %}
+{% endif %}
+
+<div data-section-id="{{ section.id }}" data-section-type="image">
+  <div class="container-banner">
+    <div class="banner-content" 
+         {% if template contains 'article' and section.settings.article_banner and article.image %}
+         style="background:url({{ article.image.src | img_url: '2000x250', crop:'center', format:'pjpg' }}){% unless section.settings.banner.width < 2000 %} no-repeat{% endunless %} center"
+         {% else %}
+         {% unless section.settings.banner == blank %}
+         style="background:url({{ section.settings.banner | img_url: '2000x250', crop:'center', format:'pjpg' }}){% unless section.settings.banner.width < 2000 %} no-repeat{% endunless %} center"
+         {% endunless %}
+         {% endif %}>
+      <div class="banner-content--relative">
+        <div class="inner-content">
+          
+          <!-- TEMPLATE BLOG CASE -->
+          {% if template contains 'blog' %}
+            {% if current_tags.first %}
+              <a href="{{ blog.url }}">
+              <h1 class="text-center lighter">{{ blog.title }}</h1>
+              </a>
+              {% if current_tags.first contains '|' %}
+              {% assign cat_split = current_tags.first | split: '|' %}
+              {% assign cat_display = cat_split.last %}
+              {% else %}
+              {% assign cat_display = current_tags.first %}
+              {% endif %}
+            <h2 class="text-center lighter">{{ cat_display }}</h2>
+            {% else %}
+            <h1 class="text-center lighter">{{ blog.title }}</h1>
+            {% endif %}
+          {% endif %}
+          
+          <!-- TEMPLATE ARTICLE CASE -->
+          {% if template contains 'article' %}
+              <a href="{{ blog.url }}">
+              <h2 class="text-center lighter">{{ blog.title }}</h2>
+              </a>
+          	  <h1 class="text-center lighter">{{ article.title }}</h1>          
+          {% endif %}          
+        </div>
+      </div>
+    </div>    
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Bannière du Blog",
+    "settings": [
+      {
+      "type": "image_picker",
+      "id": "banner",
+      "label": "Image de une par défaut des pages",
+      "info": "Largeur minimum 2000px"
+      },
+      {
+      "type": "checkbox",
+      "id": "article_banner",
+      "label": "Utiliser l'image de une des articles pour la bannière",
+      "default": false
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+

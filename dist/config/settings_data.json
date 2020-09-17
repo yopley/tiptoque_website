@@ -1,0 +1,2527 @@
+{
+  "current": {
+    "site_icon": "",
+    "site_logo": "shopify://shop_images/2015_10_Logo_TipToque_Orange.png",
+    "error_delivery_uncomplete": "Afin de pouvoir commander ce plat, veuillez renseigner la date, l'heure et le lieu de livraison souhaités",
+    "error_delay_delayed": "Nous sommes désolés mais nous ne pouvons vous livrer ce produit dans les délais demandés. Veuillez sélectionner une autre date de livraison.",
+    "error_chef_deactivated": "Nous sommes désolés mais vous avez déjà une commande en cours sur ce type de prestation avec un autre chef.",
+    "product_cta_text": "Commander",
+    "product_cta_link": "shopify://collections/plateaux-repas-froids",
+    "gp_add_merchant_api_key": "",
+    "excluded_types": "Eau, Jus, Vin rouge, Vin blanc, Champagne, Déjeuner au resto",
+    "vat_rate": "10",
+    "vat_collection": "tva-20",
+    "vat_special_rate": "20",
+    "blog_default_img": "shopify://shop_images/default_blog_grey_2.jpg",
+    "checkout_header_image": "",
+    "checkout_logo_image": "shopify://shop_images/2015_10_Logo_TipToque_Orange-hori_972e7f01-d90b-40eb-8866-19260c4b7a07.png",
+    "checkout_logo_position": "left",
+    "checkout_logo_size": "medium",
+    "checkout_body_background_image": "",
+    "checkout_body_background_color": "#fff",
+    "checkout_input_background_color_mode": "white",
+    "checkout_sidebar_background_image": "",
+    "checkout_sidebar_background_color": "#fafafa",
+    "checkout_heading_font": "Helvetica Neue",
+    "checkout_body_font": "Helvetica Neue",
+    "checkout_accent_color": "#f08707",
+    "checkout_button_color": "#f08707",
+    "checkout_error_color": "#ff6d6d",
+    "product_zoom": false,
+    "gp_enable_google_autocomplete": true,
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {
+          "main_menu": "main-menu",
+          "account": true
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "1516291616525": {
+            "type": "menu",
+            "settings": {
+              "col": "1",
+              "menu": "footer"
+            }
+          },
+          "1516291878228": {
+            "type": "menu",
+            "settings": {
+              "col": "2",
+              "menu": "nos-chefs"
+            }
+          },
+          "1516291772850": {
+            "type": "image",
+            "settings": {
+              "col": "2",
+              "image": "shopify://shop_images/2015_10_Logo_TipToque-Blanc.png",
+              "image_link": "shopify://pages/a-propos"
+            }
+          },
+          "1516297645367": {
+            "type": "title",
+            "settings": {
+              "col": "3",
+              "title": "Contact"
+            }
+          },
+          "1516291652423": {
+            "type": "text",
+            "settings": {
+              "col": "3",
+              "content": "<p></p>\n<p><a href=\"/pages/nous-contacter\" title=\"Nous contacter\">Nous &eacute;crire</a></p>\n<p>01.79.75.44.50</p>"
+            }
+          },
+          "1516290104935": {
+            "type": "social",
+            "settings": {
+              "col": "3",
+              "social_image1": "shopify://shop_images/facebook-white.png",
+              "social_link1": "https://www.facebook.com/TipToque/",
+              "social_image2": "shopify://shop_images/twitter-white_9ce86335-de17-4da5-952e-b5d351a6f21a.png",
+              "social_link2": "https://twitter.com/TipToque",
+              "social_image3": "shopify://shop_images/instagram-white_da7c7df8-8949-43ee-8d67-9c096b4ec90a.png",
+              "social_link3": "https://www.instagram.com/tiptoque/",
+              "social_image4": "",
+              "social_link4": ""
+            }
+          }
+        },
+        "block_order": [
+          "1516291616525",
+          "1516291878228",
+          "1516291772850",
+          "1516297645367",
+          "1516291652423",
+          "1516290104935"
+        ],
+        "settings": {
+          "background_img": "shopify://shop_images/IMG_2376.JPG",
+          "color": "#000000",
+          "opacity": 40,
+          "bg_color": "#cecece"
+        }
+      },
+      "menu_collections": {
+        "type": "menu_collections",
+        "settings": {
+          "main_menu": "menu-collections-def"
+        }
+      },
+      "menu_livraison": {
+        "type": "menu_livraison",
+        "blocks": {
+          "1541773145880": {
+            "type": "date",
+            "settings": {
+              "date": "12/11/2018"
+            }
+          }
+        },
+        "block_order": [
+          "1541773145880"
+        ],
+        "settings": {
+          "ico_left": "",
+          "ico_cal": "",
+          "ico_time": "",
+          "ico_place": ""
+        }
+      },
+      "home_collections": {
+        "type": "home_collections",
+        "blocks": {
+          "1516911869131": {
+            "type": "image_pop",
+            "settings": {
+              "image": "shopify://shop_images/photo_plateau_repas_grise_4.jpg",
+              "title": "Les plateaux repas",
+              "subtitle": "À table !",
+              "image1": "shopify://shop_images/Volaille_pierre.JPG",
+              "collection1": "shopify://collections/plateaux-repas-froids",
+              "title1": "Nos plateaux repas froids",
+              "subtitle1": "Ne vous brûlez pas !",
+              "image2": "shopify://shop_images/Bonite.JPG",
+              "collection2": "shopify://collections/plateaux-repas-chauds",
+              "title2": "Nos plateaux repas chauds",
+              "subtitle2": "Certains les aiment comme ça !"
+            }
+          },
+          "1516915108891": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/buffet_3.jpg",
+              "collection": "shopify://collections/buffets",
+              "title": "Les Buffets",
+              "subtitle": "Pour un moment convivial"
+            }
+          },
+          "1516911936224": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/tes1_2ea1e8e8-ba09-4e0d-a3ad-4b32207c90b4.jpg",
+              "collection": "shopify://collections/les-petits-dejeuners",
+              "title": "Les petits déjeuners et pauses",
+              "subtitle": "Faites le plein d'énergie pour la journée !"
+            }
+          },
+          "1516915332545": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/BOITES_FILTRE.jpg",
+              "collection": "shopify://collections/cocktails",
+              "title": "Les cocktails",
+              "subtitle": "Les Chefs régalent !"
+            }
+          },
+          "1516915400454": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/chef_franck_grise_V5.jpg",
+              "collection": "shopify://pages/devis",
+              "title": "Demandez un devis",
+              "subtitle": "Vous serez servis !"
+            }
+          }
+        },
+        "block_order": [
+          "1516911869131",
+          "1516915108891",
+          "1516911936224",
+          "1516915332545",
+          "1516915400454"
+        ],
+        "settings": {
+          "main_title": "Nos chefs vous régalent"
+        }
+      },
+      "home_chefs": {
+        "type": "home_chefs",
+        "blocks": {
+          "1535996664351": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/Bib_Guss_Equipe_M.Pawlak_1.jpg",
+              "collection_default": true,
+              "collection": "le-chef-gabriel-khaldi-du-restaurant-bib-guss",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1543410268744": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/IMG_1792-nb_d0731b60-da2b-4c32-99d6-91899301cead.JPG",
+              "collection_default": true,
+              "collection": "les-plateaux-repas-froids-du-chef-francois-gagnaire",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          }
+        },
+        "block_order": [
+          "1535996664351",
+          "1543410268744"
+        ],
+        "settings": {
+          "zoning_mode": "2"
+        }
+      },
+      "global_horaires": {
+        "type": "global_horaires",
+        "blocks": {
+          "1516298484433": {
+            "type": "matin",
+            "settings": {
+              "hour": "07:00"
+            }
+          },
+          "1516298495802": {
+            "type": "matin",
+            "settings": {
+              "hour": "07:30"
+            }
+          },
+          "1516298501770": {
+            "type": "matin",
+            "settings": {
+              "hour": "08:00"
+            }
+          },
+          "1516298508483": {
+            "type": "matin",
+            "settings": {
+              "hour": "08:30"
+            }
+          },
+          "1516298512915": {
+            "type": "matin",
+            "settings": {
+              "hour": "09:00"
+            }
+          },
+          "1516298520956": {
+            "type": "matin",
+            "settings": {
+              "hour": "09:30"
+            }
+          },
+          "1516298536261": {
+            "type": "midi",
+            "settings": {
+              "hour": "11:30"
+            }
+          },
+          "1516298540557": {
+            "type": "midi",
+            "settings": {
+              "hour": "12:00"
+            }
+          },
+          "1516298544358": {
+            "type": "midi",
+            "settings": {
+              "hour": "12:30"
+            }
+          },
+          "1516298548007": {
+            "type": "midi",
+            "settings": {
+              "hour": "13:00"
+            }
+          },
+          "1516298553456": {
+            "type": "midi",
+            "settings": {
+              "hour": "13:30"
+            }
+          },
+          "1516298558551": {
+            "type": "midi",
+            "settings": {
+              "hour": "14:00"
+            }
+          },
+          "1547230171535": {
+            "type": "soir",
+            "settings": {
+              "hour": "17:00"
+            }
+          },
+          "1516298564576": {
+            "type": "soir",
+            "settings": {
+              "hour": "18:00"
+            }
+          },
+          "1516298573761": {
+            "type": "soir",
+            "settings": {
+              "hour": "18:30"
+            }
+          },
+          "1516298579875": {
+            "type": "soir",
+            "settings": {
+              "hour": "19:00"
+            }
+          },
+          "1516298584307": {
+            "type": "soir",
+            "settings": {
+              "hour": "19:30"
+            }
+          },
+          "1516298588698": {
+            "type": "soir",
+            "settings": {
+              "hour": "20:00"
+            }
+          },
+          "1516298592810": {
+            "type": "soir",
+            "settings": {
+              "hour": "20:30"
+            }
+          },
+          "1516298598171": {
+            "type": "soir",
+            "settings": {
+              "hour": "21:00"
+            }
+          },
+          "1516298602468": {
+            "type": "soir",
+            "settings": {
+              "hour": "21:30"
+            }
+          },
+          "1516298606660": {
+            "type": "soir",
+            "settings": {
+              "hour": "22:00"
+            }
+          },
+          "1520364601768": {
+            "type": "matin",
+            "settings": {
+              "hour": ""
+            }
+          }
+        },
+        "block_order": [
+          "1516298484433",
+          "1516298495802",
+          "1516298501770",
+          "1516298508483",
+          "1516298512915",
+          "1516298520956",
+          "1516298536261",
+          "1516298540557",
+          "1516298544358",
+          "1516298548007",
+          "1516298553456",
+          "1516298558551",
+          "1547230171535",
+          "1516298564576",
+          "1516298573761",
+          "1516298579875",
+          "1516298584307",
+          "1516298588698",
+          "1516298592810",
+          "1516298598171",
+          "1516298602468",
+          "1516298606660",
+          "1520364601768"
+        ],
+        "settings": {
+          "matin_title": "Matin",
+          "midi_title": "Midi",
+          "soir_title": "Soir"
+        }
+      },
+      "home_slideshow_customer": {
+        "type": "home_slideshow_customer",
+        "blocks": {
+          "1528198159753": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/bonite_slideshow_texte_3_fd120fac-a892-4667-964e-8e5c084da67b.jpg",
+              "logo": "",
+              "hello": false,
+              "alignment": "center",
+              "title": "",
+              "subtitle": "",
+              "call_to_action": "",
+              "link": "shopify://collections/plateaux-repas-froids"
+            }
+          },
+          "1528198191487": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/chocolat_slideshow_texte_3_aeb1778c-84d2-491c-9d4f-ec61aa072aea.jpg",
+              "logo": "",
+              "hello": false,
+              "alignment": "left",
+              "title": "",
+              "subtitle": "",
+              "call_to_action": "",
+              "link": "shopify://collections/plateaux-repas-froids"
+            }
+          },
+          "1516904485339": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/cabillaud_slideshow_texte_3_20f49029-494c-4e9a-85ef-e6e645e2aa69.jpg",
+              "logo": "",
+              "hello": false,
+              "alignment": "right",
+              "title": "",
+              "subtitle": "",
+              "call_to_action": "",
+              "link": "shopify://collections/plateaux-repas-froids"
+            }
+          },
+          "1528198181902": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/poire_slideshow_texte_3_df4c44a4-a043-4c89-b1bc-051e4e840c85.jpg",
+              "logo": "",
+              "hello": false,
+              "alignment": "center",
+              "title": "",
+              "subtitle": "",
+              "call_to_action": "",
+              "link": "shopify://collections/plateaux-repas-froids"
+            }
+          }
+        },
+        "block_order": [
+          "1528198159753",
+          "1528198191487",
+          "1516904485339",
+          "1528198181902"
+        ],
+        "settings": {}
+      },
+      "home_slideshow_visitor": {
+        "type": "home_slideshow_visitor",
+        "blocks": {
+          "1516885215413": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/bonite_slideshow_texte_3_fd120fac-a892-4667-964e-8e5c084da67b.jpg",
+              "logo": "",
+              "alignment": "center",
+              "title": "",
+              "subtitle": "",
+              "call_to_action": "",
+              "link": "shopify://collections/plateaux-repas-froids"
+            }
+          },
+          "1516885086939": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/chocolat_slideshow_texte_3_aeb1778c-84d2-491c-9d4f-ec61aa072aea.jpg",
+              "logo": "",
+              "alignment": "left",
+              "title": "",
+              "subtitle": "",
+              "call_to_action": "",
+              "link": "shopify://collections/plateaux-repas-froids"
+            }
+          },
+          "1528200534248": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/cabillaud_slideshow_texte_3.jpg",
+              "logo": "",
+              "alignment": "right",
+              "title": "",
+              "subtitle": "",
+              "call_to_action": "",
+              "link": "shopify://collections/plateaux-repas-froids"
+            }
+          },
+          "1528200526003": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/poire_slideshow_texte_3_df4c44a4-a043-4c89-b1bc-051e4e840c85.jpg",
+              "logo": "",
+              "alignment": "center",
+              "title": "",
+              "subtitle": "",
+              "call_to_action": "",
+              "link": "shopify://collections/plateaux-repas-froids"
+            }
+          }
+        },
+        "block_order": [
+          "1516885215413",
+          "1516885086939",
+          "1528200534248",
+          "1528200526003"
+        ],
+        "settings": {}
+      },
+      "plateaux_chefs": {
+        "type": "plateaux_chefs",
+        "blocks": {
+          "1518699061920": {
+            "type": "product",
+            "settings": {
+              "service": "fromage",
+              "service_icon": "",
+              "service_auto": true,
+              "handle": "plateaux-repas-froids"
+            }
+          },
+          "1528274747560": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/Plume.jpg",
+              "handle": "plateaux-repas-froids",
+              "collection_default": true,
+              "collection": "les-plateaux-repas-froids-du-chef-youssef-gastli",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1528274900262": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/Franck_retouche.jpg",
+              "handle": "plateaux-repas-froids",
+              "collection_default": true,
+              "collection": "les-plateaux-repas-froids-du-chef-franck-aboudharam",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1528274814938": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/Olivier_1.jpg",
+              "handle": "plateaux-repas-froids",
+              "collection_default": true,
+              "collection": "les-plateaux-repas-froids-du-chef-olivier-le-corre",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1528275258695": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/Pierre_8_57d1c7fb-d759-4902-92e3-d39c06367a06.jpg",
+              "handle": "plateaux-repas-froids",
+              "collection_default": true,
+              "collection": "les-plateaux-repas-froids-du-chef-pierre-siewe",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1521663584800": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/Pierre_8_57d1c7fb-d759-4902-92e3-d39c06367a06.jpg",
+              "handle": "plateaux-repas-chauds",
+              "collection_default": true,
+              "collection": "les-plateaux-repas-chauds-du-chef-pierre-siewe",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1536767963862": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/Pierre_8_57d1c7fb-d759-4902-92e3-d39c06367a06.jpg",
+              "handle": "menu-spe",
+              "collection_default": true,
+              "collection": "menu-spe-le-garde-temps",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1536777017230": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/Olivier_1.jpg",
+              "handle": "menu-spe",
+              "collection_default": true,
+              "collection": "menu-spe-anna",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1536777059112": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/Franck_retouche.jpg",
+              "handle": "menu-spe",
+              "collection_default": true,
+              "collection": "menu-spe-encore",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1541008830479": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/3456_BD.jpg",
+              "handle": "plateaux-repas-froids",
+              "collection_default": true,
+              "collection": "les-plateaux-repas-froids-du-chef-simon-horwitz",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1541008984555": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/2-2.jpg",
+              "handle": "plateaux-repas-froids",
+              "collection_default": true,
+              "collection": "les-plateaux-repas-froids-du-chef-lucas-felzine",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1542645555632": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/Franck.jpg",
+              "handle": "plateaux-repas-chauds",
+              "collection_default": true,
+              "collection": "les-plateaux-repas-chauds-du-chef-franck-aboudarham",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1542648271997": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/Plume_83c10a98-c984-49d9-b7ca-5d48450aad80.jpg",
+              "handle": "plateaux-repas-chauds",
+              "collection_default": true,
+              "collection": "les-plateaux-repas-chauds-du-chef-youssef-gastli",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1542649220942": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/Olivier_1_9a19df51-63eb-4715-bb7f-867d008f3641.jpg",
+              "handle": "plateaux-repas-chauds",
+              "collection_default": true,
+              "collection": "les-plateaux-repas-chauds-du-chef-olivier-le-corre",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1543409541099": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/IMG_1792-nb_afbaddea-9e9a-4682-9d34-e2cb8d64740d.JPG",
+              "handle": "plateaux-repas-froids",
+              "collection_default": true,
+              "collection": "les-plateaux-repas-froids-du-chef-francois-gagnaire",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1549619160974": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/2-2_ef12b600-3e36-4b50-90d6-c52bae4e4c9a.jpg",
+              "handle": "plateaux-repas-chauds",
+              "collection_default": true,
+              "collection": "les-plateaux-repas-chauds-du-chef-lucas-felzine",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1549631443704": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/3456_BD_1e4e325a-0b37-444a-aa36-363ca3495d4d.jpg",
+              "handle": "plateaux-repas-chauds",
+              "collection_default": true,
+              "collection": "les-plateaux-repas-chauds-du-chef-simon-horwitz",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1553004571528": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/Charles_Neyers_-_photo_site.jpg",
+              "handle": "plateaux-repas-froids",
+              "collection_default": true,
+              "collection": "le-chef-charles-neyers-du-restaurant-la-traversee",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1560789197886": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/WhatsApp_Image_2019-06-17_at_18.28.jpg",
+              "handle": "plateaux-repas-froids",
+              "collection_default": true,
+              "collection": "le-chef-stephane-pitre-du-restaurant-le-cellier",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1562939044688": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/Bib_Guss_Equipe_M.Pawlak_1.jpg",
+              "handle": "plateaux-repas-froids",
+              "collection_default": true,
+              "collection": "le-chef-gabriel-khaldi-du-restaurant-bib-guss",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1572260506785": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/jde_3.jpg",
+              "handle": "plateaux-repas-froids",
+              "collection_default": true,
+              "collection": "le-chef-jimmy-derivieres-du-restaurant-pleine-terre",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1572264854513": {
+            "type": "collection",
+            "settings": {
+              "illustration": "",
+              "handle": "chef-en-rodage",
+              "collection_default": true,
+              "collection": "le-chef-stephane-browne-du-restaurant-nous-4",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1580815089831": {
+            "type": "collection",
+            "settings": {
+              "illustration": "",
+              "handle": "chef-en-rodage",
+              "collection_default": true,
+              "collection": "le-chef-franck-baranger-du-restaurant-belle-maison",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1582191212495": {
+            "type": "collection",
+            "settings": {
+              "illustration": "",
+              "handle": "chef-en-rodage",
+              "collection_default": true,
+              "collection": "le-chef-koji-tsuchiya-du-restaurant-mamagoto",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          }
+        },
+        "block_order": [
+          "1518699061920",
+          "1528274747560",
+          "1528274900262",
+          "1528274814938",
+          "1528275258695",
+          "1521663584800",
+          "1536767963862",
+          "1536777017230",
+          "1536777059112",
+          "1541008830479",
+          "1541008984555",
+          "1542645555632",
+          "1542648271997",
+          "1542649220942",
+          "1543409541099",
+          "1549619160974",
+          "1549631443704",
+          "1553004571528",
+          "1560789197886",
+          "1562939044688",
+          "1572260506785",
+          "1572264854513",
+          "1580815089831",
+          "1582191212495"
+        ],
+        "settings": {
+          "zoning_mode": "2",
+          "more_button": true,
+          "more_button_link": "shopify://collections/boissons-1",
+          "more_button_content": "Commander les boissons"
+        }
+      },
+      "global_allergens": {
+        "type": "global_allergens",
+        "blocks": {
+          "1519152298523": {
+            "type": "product_info",
+            "settings": {
+              "icon": "shopify://shop_images/Vegetarien.png",
+              "name": "Végétarien",
+              "code": "vegetarien",
+              "content": ""
+            }
+          },
+          "1519152993081": {
+            "type": "product_info",
+            "settings": {
+              "icon": "shopify://shop_images/Sans_Gluten.png",
+              "name": "Sans Gluten",
+              "code": "sans-gluten",
+              "content": "<p>La pr&eacute;sence fortuite&nbsp;de gluten (contamination involontaire par contact avec d'autres produits sur la cha&icirc;ne de fabrication, lors du stockage ou du transport) n'est pas impossible.</p>"
+            }
+          },
+          "1519153011937": {
+            "type": "product_info",
+            "settings": {
+              "icon": "shopify://shop_images/Sans_lactose.png",
+              "name": "Sans Lactose",
+              "code": "sans-lactose",
+              "content": ""
+            }
+          },
+          "1519154170990": {
+            "type": "product_info",
+            "settings": {
+              "icon": "shopify://shop_images/Vegetalien.png",
+              "name": "Végétalien",
+              "code": "vegetalien",
+              "content": ""
+            }
+          },
+          "1519154294650": {
+            "type": "product_info",
+            "settings": {
+              "icon": "shopify://shop_images/lait_40f46ced-b42a-40ef-b3cb-9c21542cb761.png",
+              "name": "Lactose",
+              "code": "lait",
+              "content": ""
+            }
+          },
+          "1519154307675": {
+            "type": "product_info",
+            "settings": {
+              "icon": "shopify://shop_images/ble_5365051b-a088-411f-96a9-827d3ec25f30.png",
+              "name": "Gluten",
+              "code": "ble",
+              "content": ""
+            }
+          },
+          "1522322284053": {
+            "type": "product_info",
+            "settings": {
+              "icon": "shopify://shop_images/essai_egg.png",
+              "name": "Oeuf",
+              "code": "oeuf",
+              "content": ""
+            }
+          },
+          "1522332506988": {
+            "type": "product_info",
+            "settings": {
+              "icon": "shopify://shop_images/Poisson.png",
+              "name": "Poisson",
+              "code": "poisson",
+              "content": ""
+            }
+          },
+          "1540216643931": {
+            "type": "product_info",
+            "settings": {
+              "icon": "shopify://shop_images/celeri.png",
+              "name": "Céleri",
+              "code": "celeri",
+              "content": ""
+            }
+          },
+          "1540216646222": {
+            "type": "product_info",
+            "settings": {
+              "icon": "shopify://shop_images/crustace.png",
+              "name": "Crustacé",
+              "code": "crustace",
+              "content": ""
+            }
+          },
+          "1540216719463": {
+            "type": "product_info",
+            "settings": {
+              "icon": "shopify://shop_images/arachides.png",
+              "name": "Arachide",
+              "code": "arachide",
+              "content": ""
+            }
+          },
+          "1540216748599": {
+            "type": "product_info",
+            "settings": {
+              "icon": "shopify://shop_images/coques.png",
+              "name": "Fruits à coques",
+              "code": "fruitscoques",
+              "content": ""
+            }
+          },
+          "1540216778278": {
+            "type": "product_info",
+            "settings": {
+              "icon": "shopify://shop_images/mollusque_7908198f-f5e7-4622-9262-349826a57c92.png",
+              "name": "Mollusque",
+              "code": "mollusque",
+              "content": ""
+            }
+          },
+          "1540216795061": {
+            "type": "product_info",
+            "settings": {
+              "icon": "shopify://shop_images/sesame_a00b68c0-d3f7-4a77-9bbe-575f1b924592.png",
+              "name": "Sésame",
+              "code": "sesame",
+              "content": ""
+            }
+          },
+          "1540992872391": {
+            "type": "product_info",
+            "settings": {
+              "icon": "shopify://shop_images/moutarde.png",
+              "name": "Moutarde",
+              "code": "moutarde",
+              "content": ""
+            }
+          },
+          "1540992874647": {
+            "type": "product_info",
+            "settings": {
+              "icon": "shopify://shop_images/soja.png",
+              "name": "Soja",
+              "code": "soja",
+              "content": ""
+            }
+          }
+        },
+        "block_order": [
+          "1519152298523",
+          "1519152993081",
+          "1519153011937",
+          "1519154170990",
+          "1519154294650",
+          "1519154307675",
+          "1522322284053",
+          "1522332506988",
+          "1540216643931",
+          "1540216646222",
+          "1540216719463",
+          "1540216748599",
+          "1540216778278",
+          "1540216795061",
+          "1540992872391",
+          "1540992874647"
+        ],
+        "settings": {
+          "allergens_description": ""
+        }
+      },
+      "global_delivery_limits": {
+        "type": "global_delivery_limits",
+        "blocks": {
+          "1519836309424": {
+            "type": "product",
+            "settings": {
+              "type": "Plateau Repas Froid",
+              "days": 1,
+              "hour": "17:00"
+            }
+          },
+          "1519836539039": {
+            "type": "product",
+            "settings": {
+              "type": "Plateau Repas Chaud",
+              "days": 1,
+              "hour": "15:00"
+            }
+          },
+          "1519836559862": {
+            "type": "product",
+            "settings": {
+              "type": "Cocktail",
+              "days": 5,
+              "hour": "16:00"
+            }
+          },
+          "1519836584480": {
+            "type": "product",
+            "settings": {
+              "type": "Petit Déjeuner",
+              "days": 1,
+              "hour": "17:00"
+            }
+          },
+          "1519836665703": {
+            "type": "product",
+            "settings": {
+              "type": "Buffet",
+              "days": 1,
+              "hour": "17:00"
+            }
+          },
+          "1535647488669": {
+            "type": "product",
+            "settings": {
+              "type": "Menu spé",
+              "days": 1,
+              "hour": "17:00"
+            }
+          },
+          "1568051454767": {
+            "type": "product",
+            "settings": {
+              "type": "Buffet origami",
+              "days": 1,
+              "hour": "17:00"
+            }
+          }
+        },
+        "block_order": [
+          "1519836309424",
+          "1519836539039",
+          "1519836559862",
+          "1519836584480",
+          "1519836665703",
+          "1535647488669",
+          "1568051454767"
+        ],
+        "settings": {}
+      },
+      "collection_prestations": {
+        "type": "collection_prestations",
+        "blocks": {
+          "1519828629378": {
+            "type": "product",
+            "settings": {
+              "service": "service",
+              "service_icon": "",
+              "service_auto": true,
+              "handle": "petits-dejeuners"
+            }
+          },
+          "1519828682264": {
+            "type": "collection",
+            "settings": {
+              "handle": "petits-dejeuners",
+              "product_default": true,
+              "product": "petit-dejeuner-demo-1",
+              "zone": "75009"
+            }
+          },
+          "1519828705111": {
+            "type": "collection",
+            "settings": {
+              "handle": "petits-dejeuners",
+              "product_default": true,
+              "product": "petit-dejeuner-demo-2",
+              "zone": "75009,09240"
+            }
+          },
+          "1519828769853": {
+            "type": "collection",
+            "settings": {
+              "handle": "petits-dejeuners",
+              "product_default": true,
+              "product": "petit-dejeuner-demo-3",
+              "zone": "75009"
+            }
+          }
+        },
+        "block_order": [
+          "1519828629378",
+          "1519828682264",
+          "1519828705111",
+          "1519828769853"
+        ],
+        "settings": {}
+      },
+      "cart_empty_state": {
+        "type": "cart_empty_state",
+        "blocks": {
+          "1520433815408": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/Icone_toque_fc5f7b01-264b-4ee1-a909-3544a44be5da.png"
+            }
+          },
+          "1520433888286": {
+            "type": "title",
+            "settings": {
+              "title": "Votre panier est vide !"
+            }
+          },
+          "1520433899822": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/cart-empty.png"
+            }
+          },
+          "1520434010560": {
+            "type": "content",
+            "settings": {
+              "paragraph": "<p>Pr&eacute;cisez d&rsquo;abord l&rsquo;adresse, la date et l&rsquo;horaire de livraison.</p>"
+            }
+          },
+          "1520434025426": {
+            "type": "content",
+            "settings": {
+              "paragraph": "<p>Puis parcourez nos menus et s&eacute;lectionnez les produits de votre choix.</p>"
+            }
+          }
+        },
+        "block_order": [
+          "1520433815408",
+          "1520433888286",
+          "1520433899822",
+          "1520434010560",
+          "1520434025426"
+        ],
+        "settings": {}
+      },
+      "cart_delivery_summary": {
+        "type": "cart_delivery_summary",
+        "settings": {
+          "place_icon": "",
+          "date_icon": "shopify://shop_images/icon-delivery-hour.png"
+        }
+      },
+      "plateaux_empty": {
+        "type": "plateaux_empty",
+        "settings": {
+          "content": "Aucun chef n'est disponible dans cette catégorie pour la zone de livraison recherchée.",
+          "cta_link": "shopify://pages/devis",
+          "cta_content": "Demander un devis"
+        }
+      },
+      "collection_chefs_cta": {
+        "type": "collection_chefs_cta",
+        "settings": {
+          "cta": true,
+          "cta_link": "shopify://collections/plateaux-repas-froids",
+          "cta_content": "Commander"
+        }
+      },
+      "page_banner": {
+        "type": "page_banner",
+        "settings": {
+          "banner": "shopify://shop_images/a_propos_2_db356fd4-aa9e-49fe-92a9-354121e055be.jpg"
+        }
+      },
+      "page_contact_banner": {
+        "type": "page_contact_banner",
+        "settings": {
+          "banner": "shopify://shop_images/a_propos_2_db356fd4-aa9e-49fe-92a9-354121e055be.jpg"
+        }
+      },
+      "page_banner_devis": {
+        "type": "page_banner_devis",
+        "settings": {
+          "banner": "shopify://shop_images/Plateaux_repas_Tiptoque_fermes.JPG"
+        }
+      },
+      "page_banner_faq": {
+        "type": "page_banner_faq",
+        "settings": {
+          "banner": "shopify://shop_images/a_propos_2_db356fd4-aa9e-49fe-92a9-354121e055be.jpg"
+        }
+      },
+      "page_banner_mode_emploi": {
+        "type": "page_banner_mode_emploi",
+        "settings": {
+          "banner": "shopify://shop_images/a_propos_2_db356fd4-aa9e-49fe-92a9-354121e055be.jpg"
+        }
+      },
+      "page_banner_philosophie": {
+        "type": "page_banner_philosophie",
+        "settings": {
+          "banner": "shopify://shop_images/a_propos_2_db356fd4-aa9e-49fe-92a9-354121e055be.jpg"
+        }
+      },
+      "page_contact_form": {
+        "type": "page_contact_form",
+        "blocks": {
+          "1529532054512": {
+            "type": "radio",
+            "settings": {
+              "label": "Sélectionnez le sujet de votre question",
+              "group": "Objet",
+              "value": "Livraison"
+            }
+          },
+          "1529532090230": {
+            "type": "radio",
+            "settings": {
+              "label": "",
+              "group": "Objet",
+              "value": "Commande"
+            }
+          },
+          "1529532102192": {
+            "type": "radio",
+            "settings": {
+              "label": "",
+              "group": "Objet",
+              "value": "Compte TipToque"
+            }
+          },
+          "1529532112319": {
+            "type": "radio",
+            "settings": {
+              "label": "",
+              "group": "Objet",
+              "value": "Chef"
+            }
+          },
+          "1529532127059": {
+            "type": "textarea",
+            "settings": {
+              "required": true,
+              "title": "Laissez nous votre message ci-dessous, nous le dévorerons et vous répondrons dans les plus brefs délais",
+              "label": "",
+              "group": "Message",
+              "placeholder": "Bonjour Tiptoque..."
+            }
+          }
+        },
+        "block_order": [
+          "1529532054512",
+          "1529532090230",
+          "1529532102192",
+          "1529532112319",
+          "1529532127059"
+        ],
+        "settings": {
+          "label": "Vos coordonnées"
+        }
+      },
+      "account_banner": {
+        "type": "account_banner",
+        "settings": {
+          "banner": "shopify://shop_images/a_propos_2_db356fd4-aa9e-49fe-92a9-354121e055be.jpg"
+        }
+      },
+      "account_navigation": {
+        "type": "account_navigation",
+        "blocks": {
+          "1522769003516": {
+            "type": "account",
+            "settings": {
+              "link": "account",
+              "icon": "shopify://shop_images/carnet.png"
+            }
+          },
+          "1522769035268": {
+            "type": "account",
+            "settings": {
+              "link": "addresses",
+              "icon": "shopify://shop_images/Icone_Localisation_page_votre_compte.png"
+            }
+          },
+          "1522769058558": {
+            "type": "account",
+            "settings": {
+              "link": "orders",
+              "icon": "shopify://shop_images/Icone_boite_page_votre_compte.png"
+            }
+          }
+        },
+        "block_order": [
+          "1522769003516",
+          "1522769035268",
+          "1522769058558"
+        ],
+        "settings": {}
+      },
+      "cart_services": {
+        "type": "cart_services",
+        "blocks": {
+          "1523468073088": {
+            "type": "product",
+            "settings": {
+              "service": "service",
+              "service_icon": "",
+              "service_auto": true,
+              "handle": "plateaux-repas-froids"
+            }
+          },
+          "1529486100331": {
+            "type": "product",
+            "settings": {
+              "service": "service",
+              "service_icon": "",
+              "service_auto": true,
+              "handle": "plateaux-repas-chauds"
+            }
+          }
+        },
+        "block_order": [
+          "1523468073088",
+          "1529486100331"
+        ],
+        "settings": {}
+      },
+      "prestations_chefs": {
+        "type": "prestations_chefs",
+        "blocks": {
+          "1529584510853": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/PDJ_3.jpg",
+              "handle": "les-petits-dejeuners",
+              "collection_default": true,
+              "collection": "petits-dejeuners",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1556799357881": {
+            "type": "collection",
+            "settings": {
+              "illustration": "",
+              "handle": "les-petits-dejeuners",
+              "collection_default": true,
+              "collection": "les-pauses-gourmandes-1",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1566394403735": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/Charles_Neyers_-_La_Traversee.jpg",
+              "handle": "buffets",
+              "collection_default": true,
+              "collection": "les-buffets-du-chef-charles-neyers",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1566395185003": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/IMG_1792-nb_d0731b60-da2b-4c32-99d6-91899301cead.JPG",
+              "handle": "buffets",
+              "collection_default": true,
+              "collection": "les-buffets-du-chef-francois-gagnaire",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1566404015066": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/IMG_1792-nb_d0731b60-da2b-4c32-99d6-91899301cead.JPG",
+              "handle": "buffet-origami",
+              "collection_default": true,
+              "collection": "les-buffets-du-chef-francois-gagnaire_origami",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1566404103012": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/Charles_Neyers_-_La_Traversee.jpg",
+              "handle": "buffet-origami",
+              "collection_default": true,
+              "collection": "les-buffets-du-chef-charles-neyers_origami",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1568366817765": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/Bib_Guss_Equipe_M.Pawlak_1.jpg",
+              "handle": "buffet-origami",
+              "collection_default": true,
+              "collection": "les-buffets-du-chef-gabriel-khaldi_origami",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1568366869773": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/Bib_Guss_Equipe_M.Pawlak_1.jpg",
+              "handle": "buffets",
+              "collection_default": true,
+              "collection": "les-buffets-du-chef-gabriel-khaldi",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1579541005954": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/jde_3.jpg",
+              "handle": "buffet-origami",
+              "collection_default": true,
+              "collection": "les-buffets-du-chef-jimmy-desrivieres_origami",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1579541065277": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/jde_3.jpg",
+              "handle": "buffets",
+              "collection_default": true,
+              "collection": "les-buffets-du-chef-jimmy-desrivieres",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1579616454836": {
+            "type": "product",
+            "settings": {
+              "service": "fromage",
+              "service_icon": "",
+              "service_auto": true,
+              "handle": "buffets"
+            }
+          },
+          "1579616511528": {
+            "type": "product",
+            "settings": {
+              "service": "fromage",
+              "service_icon": "",
+              "service_auto": true,
+              "handle": "buffet-origami"
+            }
+          },
+          "1579618641118": {
+            "type": "product",
+            "settings": {
+              "service": "service",
+              "service_icon": "",
+              "service_auto": true,
+              "handle": "buffets"
+            }
+          },
+          "1579626076583": {
+            "type": "product",
+            "settings": {
+              "service": "service",
+              "service_icon": "",
+              "service_auto": true,
+              "handle": "buffet-origami"
+            }
+          },
+          "1580727058196": {
+            "type": "collection",
+            "settings": {
+              "illustration": "",
+              "handle": "cocktail-tiptoque",
+              "collection_default": false,
+              "collection": "cocktail-jetable",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1580727092072": {
+            "type": "collection",
+            "settings": {
+              "illustration": "",
+              "handle": "cocktail-tiptoque",
+              "collection_default": false,
+              "collection": "cocktail-en-dur",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1580928535644": {
+            "type": "collection",
+            "settings": {
+              "illustration": "",
+              "handle": "fabernovel",
+              "collection_default": false,
+              "collection": "les-cocktails",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1580928252153": {
+            "type": "collection",
+            "settings": {
+              "illustration": "",
+              "handle": "fabernovel",
+              "collection_default": false,
+              "collection": "les-pdj-et-pauses",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1580928433467": {
+            "type": "collection",
+            "settings": {
+              "illustration": "",
+              "handle": "fabernovel",
+              "collection_default": false,
+              "collection": "les-boissons",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          },
+          "1581410920317": {
+            "type": "collection",
+            "settings": {
+              "illustration": "shopify://shop_images/Charles_Neyers_-_photo_site.jpg",
+              "handle": "cocktails",
+              "collection_default": true,
+              "collection": "les-cocktails-du-chef-charles-neyers",
+              "zone": "75,92,77,93,94,78,91,95"
+            }
+          }
+        },
+        "block_order": [
+          "1529584510853",
+          "1556799357881",
+          "1566394403735",
+          "1566395185003",
+          "1566404015066",
+          "1566404103012",
+          "1568366817765",
+          "1568366869773",
+          "1579541005954",
+          "1579541065277",
+          "1579616454836",
+          "1579616511528",
+          "1579618641118",
+          "1579626076583",
+          "1580727058196",
+          "1580727092072",
+          "1580928535644",
+          "1580928252153",
+          "1580928433467",
+          "1581410920317"
+        ],
+        "settings": {
+          "zoning_mode": "2",
+          "more_button": false,
+          "more_button_link": "",
+          "more_button_content": ""
+        }
+      },
+      "prestations_empty": {
+        "type": "prestations_empty",
+        "settings": {
+          "content": "Nous n'avons pour l'instant aucun chef à vous proposer dans votre zone de livraison.",
+          "cta_link": "shopify://pages/devis",
+          "cta_content": "Demander un devis"
+        }
+      },
+      "collection_classic": {
+        "type": "collection_classic",
+        "blocks": {
+          "1523984957484": {
+            "type": "collection",
+            "settings": {
+              "handle": "boissons-1",
+              "collection": "nos-eaux"
+            }
+          },
+          "1523985066981": {
+            "type": "collection",
+            "settings": {
+              "handle": "boissons-1",
+              "collection": "nos-vins-rouges"
+            }
+          },
+          "1523985089118": {
+            "type": "collection",
+            "settings": {
+              "handle": "boissons-1",
+              "collection": "nos-vins-blancs"
+            }
+          },
+          "1523985119849": {
+            "type": "collection",
+            "settings": {
+              "handle": "boissons-1",
+              "collection": "nos-champagnes"
+            }
+          },
+          "1528293132621": {
+            "type": "collection",
+            "settings": {
+              "handle": "dejeunez-chez-nos-chefs",
+              "collection": "dejeunez-chez-pierre-siewe-1"
+            }
+          },
+          "1528294290382": {
+            "type": "collection",
+            "settings": {
+              "handle": "dejeunez-chez-nos-chefs",
+              "collection": "dejeuner-chez-franck-aboudarham"
+            }
+          },
+          "1529416284560": {
+            "type": "collection",
+            "settings": {
+              "handle": "dejeunez-chez-nos-chefs",
+              "collection": "dejeuner-chez-olivier-le-corre"
+            }
+          },
+          "1529416305844": {
+            "type": "collection",
+            "settings": {
+              "handle": "dejeunez-chez-nos-chefs",
+              "collection": "dejeuner-chez-youssef-gastli"
+            }
+          },
+          "1556785727302": {
+            "type": "collection",
+            "settings": {
+              "handle": "les-petits-dejeuners",
+              "collection": "petits-dejeuners"
+            }
+          },
+          "1556785774695": {
+            "type": "collection",
+            "settings": {
+              "handle": "les-petits-dejeuners",
+              "collection": "les-pauses-gourmandes-1"
+            }
+          },
+          "1572945801415": {
+            "type": "collection",
+            "settings": {
+              "handle": "les-petits-dejeuners-techshop",
+              "collection": "les-offres-techshop"
+            }
+          },
+          "1572945835782": {
+            "type": "collection",
+            "settings": {
+              "handle": "les-petits-dejeuners-techshop",
+              "collection": "les-pauses-gouters-techshop"
+            }
+          }
+        },
+        "block_order": [
+          "1523984957484",
+          "1523985066981",
+          "1523985089118",
+          "1523985119849",
+          "1528293132621",
+          "1528294290382",
+          "1529416284560",
+          "1529416305844",
+          "1556785727302",
+          "1556785774695",
+          "1572945801415",
+          "1572945835782"
+        ],
+        "settings": {}
+      },
+      "global_delivery_rates": {
+        "type": "global_delivery_rates",
+        "blocks": {
+          "1525264776303": {
+            "type": "product",
+            "settings": {
+              "product": "livraison-plateau-repas-froid",
+              "type": "Plateau Repas Froid"
+            }
+          },
+          "1528888196779": {
+            "type": "product",
+            "settings": {
+              "product": "livraison-plateau-repas-chaud",
+              "type": "Plateau Repas Chaud"
+            }
+          },
+          "1529430602906": {
+            "type": "product",
+            "settings": {
+              "product": "livraison-petits-dejeuners",
+              "type": "Petit Déjeuner"
+            }
+          },
+          "1556798945403": {
+            "type": "product",
+            "settings": {
+              "product": "livraison-pauses-gourmandes",
+              "type": "Pause Gouter"
+            }
+          },
+          "1529430666817": {
+            "type": "product",
+            "settings": {
+              "product": "livraison-cocktails",
+              "type": "Cocktails"
+            }
+          },
+          "1529430834721": {
+            "type": "product",
+            "settings": {
+              "product": "livraison-buffet",
+              "type": "Buffet"
+            }
+          },
+          "1564136190969": {
+            "type": "product",
+            "settings": {
+              "product": "livraison-buffet-origami",
+              "type": "Buffet origami"
+            }
+          },
+          "1572261139170": {
+            "type": "product",
+            "settings": {
+              "product": "livraison-plateau-repas-froid",
+              "type": "Nouveau chef"
+            }
+          },
+          "1557144437233": {
+            "type": "product",
+            "settings": {
+              "product": "livraison-pauses-gourmandes",
+              "type": "Pause"
+            }
+          },
+          "1573135557748": {
+            "type": "product",
+            "settings": {
+              "product": "livraison-petits-dejeuners",
+              "type": "PDJ"
+            }
+          },
+          "1581931793925": {
+            "type": "product",
+            "settings": {
+              "product": "livraison-cocktails",
+              "type": "Cocktail en dur"
+            }
+          },
+          "1581932079813": {
+            "type": "product",
+            "settings": {
+              "product": "livraison-cocktails",
+              "type": "Cocktail jetables"
+            }
+          },
+          "1582103788823": {
+            "type": "product",
+            "settings": {
+              "product": "livraison-fabernovel",
+              "type": "Les cocktails_Fabernovel"
+            }
+          },
+          "1582105975608": {
+            "type": "product",
+            "settings": {
+              "product": "livraison-petit-dejeuner-fabernovel",
+              "type": "Les PDJ et pauses_Fabernovel"
+            }
+          },
+          "1582106142419": {
+            "type": "product",
+            "settings": {
+              "product": "livraison-fabernovel",
+              "type": "Les boissons_Fabernovel"
+            }
+          }
+        },
+        "block_order": [
+          "1525264776303",
+          "1528888196779",
+          "1529430602906",
+          "1556798945403",
+          "1529430666817",
+          "1529430834721",
+          "1564136190969",
+          "1572261139170",
+          "1557144437233",
+          "1573135557748",
+          "1581931793925",
+          "1581932079813",
+          "1582103788823",
+          "1582105975608",
+          "1582106142419"
+        ],
+        "settings": {
+          "default_rate": "livraison"
+        }
+      },
+      "global_delivery_addresses": {
+        "type": "global_delivery_addresses",
+        "blocks": {
+          "1529429395837": {
+            "type": "vendor",
+            "settings": {
+              "vendor": "Chef Olivier Le Corre",
+              "address": "134 rue Saint Maur, 75011 Paris, France",
+              "ferm-hebd": "lundi",
+              "ferm-exc": "11-03-2019,27-06-2020"
+            }
+          },
+          "1529429502110": {
+            "type": "vendor",
+            "settings": {
+              "vendor": "Chef Franck Aboudarham",
+              "address": "43 rue Richer, 75009 Paris, France",
+              "ferm-hebd": "",
+              "ferm-exc": "24-01-2020,01-06-2020"
+            }
+          },
+          "1529429532846": {
+            "type": "vendor",
+            "settings": {
+              "vendor": "Chef Youssef Gastli",
+              "address": "24 rue Pierre Leroux, 75007 Paris, France",
+              "ferm-hebd": "lundi",
+              "ferm-exc": "24-01-2020,01-06-2020"
+            }
+          },
+          "1525275387190": {
+            "type": "vendor",
+            "settings": {
+              "vendor": "Chef Pierre Siewe",
+              "address": "19 bis, rue Pierre Fontaine, 75009 Paris, France",
+              "ferm-hebd": "",
+              "ferm-exc": "22-12-2019,17-08-2020"
+            }
+          },
+          "1529429839325": {
+            "type": "vendor",
+            "settings": {
+              "vendor": "Chef Samuele Fresu",
+              "address": "48 rue Louis Blanc, 75010 Paris, France",
+              "ferm-hebd": "lundi",
+              "ferm-exc": ""
+            }
+          },
+          "1548694554530": {
+            "type": "vendor",
+            "settings": {
+              "vendor": "Chef Lucas Felzine",
+              "address": "7, Rue du 29 juillet, 75001 Paris, France",
+              "ferm-hebd": "",
+              "ferm-exc": "10-07-2019,10-06-2020"
+            }
+          },
+          "1548694680204": {
+            "type": "vendor",
+            "settings": {
+              "vendor": "Chef Simon Horwitz",
+              "address": "134, Rue Saint Maur, 75011 Paris, France",
+              "ferm-hebd": "lundi,mardi",
+              "ferm-exc": "22-12-2019,04-02-2020"
+            }
+          },
+          "1548694913735": {
+            "type": "vendor",
+            "settings": {
+              "vendor": "Chef François Gagnaire",
+              "address": "97, rue du Cherche Midi, 75006 Paris, France",
+              "ferm-hebd": "lundi",
+              "ferm-exc": "22-12-2019,02-01-2020"
+            }
+          },
+          "1553005807255": {
+            "type": "vendor",
+            "settings": {
+              "vendor": "Chef Charles Neyers",
+              "address": "2, Rue Ramey, 75018 Paris, France",
+              "ferm-hebd": "",
+              "ferm-exc": "22-12-2019,23-06-2020"
+            }
+          },
+          "1562930511115": {
+            "type": "vendor",
+            "settings": {
+              "vendor": "Chef Stéphane Pitré",
+              "address": "25 Rue de la Victoire 75009 Paris, France",
+              "ferm-hebd": "lundi",
+              "ferm-exc": "24-01-2020,01-06-2020"
+            }
+          },
+          "1562930655513": {
+            "type": "vendor",
+            "settings": {
+              "vendor": "Chef Gabriel Khaldi",
+              "address": "155 Jardin de l'Arche, 92000 Nanterre",
+              "ferm-hebd": "",
+              "ferm-exc": ""
+            }
+          },
+          "1572260854355": {
+            "type": "vendor",
+            "settings": {
+              "vendor": "Chef Jimmy Desrivieres",
+              "address": "15 Rue de Bassano 75016 Paris",
+              "ferm-hebd": "lundi",
+              "ferm-exc": "22-12-2019,02-01-2020"
+            }
+          },
+          "1572260903814": {
+            "type": "vendor",
+            "settings": {
+              "vendor": "Stéphane Browne",
+              "address": "3 Rue Beccaria 75012 Paris",
+              "ferm-hebd": "lundi",
+              "ferm-exc": "24-01-2020,01-06-2020"
+            }
+          },
+          "1580726551538": {
+            "type": "vendor",
+            "settings": {
+              "vendor": "Tiptoque",
+              "address": "43 Rue Richer 75009 Paris",
+              "ferm-hebd": "",
+              "ferm-exc": ""
+            }
+          },
+          "1582135432649": {
+            "type": "vendor",
+            "settings": {
+              "vendor": "",
+              "address": "",
+              "ferm-hebd": "",
+              "ferm-exc": ""
+            }
+          },
+          "1582191020252": {
+            "type": "vendor",
+            "settings": {
+              "vendor": "Koji Tsuchiya",
+              "address": "5 Rue des Petits Hôtels, 75010 Paris",
+              "ferm-hebd": "Dimanche",
+              "ferm-exc": ""
+            }
+          }
+        },
+        "block_order": [
+          "1529429395837",
+          "1529429502110",
+          "1529429532846",
+          "1525275387190",
+          "1529429839325",
+          "1548694554530",
+          "1548694680204",
+          "1548694913735",
+          "1553005807255",
+          "1562930511115",
+          "1562930655513",
+          "1572260854355",
+          "1572260903814",
+          "1580726551538",
+          "1582135432649",
+          "1582191020252"
+        ],
+        "settings": {
+          "default_address": "43 rue Richer, 75009 Paris, France"
+        }
+      },
+      "404_banner": {
+        "type": "404_banner",
+        "settings": {
+          "banner": ""
+        }
+      },
+      "page_philosophie": {
+        "type": "page_philosophie",
+        "settings": {}
+      },
+      "collection_chefs_banner": {
+        "type": "collection_chefs_banner",
+        "blocks": {
+          "1528812338052": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/IMG_5058.jpg",
+              "handle": "chef-olivier-corre"
+            }
+          },
+          "1529419192767": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/Le_plat_veggie_modif_2_-_Copie.jpg",
+              "handle": "chef-franck-aboudarham"
+            }
+          },
+          "1529420904784": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/Oeuf_parfait.jpg",
+              "handle": "chef-pierre-siewe-1"
+            }
+          },
+          "1529425971895": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/comment_ca_marche_2.png",
+              "handle": "chef-samuele-fresu"
+            }
+          },
+          "1529428686613": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/assiette_veggie.jpg",
+              "handle": "chef-youssef-gastli"
+            }
+          },
+          "1531762152324": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/Photo_assiette_a07b2086-3943-463b-a1ca-95c355f06067.jpg",
+              "handle": "chef-anthony-boucher"
+            }
+          },
+          "1540312862892": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/IMG_4967-Modifier.jpg",
+              "handle": "chef-francois-gagnaire"
+            }
+          },
+          "1541009140514": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/IMG_5112.jpg",
+              "handle": "chef-lucas-felzine"
+            }
+          },
+          "1541009294177": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/IMG_5196_96a74ede-9dda-4c3f-a8c1-6e47dc0ff5b6.jpg",
+              "handle": "chef-simon-horwitz"
+            }
+          },
+          "1545161812325": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/photo_plateau_repas_grise_4.jpg",
+              "handle": "boissons-1"
+            }
+          },
+          "1553006546069": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/IMG_5485.jpg",
+              "handle": "chef-charles-neyers"
+            }
+          },
+          "1560789745379": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/IMG_5689.jpg",
+              "handle": "chef-stephane-pitre"
+            }
+          },
+          "1563286475829": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/IMG_6106.jpg",
+              "handle": "chef-gabriel-khaldi"
+            }
+          },
+          "1578564440210": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/Le_supreme_de_volaille_Marine_au_gingembre_roti_au_feu_de_bois_et_legumes_du_moment.jpg",
+              "handle": "jimmy-desrivieres"
+            }
+          }
+        },
+        "block_order": [
+          "1528812338052",
+          "1529419192767",
+          "1529420904784",
+          "1529425971895",
+          "1529428686613",
+          "1531762152324",
+          "1540312862892",
+          "1541009140514",
+          "1541009294177",
+          "1545161812325",
+          "1553006546069",
+          "1560789745379",
+          "1563286475829",
+          "1578564440210"
+        ],
+        "settings": {}
+      },
+      "page_mode_emploi": {
+        "type": "page_mode_emploi",
+        "blocks": {
+          "1528828621342": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/Icone_horloge.png",
+              "title": "Choisissez votre créneau de livraison",
+              "subtitle": "Sélectionnez votre date et votre heure de livraison"
+            }
+          },
+          "1528828893321": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/Icone_Localisation_page_votre_compte_5be6ea5d-8bf0-4b6d-b8ca-6d17d40a05f1.png",
+              "title": "Choisissez votre adresse de livraison",
+              "subtitle": "TipToque vous livre partout sur Paris et sa banlieue"
+            }
+          },
+          "1528829093968": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/Icone_sac_d974b1e4-896a-48d1-8761-bfe6f64ead2f.png",
+              "title": "Remplissez votre panier TipToque",
+              "subtitle": "Optez pour les prestations de votre choix ou demandez votre devis"
+            }
+          },
+          "1528829167704": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/Paiement_2.png",
+              "title": "Paiement à 30 jours fin de mois",
+              "subtitle": "En créant un compte en 2 clics"
+            }
+          }
+        },
+        "block_order": [
+          "1528828621342",
+          "1528828893321",
+          "1528829093968",
+          "1528829167704"
+        ],
+        "settings": {
+          "title": "Comment ça marche",
+          "subtitle": "Avec Tiptoque, les meilleurs Chefs de votre quartier s'activent pour votre déjeuner.",
+          "content": "<p>Pour profiter de leur service, rien de plus simple, il vous suffit de suivre les 4 &eacute;tapes ci-dessous :&nbsp;</p>",
+          "content_bottom": "<p>Le plus difficile reste &agrave; venir... patienter jusqu'&agrave; l'heure du d&eacute;jeuner !&nbsp;</p>",
+          "cta_text": "Démarrer",
+          "cta_link": "shopify://collections/plateaux-repas-froids"
+        }
+      },
+      "page_banner_chefs": {
+        "type": "page_banner_chefs",
+        "settings": {
+          "banner": ""
+        }
+      },
+      "page_chefs": {
+        "type": "page_chefs",
+        "blocks": {
+          "1529507292304": {
+            "type": "collection",
+            "settings": {
+              "collection": "chef-pierre-siewe-1"
+            }
+          },
+          "1529507275935": {
+            "type": "collection",
+            "settings": {
+              "collection": "chef-franck-aboudarham"
+            }
+          },
+          "1529507300632": {
+            "type": "collection",
+            "settings": {
+              "collection": "chef-olivier-corre"
+            }
+          },
+          "1529507308346": {
+            "type": "collection",
+            "settings": {
+              "collection": "chef-samuele-fresu"
+            }
+          },
+          "1529507315442": {
+            "type": "collection",
+            "settings": {
+              "collection": "chef-anthony-boucher"
+            }
+          },
+          "1529507321218": {
+            "type": "collection",
+            "settings": {
+              "collection": "chef-youssef-gastli"
+            }
+          }
+        },
+        "block_order": [
+          "1529507292304",
+          "1529507275935",
+          "1529507300632",
+          "1529507308346",
+          "1529507315442",
+          "1529507321218"
+        ],
+        "settings": {}
+      },
+      "page_devis_form": {
+        "type": "page_devis_form",
+        "blocks": {
+          "1529588437127": {
+            "type": "radio_group",
+            "settings": {
+              "label": "Je souhaite organiser un :",
+              "group": "Type d'événement",
+              "values": "Déjeuner avec service à table, Déjeuner avec services à l'assiette, Cocktail, Buffet, Petit Déjeuner"
+            }
+          },
+          "1529526944530": {
+            "type": "text",
+            "settings": {
+              "required": true,
+              "label": "Date de l'événement",
+              "group": "Date souhaitée",
+              "placeholder": "22/05/2019"
+            }
+          },
+          "1529526986438": {
+            "type": "text",
+            "settings": {
+              "required": true,
+              "label": "Heure de l'événement",
+              "group": "Heure souhaitée",
+              "placeholder": "15:00"
+            }
+          },
+          "1529527012663": {
+            "type": "text",
+            "settings": {
+              "required": true,
+              "label": "Lieu de l'événement",
+              "group": "Lieu de l'événement",
+              "placeholder": "1, rue de Rivoli, 75001 Paris"
+            }
+          },
+          "1529527158163": {
+            "type": "text",
+            "settings": {
+              "required": true,
+              "label": "Nombre de personnes",
+              "group": "Nombre de personnes",
+              "placeholder": "25"
+            }
+          },
+          "1529527192451": {
+            "type": "text",
+            "settings": {
+              "required": true,
+              "label": "Budget H.T par personne",
+              "group": "Budget par personne souhaité",
+              "placeholder": "25 euros"
+            }
+          },
+          "1529589252348": {
+            "type": "check_group",
+            "settings": {
+              "label": "Besoins spécifiques",
+              "group": "Besoin spécifique",
+              "values": "Soft, Vin, Champagne, Bouchées végétariennes, Fromage"
+            }
+          },
+          "1529527935898": {
+            "type": "textarea",
+            "settings": {
+              "required": true,
+              "label": "D’autres précision dont vous voulez nous faire part ?",
+              "group": "Précisions supplémentaires",
+              "placeholder": "Précisions quant à vos besoins..."
+            }
+          }
+        },
+        "block_order": [
+          "1529588437127",
+          "1529526944530",
+          "1529526986438",
+          "1529527012663",
+          "1529527158163",
+          "1529527192451",
+          "1529589252348",
+          "1529527935898"
+        ],
+        "settings": {
+          "label": "Laissez-nous vos coordonnées et nous vous contacterons dans les délais les plus rapides"
+        }
+      },
+      "page_faq_cat1": {
+        "type": "page_faq_cat1",
+        "blocks": {
+          "1529534965913": {
+            "type": "radio",
+            "settings": {
+              "question": "Est-ce que les plats sont livrés chauds ou froids ?",
+              "answer": "<p>Pour avoir la m&ecirc;me qualit&eacute; de prestation qu&rsquo;au restaurant nous pr&eacute;f&eacute;rons vous livrer les plats froids et vous permettre de les r&eacute;chauffer quand vous le d&eacute;sirez.</p>"
+            }
+          },
+          "1529535449034": {
+            "type": "radio",
+            "settings": {
+              "question": "Comment réchauffer les plats ?",
+              "answer": "<p>Rien de plus simple ! Tous nos plats sont livr&eacute;s avec une &eacute;tiquette qui vous indique comment les r&eacute;chauffer, &agrave; quelle temp&eacute;rature et pendant combien de temps. Il ne vous sera pas n&eacute;cessaire d'enlever les plats de nos origamis avant de les r&eacute;chauffer.</p>"
+            }
+          },
+          "1529535462388": {
+            "type": "radio",
+            "settings": {
+              "question": "Est-ce que des plats sans gluten sont à la carte ?",
+              "answer": "<p>Si vous &ecirc;tes intol&eacute;rant, vous pourrez tout de m&ecirc;me d&eacute;guster la majorit&eacute; de nos plats. Dans la carte du mois, tous les produits r&eacute;pertori&eacute;s \"sans gluten\" sont fait pour vous.</p>"
+            }
+          },
+          "1529535475284": {
+            "type": "radio",
+            "settings": {
+              "question": "Existe-t-il un moyen de faire face à des interdits alimentaires ?",
+              "answer": "<p>Pour pouvoir partager un moment de bonheur ensemble, il est n&eacute;cessaire de savoir s'adapter. L'&eacute;quipe Tiptoque se fera un plaisir d'accorder le dressage de ses plats avec vos attentes et contraintes alimentaires.</p>"
+            }
+          }
+        },
+        "block_order": [
+          "1529534965913",
+          "1529535449034",
+          "1529535462388",
+          "1529535475284"
+        ],
+        "settings": {
+          "title": "Les bons petits plats de nos chefs"
+        }
+      },
+      "page_faq_cat2": {
+        "type": "page_faq_cat2",
+        "blocks": {
+          "1529535887778": {
+            "type": "radio",
+            "settings": {
+              "question": "Puis je effectuer une commande le jour même ?",
+              "answer": "<p>Les commandes doivent obligatoirement &ecirc;tre effectu&eacute; la veille avant 17h00 afin que nos chefs disposent d&rsquo;un d&eacute;lai suffisant pour organiser la mise en place de votre commande.</p>"
+            }
+          },
+          "1529535894161": {
+            "type": "radio",
+            "settings": {
+              "question": "Puis-je commander ailleurs que sur le site ?",
+              "answer": "<p>Pour toute demande sp&eacute;cifique vous pouvez nous solliciter pour la r&eacute;alisation d'un devis, ou nous contacter par t&eacute;l&eacute;phone au 01 79 75 44 50 ou encore par email &agrave; remi@tiptoque.paris.</p>"
+            }
+          },
+          "1529535903346": {
+            "type": "radio",
+            "settings": {
+              "question": "Ou puis-je trouver un récapitulatif de ma commande ?",
+              "answer": "<p>Apr&egrave;s chaque commande un r&eacute;capitulatif vous est communiqu&eacute; par mail dans lequel vous pourrez retrouver toutes les informations relatives &agrave; votre commande. Sur le site internet, une fois connect&eacute;, vous pourrez &eacute;galement retrouver votre commande dans la rubrique mon compte.</p>"
+            }
+          }
+        },
+        "block_order": [
+          "1529535887778",
+          "1529535894161",
+          "1529535903346"
+        ],
+        "settings": {
+          "title": "Comment se déroulent les commandes ?"
+        }
+      },
+      "page_faq_cat3": {
+        "type": "page_faq_cat3",
+        "blocks": {
+          "1529535927685": {
+            "type": "radio",
+            "settings": {
+              "question": "Sur quelle zone géographique effectuez-vous des livraisons ?",
+              "answer": "<p>Nos livraisons s'effectuent sur l'ensemble de la petite couronne.&nbsp;</p>\n<p>Nous sommes pr&ecirc;ts &agrave; traverser des oc&eacute;ans s'il le faut, alors n'h&eacute;sitez pas &agrave; nous solliciter pour toute demande particuli&egrave;re !&nbsp;</p>"
+            }
+          },
+          "1529535940214": {
+            "type": "radio",
+            "settings": {
+              "question": "Quels sont les tarifs de livraison ?",
+              "answer": "<p>Les frais de livraisons&nbsp;varients selon votre localisation, n'h&eacute;sitez &agrave; nous contacter pour toute demande de devis.&nbsp;</p>"
+            }
+          }
+        },
+        "block_order": [
+          "1529535927685",
+          "1529535940214"
+        ],
+        "settings": {
+          "title": "Livraison"
+        }
+      },
+      "page_faq_cat4": {
+        "type": "page_faq_cat4",
+        "blocks": {
+          "1529535957896": {
+            "type": "radio",
+            "settings": {
+              "question": "Comment puis-je régler ma commande ?",
+              "answer": "<p>Deux moyens de paiement s'offre &agrave; vous :&nbsp;</p>\n<p>- Par carte bancaire;</p>\n<p>- Par virement &agrave; la fin du mois, pour cela rien de plus simple, il vous suffit de cr&eacute;er un compte client en deux clics.</p>\n<p>Pour toutes questions n'h&eacute;sitez pas &agrave; nous envoyer un petit mot &agrave; remi@tiptoque.paris, vous pouvez &eacute;galement nous joindre par t&eacute;l&eacute;phone au 01 79 75 44 50.</p>"
+            }
+          }
+        },
+        "block_order": [
+          "1529535957896"
+        ],
+        "settings": {
+          "title": "Moyens de paiement"
+        }
+      },
+      "menu_livraison_mobile_button": {
+        "type": "menu_livraison_mobile_button",
+        "settings": {
+          "text": "Me faire livrer",
+          "image": "shopify://shop_images/icone_toque-retaillee_fc627b3f-ecd7-407e-bbb6-5a7c02f65221.png"
+        }
+      },
+      "blog_banner": {
+        "type": "blog_banner",
+        "settings": {
+          "banner": "shopify://shop_images/lime-cut-in-half-on-green-surface.jpg",
+          "article_banner": false
+        }
+      },
+      "blog_cover": {
+        "type": "blog_cover",
+        "blocks": {
+          "1530723138844": {
+            "type": "article",
+            "settings": {
+              "featured_article": "news/blog"
+            }
+          },
+          "1530723152876": {
+            "type": "article",
+            "settings": {
+              "featured_article": "news/les-temoignages-du-chef-pierre-sewe"
+            }
+          },
+          "1530723615631": {
+            "type": "article",
+            "settings": {
+              "featured_article": "news/demo-3"
+            }
+          },
+          "1530723623031": {
+            "type": "article",
+            "settings": {
+              "featured_article": "news/demo-4"
+            }
+          },
+          "1530723629518": {
+            "type": "article",
+            "settings": {
+              "featured_article": "news/demo-5"
+            }
+          }
+        },
+        "block_order": [
+          "1530723138844",
+          "1530723152876",
+          "1530723615631",
+          "1530723623031",
+          "1530723629518"
+        ],
+        "settings": {
+          "enable": true,
+          "title": "A la une"
+        }
+      },
+      "blog_menu": {
+        "type": "blog_menu",
+        "blocks": {
+          "1531303234879": {
+            "type": "navigation",
+            "settings": {
+              "title": "Catégorie 1",
+              "cat_menu": "menu-collections-def"
+            }
+          },
+          "1531303255603": {
+            "type": "navigation",
+            "settings": {
+              "title": "Catégorie 2",
+              "cat_menu": "footer"
+            }
+          },
+          "1531303266868": {
+            "type": "navigation",
+            "settings": {
+              "title": "Catégorie 3",
+              "cat_menu": "nos-chefs"
+            }
+          }
+        },
+        "block_order": [
+          "1531303234879",
+          "1531303255603",
+          "1531303266868"
+        ],
+        "settings": {
+          "nav_mode": "auto"
+        }
+      },
+      "blog_categories": {
+        "type": "blog_categories",
+        "blocks": {
+          "1531306310243": {
+            "type": "tag",
+            "settings": {
+              "title": "Témoignages",
+              "tag": "CATEGORIE|Témoignages"
+            }
+          },
+          "1531306399384": {
+            "type": "tag",
+            "settings": {
+              "title": "Tip Toque",
+              "tag": "CATEGORIE|Tip Toque"
+            }
+          }
+        },
+        "block_order": [
+          "1531306310243",
+          "1531306399384"
+        ],
+        "settings": {}
+      }
+    },
+    "content_for_index": []
+  },
+  "presets": {}
+}

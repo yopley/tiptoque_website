@@ -1,0 +1,137 @@
+<div class="container page-container customer-container"> 
+<nav id ="customer_nav">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="page-nav-container">
+            <ul class="list-inline page-nav--content">
+              <li><a data-toggle="collapse" href="#collapseProfile" data-parent="#accordion" class="nav active profile" aria-expanded="true" aria-controls="collapseProfile">
+                {{ 'account.profile' | t }}
+                </a></li> 
+              <li><a data-toggle="collapse" href="#collapseOrder" data-parent="#accordion" class="nav order" aria-expanded="false" aria-controls="collapseOrder">
+                {{ 'account.orders' | t }}
+                </a></li> 
+              <li><a data-toggle="collapse" href="#collapseAddress" data-parent="#accordion" class="nav address" aria-expanded="true" aria-controls="collapseAddress">
+                {{ 'account.addresses' | t }}
+                </a></li> 
+              {% if settings.more_link != blank or settings.account_more_link_text != blank %}
+              <li>
+                <a href="{{ settings.more_link }}" class="nav more">
+                  {{ settings.account_more_link_text }}
+                </a>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+</nav>
+
+<section id="customer_profile">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">  
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+          
+                <div class="panel">
+                  <div class="panel-heading" role="tab" id="headingProfile">
+                    <div class="row">
+                      <div class="col-xs-6">
+                        <h1 class="panel-title profile-title">                      
+                          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseProfile" aria-expanded="true" aria-controls="collapseProfile">
+                            {{ 'account.profile' | t }}
+                          </a>
+                        </h1>                        
+                      </div>
+                      <div class="col-xs-6 text-right">
+                        <h1 class="panel-title">                      
+                          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseProfile" aria-expanded="true" aria-controls="collapseProfile">
+                            <a href="/account/logout" class="lighter">{{ 'account.logout' | t }}</a>
+                          </a>
+                        </h1>                        
+                      </div>
+                    </div>
+
+                  </div>
+                  <div id="collapseProfile" class="panel-collapse collapse in main" role="tabpanel" aria-labelledby="headingProfile">
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-xs-12">
+                          <ul class="list-unstyled">                           
+                            <li>{{ customer.first_name }} {{ customer.last_name }}</li>
+                            <li>{{ 'account.profile_content.mail' | t }} {{ customer.email }}</li> 
+                            <li>{% if customer.phone %}{{ 'account.profile_content.phone' | t }} {{ customer.phone }}{% endif %}</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> 
+          
+                <div class="panel">
+                  <div class="panel-heading" role="tab" id="headingOrder">
+                   <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOrder" aria-expanded="false" aria-controls="collapseOrder">                        
+                    <div class="row">
+                      <div class="col-xs-9">
+                    	<h1 class="panel-title order-title">                         
+                        {{ 'account.orders' | t }}
+                    </h1>
+                      </div>
+                      <div class="col-xs-3 text-right">
+                        <div class="arrow closed">
+                          <span class="icon icon-accordion-arrow-down"></span>
+                        </div>
+                      </div>
+                    </div>
+                    </a>
+                  </div>
+                  <div id="collapseOrder" class="panel-collapse collapse main" role="tabpanel" aria-labelledby="headingOrder">
+                    <div class="panel-body">
+                        <p id="loading_order" class="text-center"></p>
+                        <div id="order-list">                          
+                          {% if customer.orders_count > 0 %}
+                          {% paginate customer.orders by 1 %}
+                     
+                              {% include 'customer-orders-list' %}   
+                          {% endpaginate %}
+                        </div>
+                        <div id="order-list-footer"></div>                        
+                        {% else %}
+                            <p class="lighter">{{ 'account.orders_content.no_orders' | t }}</p>
+                        {% endif %}
+                    </div>
+                  </div>
+                </div>  
+           
+          
+                <div class="panel">
+                  <div class="panel-heading" role="tab" id="headingAddress">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseAddress" aria-expanded="false" aria-controls="collapseAddress">
+                    <div class="row">
+                      <div class="col-xs-9">
+                        <h1 class="panel-title address-title">                                                
+                            {{ 'account.addresses' | t }}
+                        </h1>
+                      </div>
+                      <div class="col-xs-3">
+                        <div class="arrow closed">                          
+                          <span class="icon icon-accordion-arrow-down"></span>
+                        </div>
+                      </div>
+                    </div>                    
+                    </a>
+                  </div>
+                  <div id="collapseAddress" class="panel-collapse collapse main" role="tabpanel" aria-labelledby="headingAddress">
+                    <div class="panel-body">
+                      <p id="loading_address" class="text-center"></p>
+                      <div id="address-list">
+                      {% include 'customer-address-list' %}
+                      </div>
+                      <div id="address-list-footer"></div> 
+                    </div>
+                  </div>
+                </div>            
+          
+        </div>
+      </div>
+    </div>        
+</section>
+</div>

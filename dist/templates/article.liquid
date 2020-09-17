@@ -1,0 +1,36 @@
+<section id="banner">
+{% section 'blog_banner' %}
+</section>
+
+<div id="blogMenu">
+  {% section 'blog_menu' %}
+</div>
+
+<article id="article">
+  <div class="container page-container article-container">    
+    <div class="row">
+      {% if article.image %}
+      <div class="col-md-6">
+        <div class="article-image">
+          <img src="{{ article.image.src | img_url: 'master', format:'pjpg' }}" class="img-responsive">     
+        </div>
+      </div>
+      {% endif %}
+      <div class="{% if article.image %}col-md-6 {% endif %}col-xs-12">
+        <div class="article-container--content rte">
+          {{ article.content }}
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+{% if blog.comments_enabled? %}
+<div class="container page-container article-container article-comments-container" id="comments">
+<div class="row">
+  <div class="col-md-12 text-center">
+      {% include 'article_comments' %}
+  </div>
+</div>
+</div>
+{% endif %}

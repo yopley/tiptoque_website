@@ -1,0 +1,42 @@
+{% form 'customer_address', address %}
+  {% if form.errors %}
+      <div class="form-feedback">
+      {{ form.errors | default_errors }}
+      </div>
+  {% endif %}
+
+          <div class="form-group">
+            <label for="first_name">{{ 'account.addresses_content.forms.first_name' | t }}</label>
+            <input type="text" class="form-control" id="firstName_{{ form.id }}" name="address[first_name]" value="{{ form.first_name }}">
+          </div> 
+          <div class="form-group">
+            <label for="last_name">{{ 'account.addresses_content.forms.last_name' | t }}</label>
+            <input type="text" class="form-control" id="lastName_{{ form.id }}" name="address[last_name]" value="{{ form.last_name }}">
+          </div> 
+          <div class="form-group">
+              <label for="AddressAddress1_{{ form.id }}">{{ 'account.addresses_content.forms.address1' | t }}</label>
+              <input type="text" class="form-control" id="AddressAddress1_{{ form.id }}" name="address[address1]" value="{{ form.address1 }}">
+          </div>
+          <div class="form-group">	
+              <label for="AddressAddress2_{{ form.id }}">{{ 'account.addresses_content.forms.address2' | t }}</label>
+              <input type="text" class="form-control" id="AddressAddress2_{{ form.id }}" name="address[address2]" value="{{ form.address2 }}">
+          </div>
+          <div class="form-group">
+              <label for="AddressCity_{{ form.id }}">{{ 'account.addresses_content.forms.city' | t }}</label>
+              <input type="text" class="form-control" id="AddressCity_{{ form.id }}" name="address[city]" value="{{ form.city }}">
+          </div>
+          <div class="form-group">
+              <label for="AddressZip_{{ form.id }}">{{ 'account.addresses_content.forms.zip' | t }}</label>
+              <input type="text" class="form-control" id="AddressZip_{{ form.id }}" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters">
+          </div>
+          <div class="form-group">
+              <label for="AddressCountry_{{ form.id }}">{{ 'account.addresses_content.forms.country' | t }}</label>
+              <select id="AddressCountry_{{ form.id }}" class="address-country-option form-control" data-form-id="{{ form.id }}" name="address[country]" data-default="{{ form.country }}">{{ country_option_tags }}</select>
+          </div>
+          <div class="form-group">
+              <label for="AddressPhone_{{ form.id }}">{{ 'account.addresses_content.forms.phone' | t }}</label>
+              <input type="tel"class="form-control" id="AddressPhone_{{ form.id }}" name="address[phone]" value="{{ form.phone }}">
+          </div>	
+        <button type="submit" class="btn full">{{ 'account.addresses_content.update_confirmation' | t }}</button> 
+
+{% endform %}

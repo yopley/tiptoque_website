@@ -1,0 +1,242 @@
+<div class="container page-container">
+  <div class="row">
+   <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+      <div class="form-devis-container">
+      {% form 'contact', class:'devis-form' %}
+        
+          {% if form.posted_successfully? %}
+            <div class="form-feedback success">
+              <div class="form-feedback--content">
+              {{ 'devis_page.post_success' | t }}
+              </div>
+            </div>
+          {% endif %} 
+          {% if form.errors %}
+          <div class="form-feedback error">
+          {{ form.errors | default_errors }}
+          </div>    
+          {% endif %}  
+        
+        {% for block in section.blocks %}
+        <div class="form-group devis{% if forloop.first %} active{% endif %}">
+
+        {% if block.type == 'radio_group' %}
+          {% unless block.settings.label == blank %}
+          <label>{{ block.settings.label }}</label>
+          {% endunless %}
+          {% assign values = block.settings.values | split:',' %}
+          {% for value in values %}
+          <label class="label-container checkbox">
+            <input type="radio" class="form-control" id="{{ value | handleize }}{{ forloop.index }}" name="contact[{{ block.settings.group }}]" value="{{ value }}"{% if forloop.first %} checked{% endif %}> {{ value }} 
+            <span class="checkmark"></span>
+          </label>
+          {% endfor %}
+        {% endif %}          
+          
+        {% if block.type == 'check_group' %}
+          {% unless block.settings.label == blank %}
+          <label>{{ block.settings.label }}</label>
+          {% endunless %}
+          {% assign values = block.settings.values | split:',' %}
+          {% for value in values %}
+          <label class="label-container checkbox">
+            <input type="checkbox" class="form-control" id="{{ value | handleize }}{{ forloop.index }}" name="contact[{{ block.settings.group }}]" value="{{ value }}"> {{ value }} 
+            <span class="checkmark"></span>
+          </label>
+          {% endfor %}
+        {% endif %}          
+        
+          
+        {% if block.type == 'text' %}
+          {% unless block.settings.label == blank %}
+          <label>{{ block.settings.label }}{% if block.settings.required %}*{% endif %}</label>
+          {% endunless %}
+            <input type="text" name="contact[{{ block.settings.group }}]" class="form-control" id="{{ block.settings.group | handleize }}{{ forloop.index }}" 
+                   placeholder="{{ block.settings.placeholder }}"{% if block.settings.required %} required{% endif %}>          
+        {% endif %}
+          
+        {% if block.type == 'textarea' %}
+        <div class="form-group devis">
+          {% unless block.settings.label == blank %}
+          <label>{{ block.settings.label }}</label>
+          {% endunless %}
+          <textarea class="form-control" id="{{ block.settings.group | handleize }}{{ forloop.index }}" name="contact[{{ block.settings.group }}]" rows="3" 
+                    placeholder="{{ block.settings.placeholder }}"{% if block.settings.required %} required{% endif %}></textarea>
+        </div>
+        {% endif %}
+          
+        </div>
+        {% endfor %}
+        
+          <div class="form-group devis">
+            {% unless section.settings.label == blank %}
+            <p class="contact-infos">{{ section.settings.label }}</p>
+            {% endunless %}
+            <label for="firstNameDevis">{{ 'devis_page.first_name_label' | t }}</label>
+            <input type="text" name="contact[first_name]" class="form-control" id="firstNameDevis" placeholder="{{ 'devis_page.first_name_placeholder' | t }}" required{% if customer %} value="{{ customer.first_name }}"{% endif %}>
+          </div> 
+          <div class="form-group devis">
+            <label for="lastNameDevis">{{ 'devis_page.last_name_label' | t }}</label>
+            <input type="text" name="contact[last_name]" class="form-control" id="lastNameDevis" placeholder="{{ 'devis_page.last_name_placeholder' | t }}" required{% if customer %} value="{{ customer.last_name }}"{% endif %}>
+          </div> 
+          <div class="form-group devis">
+            <label for="companyDevis">{{ 'devis_page.company' | t }}</label>
+            <input type="text" name="contact[company]" class="form-control" id="companyDevis" placeholder="{{ 'devis_page.last_name_placeholder' | t }}" required>
+          </div>         
+          <div class="form-group devis">
+            <label for="phoneDevis">{{ 'devis_page.phone_label' | t }}</label>
+            <input type="text" name="contact[phone]" class="form-control" id="phoneDevis" placeholder="{{ 'devis_page.phone_placeholder' | t }}"{% if customer %} value="{{ customer.phone }}"{% endif %}>
+          </div>           
+          <div class="form-group devis">
+            <label for="userEmailDevis">{{ 'devis_page.mail_label' | t }}</label>
+            <input name="contact[email]" type="email" class="form-control" id="userEmailDevis" placeholder="{{ 'devis_page.mail_placeholder' | t }}" required{% if customer %} value="{{ customer.email }}"{% endif %}>
+          </div>        
+        
+        <input type="submit" id="contactFormSubmit" value="{{ 'devis_page.submit' | t }}" class="btn full" />
+      {% endform %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Formulaire Devis",
+    "max_blocks": 50,
+    "settings": [
+      {
+      "type": "text",
+      "id": "label",
+      "label": "Label coordonnées",
+      "info": "Laisser vide pour ne pas afficher",
+      "default": "Laissez-nous vos coordonnées et nous vous contacterons dans les délais les plus rapides"
+      },
+      {
+      "type": "paragraph",
+      "content": "Les textes concernant les champs de type coordonnées et le message de confirmation sont librement éditables dans l'éditeur de langues du thème"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "radio_group",
+        "name": "Groupe Radio Boxes",
+        "settings": [
+          {
+            "type": "text",
+            "id": "label",
+            "label": "Label",
+            "info": "Laisser vide pour ne pas afficher"
+          },
+          {
+            "type": "text",
+            "id": "group",
+            "label": "Nom du groupe radio",
+            "placeholder": "Type d'évènement"
+          },
+          {
+          "type": "text",
+          "id": "values",
+          "label": "Options possibles",
+          "info": "Séparer chaque option par une virgule",
+          "placeholder": "Déjeuner sur l'herbe, Cocktail, Buffet..."
+          }
+        ]
+      },
+      {
+        "type": "check_group",
+        "name": "Groupe Checkboxes",
+        "settings": [
+          {
+            "type": "text",
+            "id": "label",
+            "label": "Label",
+            "info": "Laisser vide pour ne pas afficher"
+          },
+          {
+            "type": "text",
+            "id": "group",
+            "label": "Intitulé",
+            "placeholder": "Besoin spécifique",
+            "info": "Intitulé du champ qui apparaîtra dans le mail que vous allez recevoir."
+          },
+          {
+          "type": "text",
+          "id": "values",
+          "label": "Valeurs des cases à cocher",
+          "info": "Séparer chaque valeur par une virgule",
+          "placeholder": "Champagne, Fromage, Vin..."
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "name": "Champ Texte",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "required",
+            "label": "Champ obligatoire",
+            "default": true
+          },
+          {
+            "type": "text",
+            "id": "label",
+            "label": "Label",
+            "info": "Laisser vide pour ne pas afficher"
+          },
+          {
+            "type": "text",
+            "id": "group",
+            "label": "Intitulé",
+            "placeholder": "Date souhaitée",
+            "info": "Intitulé du champ qui apparaîtra dans le mail que vous allez recevoir."
+          },
+          {
+          "type": "text",
+          "id": "placeholder",
+          "label": "Préremplissage",
+          "placeholder": "22/05/2019"
+          }
+        ]
+      },
+      {
+        "type": "textarea",
+        "name": "Texte multilignes",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "required",
+            "label": "Champ obligatoire",
+            "default": true
+          },
+          {
+            "type": "text",
+            "id": "label",
+            "label": "Label",
+            "info": "Laisser vide pour ne pas afficher"
+          },
+          {
+            "type": "text",
+            "id": "group",
+            "label": "Intitulé",
+            "placeholder": "Précisions supplémentaires ou demandes spécifiques",
+            "info": "Intitulé du champ qui apparaîtra dans le mail que vous allez recevoir."
+          },
+          {
+          "type": "text",
+          "id": "placeholder",
+          "label": "Préremplissage",
+          "placeholder": "22/05/2019"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,24 @@
+<nav id="stickyMenu">
+<section id="collections_nav">
+  {% section 'menu_collections' %}
+</section>
+
+<section id="delivery_nav">
+  {% section 'menu_livraison' %}
+</section>
+  
+<div id="mobileMenuToggle" class="hidden-md hidden-lg">
+	{% section 'menu_livraison_mobile_button' %}
+</div>  
+</nav>
+<section id="cart">
+  <div class="container cart-container">
+    <div class="row">
+      <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-12">
+        <div class="cart--content" id="cartContent">     
+        {% include 'cart_layout' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

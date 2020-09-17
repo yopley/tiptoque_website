@@ -1,0 +1,68 @@
+<section id="banner">
+  <div class="container-banner">
+    {% for collection in collections limit:1 %}
+    	{% assign image = collection.products.first %}
+    {% endfor %}   
+    <div class="banner-content" style="background:url({{ image | img_url: '2000x250', crop:'center', format:'pjpg' }}) no-repeat center">
+      <div class="banner-content--relative">
+        <div class="inner-content">
+        <h1 class="text-center lighter">{{ collection.title }}</h1>          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<nav id="stickyMenu">
+<section id="collections_nav">
+  {% section 'menu_collections' %}
+</section>
+
+<section id="delivery_nav">
+  {% section 'menu_livraison' %}
+</section>
+  
+<div id="mobileMenuToggle" class="hidden-md hidden-lg">
+	{% section 'menu_livraison_mobile_button' %}
+</div>  
+</nav>
+
+<section id="collections">
+  <div class="container container-collections">
+    {% paginate collections by 18 %}
+    <div class="row">      
+        {% for collection in collections %}
+      	{% assign modulo = forloop.index | modulo:3 %}
+        {% unless collection.products.first == blank %}
+        {% capture image %}
+        {{ collection.products.first| img_url: '750x500', format:'pjpg', crop:'center' }}
+        {% endcapture %}
+        {% else %}
+        {% capture image %}
+        {{ 'default-product.jpg'| asset_img_url: '750x500', format:'pjpg', crop:'center' }}
+        {% endcapture %}
+        {% endunless %}
+      
+      
+          {% if modulo == 1 or forloop.first %}<div class="row">{% endif %}
+        	<div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="featured-card text-center">
+                    <a href="{{ collection.url }}" class="featured-card--link">
+                        <img src="{{ image }}" alt="{{ collection.title | escape  }}" class="img-responsive center-block">                        
+                        <h2 class="neutral collection-title">{{ collection.title }} ({{ collection.all_products_count }})</h2>
+                    </a>
+                </div>
+            </div>
+          {% if modulo == 0 or forloop.last %}</div>{% endif %}
+        {% endfor %}
+    </div>
+    {% if paginate.pages > 1 %}
+    <div class="row">
+      <div class="col-xs-12">
+      <div class="center-block text-center">{% include 'pagination' %}</div>
+      </div>           
+    </div>
+    {% endif %}
+    {% endpaginate %} 
+  </div>
+</section>

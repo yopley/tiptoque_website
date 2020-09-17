@@ -1,0 +1,34 @@
+{% form 'create_customer' %}
+  {% if form.errors %}
+   <div class="form-feedback">
+     <div class="form-feedback--content">
+   	{{ form.errors | default_errors }}
+     </div>
+   </div>
+  {% endif %}
+  <div class="form-group">
+    <label for="first_name">{{ 'account.register.first_name' | t }}</label>
+    <input type="text" class="form-control" id="firstName" placeholder="{{ 'account.register.first_name_placeholder' | t }}" name="customer[first_name]" required value="{{ form.first_name }}">
+  </div>
+  <div class="form-group">
+    <label for="last_name">{{ 'account.register.last_name' | t }}</label>
+    <input type="text" class="form-control" id="lastName" placeholder="{{ 'account.register.last_name_placeholder' | t }}" name="customer[last_name]" required value="{{ form.last_name }}">
+  </div>
+  <div class="form-group">
+  <label for="phone">{{ 'account.register.phone' | t }}</label>
+  <input type="tel" id="phone" name="customer[note][phone]" class="form-control" value="{{ form.phone }}" placeholder="{{ 'account.register.phone_placeholder' | t }}" required>
+  </div>
+
+  <div class="form-group">
+    <label for="email">{{ 'account.register.email' | t }}</label>
+    <input type="email" name="customer[email]" class="form-control" id="userEmail" value="{{ form.email }}" placeholder="{{ 'account.register.email_placeholder' | t }}" required autocomplete="on">
+  </div>
+  <div class="form-group">
+    <label for="password">{{ 'account.register.password' | t }}</label>
+    <input type="password" value="" name="customer[password]" class="form-control" id="userPassword" size="16" placeholder="{{ 'account.register.password_placeholder' | t }}" required autocomplete="on" />
+  </div>
+  {% if account_register_form == 'cart_funnel' %}
+  <input type="hidden" name="checkout_url" value="/cart" />
+  {% endif %}
+  <input type="submit" value="{{ 'account.register.register_confirmation' | t }}" class="btn full solid" />
+{% endform %}

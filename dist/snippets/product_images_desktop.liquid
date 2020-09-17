@@ -1,0 +1,17 @@
+<div class="fullimg-container">
+{% if product.images.size >= 1 %}
+          {% for image in product.images %} 
+            <span data-img="{{ image.src | img_url: 'x1400'}}" id="main-hover{{ forloop.index }}" class="zoom">
+                <img src="{{ image.src | product_img_url: 'x700' }}" alt="{{ product.title | escape }}" class="img-responsive center-block" id="main-img{{ forloop.index }}">
+            </span>
+              <br/>{% unless forloop.last %}<br/>{% endunless %}
+              <!-- Zoom Image -->
+            <script>
+            var firstSrc = $('#main-hover{{ forloop.index }}').attr('data-img'); 
+            {% if settings.product_zoom %}
+            $('#main-hover{{ forloop.index }}').zoom({url: firstSrc});
+            {% endif %}
+            </script>            
+            {% endfor %}
+{% endif %}
+</div>

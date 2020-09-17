@@ -1,0 +1,97 @@
+<div data-section-id="{{ section.id }}" data-section-type="content">
+  {% if section.blocks.size > 0 %}
+  	{% for block in section.blocks %}  
+  
+  		{% if block.type == 'image' %}
+          {% unless block.settings.image == blank %}
+            <div class="empty-cart-item image-item">
+				<img src="{{ block.settings.image | img_url: '90x90' }}" alt="{{ block.settings.image.alt }}" class="img-responsive center-block">
+            </div>
+          {% endunless %}
+        {% endif %}
+  
+    	{% if block.type == 'title' %}
+          {% unless block.settings.title == blank %}
+            <div class="empty-cart-item title-item">
+              <h2>{{ block.settings.title }}</h2>
+            </div>
+          {% endunless %}
+        {% endif %}
+  
+    	{% if block.type == 'content' %}
+          {% unless block.settings.paragraph == blank %}
+            <div class="empty-cart-item title-paragraph">
+              <div class="rte">{{ block.settings.paragraph }}</div>
+            </div>
+          {% endunless %}
+        {% endif %}
+  
+    {% endfor %}
+  {% endif %}
+</div>
+{% schema %}
+  {
+    "name": "Panier Vide",
+    "max_blocks": 5,
+    "settings": [
+      {
+      "type":"header",
+      "content": "Affichage du panier lorsqu'il est vide",
+      "info": "Grâce aux blocs ci-dessous, définissez et ordonnez les contenus à afficher au client lorsque son panier est vide"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Image",
+        "settings": [
+          {
+          "type": "header",
+          "content": "Photographie/Icône"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          }
+        ]
+      },
+      {
+        "type": "title",
+        "name": "Titrage",
+        "settings": [
+          {
+          "type": "header",
+          "content": "Titrage"
+          },
+          {
+          "type": "text",
+          "id": "title",
+          "label": "Titre"
+          }
+        ]
+      },
+      {
+        "type": "content",
+        "name": "Paragraphe de texte",
+        "settings": [
+          {
+          "type": "header",
+          "content": "Contenu textuel"
+          },
+          {
+          "type": "richtext",
+          "id": "paragraph",
+          "label": "Contenu à afficher"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

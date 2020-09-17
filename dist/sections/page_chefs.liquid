@@ -1,0 +1,67 @@
+{% if section.blocks.size > 0 %}
+<div class="container container-collections">
+    <div class="row">      
+        {% for block in section.blocks %}
+      	{% assign collection = collections[block.settings.collection] %}
+      	{% assign modulo = forloop.index | modulo:3 %}
+        {% unless collection.image == blank %}
+        {% capture image %}
+        {{ collection.image | img_url: '800x800', crop:'center', format:'pjpg' }}    
+        {% endcapture %}
+        {% else %}
+          {% unless collection.products.first == blank %}
+            {% capture image %}
+            {{ collection.products.first| img_url: '800x800', format:'pjpg', crop:'center'}}        
+            {% endcapture %}
+            {% else %}
+            {% capture image %}
+            {{ 'default-product.jpg'| asset_img_url: '800x800', format:'pjpg', crop:'center' }}        
+            {% endcapture %} 
+          {% endunless %}
+        {% endunless %}
+          {% if modulo == 1 or forloop.first %}<div class="row">{% endif %}
+        	<div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="featured-card text-center">
+                    <a href="{{ collection.url }}" class="featured-card--link">
+                        <img src="{{ image }}" alt="{{ collection.title | escape  }}" class="img-responsive center-block">                        
+                        <h2 class="collection-title">{{ collection.title }}</h2>
+                    </a>
+                </div>
+            </div>
+          {% if modulo == 0 or forloop.last %}</div>{% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Page Chefs",
+    "max_blocks": 15,
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Ajoutez vos collections présentant les chefs ci-dessous"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "collection",
+        "name": "Chef",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

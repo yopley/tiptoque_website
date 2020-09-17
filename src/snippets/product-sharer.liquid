@@ -1,0 +1,20 @@
+{% capture permalinkURL %}{{ shop.url }}{{ product.url }}{% endcapture %}
+{% capture shareTitle %}{{ product.title | url_param_escape }}{% endcapture %}
+
+<ul class="list-inline product-share" data-permalink="{{ permalinkURL }}">
+  <li>
+    <a target="_blank" href="//www.facebook.com/sharer.php?u={{ permalinkURL }}" onclick="window.open(this.href, 'unsub','left=20,top=20,width=500,height=500,toolbar=1,resizable=1'); return false;" class="share-facebook">
+      <span class="icon-facebook"></span>
+    </a>
+  </li>
+  <li>
+    <a target="_blank" href="//twitter.com/share?text={{ shareTitle }}&amp;url={{ permalinkURL }}" onclick="window.open(this.href, 'unsub','left=20,top=20,width=500,height=500,toolbar=1,resizable=1'); return false;" class="share-twitter">
+      <span class="icon-twitter"></span>
+    </a>
+  </li>
+  <li>
+    <a target="_blank" href="//pinterest.com/pin/create/button/?url={{ permalinkURL }}&amp;media=http:{{ product | img_url: '1024x1024' }}&amp;description={{ shareTitle }}" onclick="window.open(this.href, 'unsub','left=20,top=20,width=500,height=500,toolbar=1,resizable=1'); return false;" class="share-pinterest">
+    <span class="icon-pinterest"></span>
+    </a>
+  </li>
+</ul>

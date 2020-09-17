@@ -1,0 +1,182 @@
+{% if section.blocks.size > 0 %}
+
+  {% capture matin_content %}
+	<ul id="colMatin" class="hour-list list-unstyled">
+	{% unless section.settings.matin_title == blank %}
+      <li class="hour-title">{{ section.settings.matin_title }}</li>
+    {% endunless %}
+    {% for block in section.blocks %}
+    {% if block.type == 'matin' %}
+      <li class="hour-content" id="matin{{ forloop.index }}" data-time="{{ block.settings.hour }}" role="button">{{ block.settings.hour }}</li>
+    {% else %}
+    {% continue %}
+    {% endif %}
+
+    {% endfor %}
+    </ul>
+  {% endcapture %}
+
+  {% capture midi_content %}
+	<ul id="colMidi" class="hour-list list-unstyled">
+	{% unless section.settings.midi_title == blank %}
+      <li class="hour-title">{{ section.settings.midi_title }}</li>
+    {% endunless %}
+    {% for block in section.blocks %}
+    {% if block.type == 'midi' %}
+      <li class="hour-content" id="midi{{ forloop.index }}" data-time="{{ block.settings.hour }}" role="button">{{ block.settings.hour }}</li>
+    {% else %}
+    {% continue %}
+    {% endif %}
+
+    {% endfor %}
+    </ul>
+  {% endcapture %}
+
+  {% capture soir_content %}
+	<ul id="colSoir" class="hour-list list-unstyled">
+	{% unless section.settings.soir_title == blank %}
+      <li class="hour-title">{{ section.settings.soir_title }}</li>
+    {% endunless %}
+    {% for block in section.blocks %}
+    {% if block.type == 'soir' %}
+      <li class="hour-content" id="soir{{ forloop.index }}" data-time="{{ block.settings.hour }}" role="button">{{ block.settings.hour }}</li>
+    {% else %}
+    {% continue %}
+    {% endif %}
+
+    {% endfor %}
+    </ul>
+  {% endcapture %}
+
+{% endif %}
+
+{% capture hours_template %}
+  {% assign emptyTimes = false %}
+  {% unless matin_content == blank and midi_content == blank and soir_content == blank %}
+  <div class="container-hours">
+    <div class="row">
+      {% unless matin_content == blank %}
+      <div class="col-xs-4">
+        {{ matin_content }}
+      </div>
+      {% endunless %}
+      {% unless midi_content == blank %}
+      <div class="col-xs-4">
+        {{ midi_content }}
+      </div>
+      {% endunless %}
+      {% unless soir_content == blank %}
+      <div class="col-xs-4">
+        {{ soir_content }}
+      </div>
+      {% endunless %}
+    </div>
+  </div>
+  {% else %}
+  {% assign emptyTimes = true %}
+  {% endunless %}
+{% endcapture %}
+
+{% unless emptyTimes %}
+<script>
+  // TIME MANAGER //
+  
+  $('#timerContainer').append({{ hours_template | json }});
+  
+  /* Toggle Element */
+  
+  $('#delivery_hour').click(function() {
+    $('#timerContainer').toggle();
+  });
+  $('body').click(function(event) {   
+    if (event.target.id != 'delivery_hour' && $('#timerContainer').css('display') == 'block') {
+      $('#timerContainer:visible').toggle();
+    }    
+  });
+  
+  /* Retrieving value selected */
+  $('#timerContainer .hour-content').click(function() {
+    var deliveryTime = $(this).attr('data-time');
+    $('#delivery_hour').val();
+    $('#delivery_hour').val(deliveryTime);
+    $('#timerContainer li').removeClass('active');
+    $(this).addClass('active');
+  });
+</script>
+{% endunless %}
+
+
+{% schema %}
+  {
+    "name": "Heures de Livraison",
+    "max_blocks": 50,
+    "settings": [
+      {
+      "type": "text",
+      "id": "matin_title",
+      "label": "Titre de la colonne horaires du matin",
+      "info": "Laisser vide pour ne pas afficher",
+      "default": "Matin"
+      },
+      {
+      "type": "text",
+      "id": "midi_title",
+      "label": "Titre de la colonne horaires du midi",
+      "info": "Laisser vide pour ne pas afficher",
+      "default": "Midi"
+      },
+      {
+      "type": "text",
+      "id": "soir_title",
+      "label": "Titre de la colonne horaires du soir",
+      "info": "Laisser vide pour ne pas afficher",
+      "default": "Soir"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "matin",
+        "name": "Matin",
+        "settings": [
+          {
+             "type": "text",
+             "id": "hour",
+             "label": "Heure de Livraison",
+             "info": "Pour un bon fonctionnement respecter le format 00:00"
+          }
+        ]
+      },
+      {
+        "type": "midi",
+        "name": "Midi",
+        "settings": [
+          {
+             "type": "text",
+             "id": "hour",
+             "label": "Heure de Livraison",
+             "info": "Pour un bon fonctionnement respecter le format 00:00"
+          }
+        ]
+      },
+      {
+        "type": "soir",
+        "name": "Soir",
+        "settings": [
+          {
+             "type": "text",
+             "id": "hour",
+             "label": "Heure de Livraison",
+             "info": "Pour un bon fonctionnement respecter le format 00:00"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

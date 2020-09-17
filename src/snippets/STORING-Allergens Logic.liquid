@@ -1,0 +1,82 @@
+{% assign global_content = false %}
+{% unless section.settings.allergens_description == blank %}
+{% assign global_content = true %}
+  {% capture template_global_content %}
+    <div class="rte">{{ section.settings.allergens_description }}</div>
+  {% endcapture %}
+  <script>
+    /* Display this content on each product */
+    $('.global-allergens-container').each(function(){
+        $(this).append({{ template_global_content | json }});
+    });
+  </script>
+{% endunless %}
+
+{% if section.blocks.size > 0 %}
+
+  {% for block in section.blocks %}
+
+	{% comment %}For each allergen created, capturing templates and displaying it if needed{% endcomment %}
+
+	{% unless block.settings.icon == blank and block.settings.name == blank %}
+      {% capture template_list_elem %}
+        {%- unless block.settings.icon == blank -%}
+        <img src="{{ block.settings.icon | img_url: '18x18', crop:'center' }}" alt="{{ block.settings.name}}">
+        {%- endunless -%}
+        {%- unless block.settings.name == blank -%}
+        <span class="allergen-name">{{ block.settings.name }}</span>
+        {%- endunless -%}
+      {% endcapture %}
+      <script>
+        /* Display this allergen on the right product */
+        var currentRef = {{ block.settings.code | handleize | json }};
+        $('.allergens-list li').each(function(){
+            var thisRef = $(this).attr('data-allergen');
+          if (thisRef === currentRef) {
+            $(this).append({{ template_list_elem | json }});
+          }
+        });
+      </script>
+	{% endunless %}
+
+    {% unless block.settings.content == blank %}
+        {% capture template_content_elem %}
+        <div class="rte">{{ block.settings.content }}</div>
+        {% endcapture %}
+        <script>
+          /* Display this additionnal content on the right product */
+          var currentRef = {{ block.settings.code |json }};
+          $('.detailed-allergens-container').each(function(){
+              var globalRef = $(this).attr('data-allergenList');
+            if (globalRef.indexOf(currentRef) !== -1) {
+              //console.log(globalRef + ' current ' + currentRef);
+              $(this).append({{ template_content_elem | json }});
+            }
+          });
+        </script>
+    {% endunless %}
+  {% endfor %}
+{% endif %}
+
+{% comment %}Checking if collapse function is necessary ane remove it if it's not{% endcomment %}
+<script>
+  function allergens () {
+    var globalContent = {{ global_content | json }};
+    $('.bundle-allergens-container .collapse').each (function() {
+      var currentId = $(this).attr('id'),
+          parentCollapse = '[data-target="#' + currentId + '"]';
+      if ($(this).find('.detailed-allergens-container').is(':empty') && globalContent === false) {
+        // console.log('nothing left bye');
+        $(parentCollapse).attr('data-toggle', '').css('cursor', 'auto').find('.glyphicon').hide();
+      }
+    });
+    console.log('allergens executed');
+  }
+
+  allergens();
+  $( document ).ajaxComplete(function() {
+    allergens();
+  });
+</script>
+
+

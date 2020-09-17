@@ -1,0 +1,115 @@
+<div id="accountOrders" class="account-content">
+  {% if customer.orders_count > 0 %}  
+  {% for order in customer.orders limit:50 %}
+  <div class="order-item">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="text-uppercase">{{ 'account.orders_content.order' | t }} {{ order.name }}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        {% if order.attributes %}
+            {% for attribute in order.attributes %}
+            <p><strong>{{ attribute | first }}</strong> : {{ attribute | last }}</p>
+            {% endfor %}
+            <br/>
+        {% endif %}        
+        <p><u>{{ 'account.orders_content.order_delivery_address' | t }}</u></p>
+        <address>
+          <strong>{{ order.shipping_address.company }}</strong><br>
+          {{ order.shipping_address.address1 }}<br>
+          {{ order.shipping_address.zip }} {{ order.shipping_address.city }}<br>
+        </address>        
+      </div>
+      <div class="col-md-8">
+        <br/>
+        {% for item in order.line_items %}
+        {% unless item.product.type == 'Livraison' or item.product.type == 'Service' %}
+        <div class="row">
+          <div class="col-md-12">
+          <div class="media">
+            <div class="media-left media-middle">
+              <a href="{{ item.link }}">
+                <img src="{{ item.image | img_url: '25x25', scale:2, crop:'center' }}" class="img-circle">
+              </a>
+            </div>
+            <div class="media-body">
+              <br/>
+              <p>{{ item.title }} x {{ item.quantity }}</p>                  
+            </div>
+          </div> 
+          </div>
+        </div>
+        {% else %}
+        {% continue %}
+        {% endunless %}
+        {% endfor %}
+        {% for item in order.line_items %}
+        {% if item.product.type == 'Service' %}
+        <div class="row">
+          <div class="col-md-12">
+          <div class="media">
+            <div class="media-left media-middle">
+              <a href="{{ item.link }}">
+                <img src="{{ item.image | img_url: '25x25', scale:2, crop:'center' }}">
+              </a>
+            </div>
+            <div class="media-body">
+              <p>{{ item.title }} x {{ item.quantity }}</p>
+              {% unless item.properties == empty %}
+                {% for property in item.properties %}
+                {% unless property.first contains '_' %}
+                <p><small>{{ property.last }}</small></p>
+                {% endunless %}
+                {% endfor %}
+              {% endunless %}                  
+            </div>
+          </div> 
+          </div>
+        </div>
+        {% else %}
+        {% continue %}
+        {% endif %}
+        {% endfor %}        
+        {% for item in order.line_items %}
+        {% if item.product.type == 'Livraison' %}        
+          <div class="media">
+            {% unless item.image == blank %}
+            <div class="media-left media-middle">              
+              <a href="{{ item.link }}">
+                <img src="{{ item.image | img_url: '25x25', scale:2, crop:'center' }}">
+              </a>
+            </div>
+            {% endunless %}
+            <div class="media-body">
+              {% unless item.image == blank %}
+              <br/>
+              {% endunless %}
+              <p>{{ item.product.title }} {{ item.price | money_without_trailing_zeros }}</p>                 
+            </div>
+          </div> 
+        {% else %}
+        {% continue %}
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 text-right">
+        {{ 'account.orders_content.subtotal' | t }} {{ order.subtotal_price | money }}<br/>
+        {{ 'account.orders_content.vat' | t }} {{ order.tax_price | money }}<br/>
+        <strong>{{ 'account.orders_content.total' | t }} {{ order.total_price | money }}</strong>
+      </div>
+    </div>
+  </div>
+  <br/>
+  {% endfor %}  
+  {% else %}
+  <div class="row">
+    <div class="col-xs-12">
+      <p><i>{{ 'account.orders_content.no_orders' | t }}</i></p>
+    </div>
+  </div>
+  {% endif %}
+</div>

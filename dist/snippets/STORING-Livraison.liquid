@@ -1,0 +1,161 @@
+<script>
+  
+  /* Utilities */
+  function displayCart(deliveryPlace, deliveryDate, deliveryHour) {
+    if (deliveryPlace && deliveryDate && deliveryHour) {
+      $('#cartAddress').html(deliveryPlace);
+      $('#cartDate').html(deliveryDate + ' {{ 'cart.at' | t }} ' + deliveryHour);      
+    }
+    console.log(deliveryPlace + '++'  + deliveryDate + '++' + deliveryHour);    
+  }
+  
+  function validateForm (animate) {
+    // Set to validate
+    $('body').attr('data-delivery', 'completed');
+    
+    if(animate) {
+      // Cleaning and animate
+      $('#overlay').empty().append('<div id="feedback"><h2 class="text-center neutral">{{ 'layout.delivery_form.confirmation' | t }}</h2></div>');                                   
+      $('#overlay').animate({
+        opacity: "toggle"
+      }, 1000, "linear", function() {
+           $(this).delay('2000').animate({
+              opacity: "toggle",
+           }, 500, "linear");
+          $('html, body').animate({
+              scrollTop: $('#collections_list').offset().top - 170
+          }, 2000);
+      })
+    }
+    
+  };
+  
+  function unvalidateForm () {
+      CartJS.clear();
+      $('body').attr('data-delivery', 'uncomplete');
+      // Cleaning and animate
+      $('#overlay').empty().append('<div id="feedback"><h2 class="text-center neutral">{{ 'layout.delivery_form.unvalid_zip' | t }}</h2></div>');                                   
+      $('#overlay').animate({
+        opacity: "toggle"
+      }, 1000, "linear", function() {
+           $(this).delay('2000').animate({
+              opacity: "toggle",
+           }, 500, "linear");
+      })    
+  }
+  
+  /* Retrieving previous information if existing */
+  $(document).ready(function() {
+    var deliveryDate = Cookies.get('date'),
+    	deliveryHour = Cookies.get('hour'),
+    	deliveryPlace = Cookies.get('place'),
+        deliveryZipCode = $('#postal_code').val();    
+    
+    if (deliveryDate !== undefined) {$('#datepicker').val();$('#datepicker').val(deliveryDate);}
+    if (deliveryHour !== undefined) {$('#delivery_hour').val();$('#delivery_hour').val(deliveryHour);}    
+    {% if customer and customer.addresses_count > 0 %}
+    if (deliveryPlace !== undefined) {
+      $('#delivery_place_customer option').each(function() {
+        if ($(this).val() === deliveryPlace) {          
+          $(this).prop('selected', true);
+          $('#delivery_place_customer').val();$('#delivery_place_customer').val(deliveryPlace);
+          deliveryZipCode = $(this).attr('data-zip');
+          $('#postal_code').val(deliveryZipCode);          
+        } else {
+          $(this).prop('selected', false);
+        }
+      });   
+      // if all is there then validate form
+      if(deliveryPlace && deliveryDate && deliveryHour) {
+        var animate = false;
+        validateForm(animate);
+      } else {
+        unvalidateForm ();
+      }
+    }
+    {% else %}
+    if (deliveryPlace !== undefined) {
+      $('#delivery_place').val();$('#delivery_place').val(deliveryPlace);
+      var zipEx = deliveryPlace.match(/\b\d{5}\b/g);
+      if (zipEx) {
+        $('#postal_code').val(zipEx);
+        // if all is there then validate form
+        if(deliveryPlace && deliveryDate && deliveryHour) {
+          var animate = false;
+          validateForm(animate);
+        } else {
+          unvalidateForm ();
+        }
+      }
+    }
+    {% endif %}
+        
+    // Display information in Cart summary and update delivery status
+     displayCart(deliveryPlace, deliveryDate, deliveryHour);    
+    
+  });
+  
+  /* Storing information on form submit, form confirmation and scroll to choices */
+  $('#delivery_form').submit(function( event ) {
+    event.preventDefault();
+    // Storing information
+    {% if customer and customer.addresses_count > 0 %}
+    var deliveryDateSet = $('#datepicker').val(),
+    	deliveryHourSet = $('#delivery_hour').val(),
+        deliveryPlaceSet = $('#delivery_place_customer option:selected').val(),
+        deliveryZipCode = $('#delivery_place_customer option:selected').attr('data-zip');
+    if (deliveryDateSet !== undefined) {Cookies.set('date', deliveryDateSet , { expires: 0.05 });}
+    if (deliveryHourSet !== undefined) {Cookies.set('hour', deliveryHourSet , { expires: 0.05 });}
+    if (deliveryPlaceSet !== undefined) {Cookies.set('place', deliveryPlaceSet , { expires: 360 });}
+    if (deliveryZipCode !== undefined) {$('#postal_code').val(deliveryZipCode);}    
+    {% else %}
+    var deliveryDateSet = $('#datepicker').val(),
+    	deliveryHourSet = $('#delivery_hour').val(),
+    	deliveryPlaceSet = $('#delivery_place').val(),
+        deliveryZipCode = $('#postal_code').val();
+    if ($('#datepicker').val()) {Cookies.set('date', deliveryDateSet , { expires: 0.05 });}
+    if ($('#delivery_hour').val()) {Cookies.set('hour', deliveryHourSet , { expires: 0.05 });}
+    if ($('#delivery_place').val()) {Cookies.set('place', deliveryPlaceSet , { expires: 360 });}
+    if (!$('#postal_code').val()) {
+      // If postal code empty check regex 5 numbers in place set */
+      var zipEx = deliveryPlaceSet.match(/\b\d{5}\b/g);
+      if (zipEx) {
+        $('#postal_code').val(zipEx);
+        // Display information in Cart summary and update delivery status
+        displayCart(deliveryPlaceSet, deliveryDateSet, deliveryHourSet);
+        // if all is there then validate form
+        if(deliveryPlace && deliveryDate && deliveryHour) {
+          var animate = true;
+          validateForm(animate);   
+        } else {
+          unvalidateForm ();
+        }
+      } else {
+        unvalidateForm ();
+      }
+    } else {
+        // Display information in Cart summary and update delivery status
+        displayCart(deliveryPlaceSet, deliveryDateSet, deliveryHourSet);
+        // if all is there then validate form
+        if(deliveryPlaceSet && deliveryDateSet && deliveryHourSet) {
+          var animate = true;
+          validateForm(animate);
+        } else {
+          unvalidateForm ();
+        }
+    }
+    {% endif %}
+    
+
+
+  });  
+  
+  /* Managing redirect when select Create an address */
+  {% if customer and customer.addresses_count > 0 %}  
+  $('#delivery_place_customer').change(function() {
+      if ($(this).val() === 'create') {
+        window.location.href = '/account/addresses';
+      }
+  });
+  {% endif %}  
+</script>

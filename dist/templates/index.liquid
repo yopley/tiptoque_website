@@ -1,0 +1,43 @@
+<section id="carousel">
+  {% section 'home_slideshow_customer' %}
+  {% section 'home_slideshow_visitor' %}
+</section>
+
+<nav id="stickyMenu">
+
+<section id="collections_nav">
+  {% section 'menu_collections' %}
+</section>
+
+<section id="delivery_nav">
+  {% section 'menu_livraison' %}
+</section>
+
+<div id="mobileMenuToggle" class="hidden-md hidden-lg">
+	{% section 'menu_livraison_mobile_button' %}
+</div>
+  
+</nav>
+
+<section id="collections_links">
+  {% section 'home_collections' %}
+</section>
+
+<div class="loading center-block text-center"><img src="{{ 'ajax-loader.gif' | asset_img_url:'20x20' }}" class="center-block"></div>
+<section id="collections_list" class="hide-content">  
+  {% section 'home_chefs' %}
+</section>
+
+<section id="initCollections">    
+</section>
+
+<section id="locatedCollections">    
+</section>
+
+<section id="collections_empty" class="hide-content">  
+  {% section 'plateaux_empty' %}  
+</section>
+
+{{ content_for_index }}
+
+

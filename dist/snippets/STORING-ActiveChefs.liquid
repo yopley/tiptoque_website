@@ -1,0 +1,40 @@
+<script>
+/* Managing chefs activation & deactivation */
+function checkActiveChef () {
+  var deliveryStatus = $('body').attr('data-delivery'),
+      deliveryDelay = $('body').attr('data-delay');
+  if (CartJS.cart.item_count > 0) {
+    // Execute only if delivery info are completed and if delay is ok
+    if (deliveryStatus == 'completed' && deliveryDelay == 'inTime') {      
+      $.each(CartJS.cart.items, function (i, item) {
+        var selectorActive = '#locatedCollections .container-collection[data-vendor="' + item.vendor + '"][data-type="' + item.product_type + '"]',
+            selectorTypeActive = '#locatedCollections .container-collection[data-type="' + item.product_type + '"]',
+            active = '';
+
+            /* Case 1 - equivalent type found on the page*/
+            if ($(selectorTypeActive).length > 0) {
+              alert('equivalent type');
+              var active = true;
+              if($(selectorActive).length > 0) {
+                $(selectorActive).removeClass('unactive-chef').addClass('active-chef').find('button').prop('disabled',false);
+              }
+              $('#locatedCollections .container-collection:not(.active-chef)').removeClass('active-chef').addClass('unactive-chef').find('button:not(.close)').prop('disabled',true);
+              $('#locatedCollections .container-collection:not(.active-chef) .form-cart .no-order-container').html({{ settings.error_chef_deactivated | json }}).show();
+            } 
+            /* Case 2 - not found */
+            else if (active !== true && item.product_type === 'Service') { 
+              $('#locatedCollections .container-collection').removeClass('active-chef').removeClass('unactive-chef').find('button:not(.close, .cart-minus)').prop('disabled',false);
+              $('#locatedCollections .form-cart .no-order-container').hide();
+            }
+      });
+    }
+  } else {
+    // Active only if delivery info are completed and if delay is ok
+    if (deliveryStatus == 'completed' && deliveryDelay == 'inTime') {
+    $('#locatedCollections .container-collection').removeClass('active-chef').removeClass('unactive-chef').find('button:not(.close, .cart-minus)').prop('disabled',false);
+    $('#locatedCollections .form-cart .no-order-container').hide();
+    }
+  }
+  console.log('cart_forms checkActiveChef executed');
+};
+</script>

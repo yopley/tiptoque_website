@@ -1,0 +1,328 @@
+<div data-section-id="{{ section.id }}" data-section-type="image">
+  {% if section.blocks.size > 0 %}
+  <div class="container">
+  	<div class="row">
+      <div class="col-xs-12">
+        {% unless section.settings.main_title == blank %}
+        <h2>{{ section.settings.main_title }}</h2>
+        {% endunless %}
+      </div>
+    </div>
+    <div class="row">
+      {% for block in section.blocks %}            
+        
+        <!-- Col attr opening -->
+        {% if section.blocks.size >= 2 %}
+        {% case forloop.index %}
+      	{% when 1 %}
+        <div class="col-md-6">
+        {% when 2 %}
+        <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-6">
+        {% when 3 %}
+            <div class="col-md-6">
+        {% when 4 %}
+        <div class="row">
+          <div class="col-md-6">
+        {% when 5 %}
+          <div class="col-md-6"> 
+        {% endcase %}
+        {% else %}
+        <div class="col-md-12">
+        {% endif %}
+          
+        
+      	{% if block.type == 'image_pop' %}  
+        
+          <div class="img-container">
+            <a href="" data-toggle="modal" data-target=".encart-modal-lg{{ forloop.index }}">
+            	<img src="{{ block.settings.image | img_url: '800x600', format:'pjpg', crop:'center', scale:2 }}" alt="{{ block.settings.image.alt }}" class="img-responsive center-block">            
+                <div class="overlay"></div>
+                  <div class="relative-content">
+                  {% unless block.settings.title == blank %}
+                  <h3 class="text-center lighter">{{ block.settings.title }}</h3>
+                  {% endunless %}
+                  {% unless block.settings.subtitle == blank %}
+                  <h4 class="text-center lighter">{{ block.settings.subtitle }}</h4>
+                  {% endunless %}              
+                  </div>    
+                  <div class="relative-content visible-content">
+                  {% unless block.settings.title == blank %}
+                  <h3 class="text-center lighter text-uppercase">{{ block.settings.title }}</h3>
+                  {% endunless %}         
+                  </div>                  
+            </a>            
+          </div>
+        
+          <!-- Large modal -->
+          <div class="modal fade encart-modal-lg{{ forloop.index }}" tabindex="-1" role="dialog" aria-labelledby="EncartCollection">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="img-container">
+                        <a href="{{ block.settings.collection1 }}">
+                          <img src="{{ block.settings.image1 | img_url: '850x400', format:'pjpg', crop:'center', scale:2 }}" alt="{{ block.settings.image1.alt }}" class="img-responsive center-block">                        
+                          <div class="overlay"></div>  
+                          <div class="relative-content">
+                              {% unless block.settings.title1 == blank %}
+                              <h3 class="text-center lighter">{{ block.settings.title1 }}</h3>
+                              {% endunless %}
+                              {% unless block.settings.subtitle1 == blank %}
+                              <h4 class="text-center lighter">{{ block.settings.subtitle1 }}</h4>
+                              {% endunless %}              
+                            </div>   
+                          <div class="relative-content visible-content">
+                              {% unless block.settings.title1 == blank %}
+                              <h3 class="text-center lighter text-uppercase">{{ block.settings.title1 }}</h3>
+                              {% endunless %}             
+                            </div>                             
+                        </a> 
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="img-container">
+                        <a href="{{ block.settings.collection2 }}">
+                          <img src="{{ block.settings.image2 | img_url: '850x400', format:'pjpg', crop:'center' }}" alt="{{ block.settings.image2.alt }}" class="img-responsive center-block">                        
+                          <div class="overlay"></div>  
+                          <div class="relative-content">
+                              {% unless block.settings.title2 == blank %}
+                              <h3 class="text-center lighter">{{ block.settings.title2 }}</h3>
+                              {% endunless %}
+                              {% unless block.settings.subtitle2 == blank %}
+                              <h4 class="text-center lighter">{{ block.settings.subtitle2 }}</h4>
+                              {% endunless %}              
+                            </div>  
+                          <div class="relative-content visible-content">
+                              {% unless block.settings.title2 == blank %}
+                              <h3 class="text-center lighter text-uppercase">{{ block.settings.title2 }}</h3>
+                              {% endunless %}             
+                            </div>                           
+                        </a> 
+                      </div>
+                    </div>                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>        
+        
+        {% else %}
+        
+          <div class="img-container mini">
+            <a href="{{ block.settings.collection }}">
+              <img src="{{ block.settings.image | img_url: '400x300', format:'pjpg', crop:'center' }}" alt="{{ block.settings.image.alt }}" class="img-responsive center-block">
+              <div class="overlay"></div>
+              <div class="relative-content">
+                {% unless block.settings.title == blank %}
+                <h3 class="text-center lighter">{{ block.settings.title }}</h3>
+                {% endunless %}
+                {% unless block.settings.subtitle == blank %}
+                <h4 class="text-center lighter">{{ block.settings.subtitle }}</h4>
+                {% endunless %}              
+              </div>
+              <div class="relative-content visible-content">
+                {% unless block.settings.title == blank %}
+                <h3 class="text-center lighter text-uppercase">{{ block.settings.title }}</h3>
+                {% endunless %}            
+              </div>              
+            </a>
+          </div> 
+        
+      	{% endif %}
+        
+        <!-- Col attr closing -->
+        {% if section.blocks.size >= 2 %}
+        {% case forloop.index %}
+      	{% when 1 %}
+        </div>
+        {% when 2 %}
+        </div>
+        {% when 3 %}
+          </div>
+        </div>
+        {% when 4 %}
+        </div>
+        {% when 5 %}
+            </div>
+          </div>
+        </div>
+        {% endcase %}
+        {% else %}
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+{% schema %}
+  {
+    "name": "Encarts Collections",
+    "max_blocks": 5,
+    "settings": [
+      {
+      "type": "text",
+      "id": "main_title",
+      "label": "Titre de la section",
+      "info": "Laisser vide pour ne pas afficher"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "image_pop",
+        "name": "Encart Pop Up",
+        "settings": [
+          {
+          "type": "header",
+          "content": "Photographie"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+          "type": "header",
+          "content": "Contenu au survol"
+          },
+          {
+          "type": "text",
+          "id": "title",
+          "label": "Titre"
+          },
+          {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Courte description"
+          },
+          {
+          "type": "header",
+          "content": "Contenu Pop Up"
+          },
+          {
+          "type": "paragraph",
+          "content": "Contenu à Gauche"
+          },
+          {
+            "type": "image_picker",
+            "id": "image1",
+            "label": "Image 1"
+          },
+          {
+          "type": "url",
+          "id": "collection1",
+          "label": "Lien 1"
+          },
+          {
+          "type": "text",
+          "id": "title1",
+          "label": "Titre 1"
+          },
+          {
+          "type": "text",
+          "id": "subtitle1",
+          "label": "Courte description 1"
+          },
+          {
+          "type": "paragraph",
+          "content": "Contenu à Droite"
+          },
+          {
+            "type": "image_picker",
+            "id": "image2",
+            "label": "Image 2"
+          },
+          {
+          "type": "url",
+          "id": "collection2",
+          "label": "Lien 2"
+          },
+          {
+          "type": "text",
+          "id": "title2",
+          "label": "Titre 2"
+          },
+          {
+          "type": "text",
+          "id": "subtitle2",
+          "label": "Courte description 2"
+          }
+        ]
+      },
+      {
+        "type": "image",
+        "name": "Encart Lien Direct",
+        "settings": [
+          {
+          "type": "header",
+          "content": "Photographie"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+          "type": "header",
+          "content": "Lien"
+          },
+          {
+          "type": "url",
+          "id": "collection",
+          "label": "Lien vers lequel pointer"
+          },
+          {
+          "type": "header",
+          "content": "Contenu au survol"
+          },
+          {
+          "type": "text",
+          "id": "title",
+          "label": "Titre"
+          },
+          {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Courte description"
+          }
+        ]
+      }
+    ],
+    "presets": [{
+      "name": "Encarts Collections",
+      "category": "Collection",
+      "settings": {
+      },
+      "blocks": [
+        {
+          "type": "image_pop"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

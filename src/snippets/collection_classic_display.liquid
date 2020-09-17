@@ -1,0 +1,41 @@
+<section class="container-collection" id="chefContent-{{ collection.handle }}" 
+     data-zone="" data-handle="{{ collection.handle }}" data-img="{{ collection_image_src }}"
+     data-title={{ collection.title | json }} data-desc="{{ collection.description | strip_html}}"
+     data-vendor="{{ currVendor }}" data-type="{{ currType }}"
+     data-default="visible">
+  <div class="container">
+    <div id="productContent{{ collection.handle }}" class="collection-products">
+        <div class="row">
+          <div class="col-xs-12">
+            <h2 class="upgraded summary-title">{{ collection.title }}</h2>
+          </div>
+        </div>  
+      {% if collection.products_count > 0 %}
+        {% assign i = 0 %}
+        {% for product in collection.products %}
+        {% assign modulo = i | modulo:3 %}
+        {% assign tag_list = product.tags | join: ' ' %}
+        {% unless tag_list contains 'hidden' %}
+        {% if forloop.first or modulo == 0 %}
+        <div class="row">
+        {% endif %}
+          <div class="col-md-4">
+            {% include 'global_product_block' with 'classic' %}
+            <br/>
+          </div>
+        {% if forloop.last or modulo == 2 %}        
+        </div>
+        {% endif %}                
+        {% assign i = i | plus:1 %}
+        {% endunless %}                
+        {% endfor %}   
+      {% else %}
+        <div class="row">
+          <div class="col-xs-12">
+            <p>{{ 'collection.no_product' | t }}</p>
+          </div>
+        </div>        
+      {% endif %}
+    </div>
+  </div>
+</section>

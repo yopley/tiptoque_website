@@ -1,0 +1,82 @@
+{% if global_buy_zone == 'reco' %}
+{% assign cproduct = reco_product %}
+{% else %}
+{% assign cproduct = product %}
+{% endif %}
+{% assign classic = false %}
+{% if global_buy_zone == 'classic' %}
+{% assign classic = true %}
+{% endif %}
+
+{% comment %}PRESTATION CASE{% endcomment %}
+{% unless classic %}
+
+{% comment %}Customer pricing attribution and default{% endcomment %}
+{% assign var_id = cproduct.first_available_variant.id %}
+
+{% if customer %}
+{% for tag in customer.tags %}
+  {% if tag contains 'PRICING|' %}
+	{% assign pricing = tag | remove:'PRICING|' %}
+	{% for variant in cproduct.variants %}
+		{% if variant.title == pricing %}
+		{% assign var_id = variant.id %}
+		{% else %}
+		{% continue %}
+		{% endif %}
+    {% endfor %}
+  {% else %}
+  {% continue %}
+  {% endif %}
+{% endfor %}
+{% endif %}
+
+<div class="form-inline form-cart" data-type="{{ cproduct.type | handleize }}" data-activation="disabled">
+  <div class="form-group">
+    <input type="text" name="quantity" class="form-control qty cart-qty" 
+           placeholder="0" data-quantity="0"
+           data-variant="{{ var_id }}" data-product="{{ cproduct.handle }}" data-type="{{ cproduct.type | handleize }}" data-clear-type="{{ cproduct.type }}"
+           data-vendor="{{ cproduct.vendor }}"
+    > 
+  </div>
+
+    <button type="submit" class="btn solid minus cart-minus" data-quantity="0"
+            data-variant="{{ var_id }}" data-product="{{ cproduct.handle }}" data-type="{{ cproduct.type | handleize }}" data-clear-type="{{ cproduct.type }}"
+            data-vendor="{{ cproduct.vendor }}" disabled>
+      -
+    </button>
+    <button type="submit" class="btn solid plus cart-plus" data-quantity="1"
+           data-variant="{{ var_id }}" data-product="{{ cproduct.handle }}" data-type="{{ cproduct.type | handleize }}" data-clear-type="{{ cproduct.type }}"
+           data-vendor="{{ cproduct.vendor }}" disabled>
+      +
+    </button>  
+</div>
+
+{% comment %}CLASSIC PRODUCT CASE{% endcomment %}
+{% else %}
+
+  {% if product.available %}
+  <div class="form-inline form-cart classic-cart-form" data-type="{{ cproduct.type | handleize }}" data-activation="disabled">
+    <div class="form-group">
+    <input type="text" name="quantity" class="form-control qty cart-qty" 
+           placeholder="0" data-quantity="0"
+           data-variant="{{ var_id }}" data-product="{{ cproduct.handle }}" data-type="{{ cproduct.type | handleize }}" data-clear-type="{{ cproduct.type }}"
+           data-vendor="{{ cproduct.vendor }}"
+    > 
+  </div>
+    <button type="submit" class="btn solid minus cart-minus" data-quantity="0"
+            data-variant="{{ var_id }}" data-product="{{ cproduct.handle }}" data-type="{{ cproduct.type | handleize }}" data-clear-type="{{ cproduct.type }}"
+            data-vendor="{{ cproduct.vendor }}">
+      - 
+    </button>
+    <button type="submit" class="btn solid plus cart-plus" data-quantity="1"
+           data-variant="{{ var_id }}" data-product="{{ cproduct.handle }}" data-type="{{ cproduct.type | handleize }}" data-clear-type="{{ cproduct.type }}"
+           data-vendor="{{ cproduct.vendor }}">
+      +
+    </button>
+  </div>
+  {% else %}
+  <div class="text-uppercase price"><small>{{ 'collection.sold_out' | t }}</small></div>
+  {% endif %}
+
+{% endunless %}

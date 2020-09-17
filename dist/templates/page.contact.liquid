@@ -1,0 +1,34 @@
+<section id="banner">
+  {% section 'page_contact_banner' %}
+</section>
+
+<nav id="stickyMenu">
+<section id="collections_nav">
+  {% section 'menu_collections' %}
+</section>
+
+<section id="delivery_nav">
+  {% section 'menu_livraison' %}
+</section>
+  
+<div id="mobileMenuToggle" class="hidden-md hidden-lg">
+	{% section 'menu_livraison_mobile_button' %}
+</div>  
+</nav>
+
+<section id="contact">
+  
+  {% unless page.content == blank %}
+  <div class="container page-container contact-page-content">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+        <div class="page-container--content rte text-justify">
+          {{ page.content }}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endunless %}  
+  
+ {% section 'page_contact_form' %}
+</section>

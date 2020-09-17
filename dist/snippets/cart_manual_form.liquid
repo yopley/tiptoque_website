@@ -1,0 +1,80 @@
+{% form 'contact', id:'manual_order_form' %}
+{% capture cart_manual_form_feedback %}
+  {% if form.errors %}
+  <div class="form-feedback error">
+  {{ 'cart.order_fail' | t }}
+  </div>    
+  {% endif %}
+  {% if form.posted_successfully? %}
+    <div class="form-feedback success">
+      <div class="form-feedback--content">
+      {{ 'cart.order_success_manual_way' | t }}
+      </div>
+    </div>
+  <script>
+    /* Clean cart if it has been sent */
+    CartJS.clear();
+    CartJS.setAttribute('Mes informations complémentaires', '');
+  </script>
+  {% endif %}   
+{% endcapture %}
+<div class="hide-content">
+<input type="hidden" name="contact[subject]" id="manualSubject" value="Nouvelle commande passée par un client sur {{ shop.name }} : erreur et demande de traitement manuel">
+  
+<input type="hidden" name="contact[status]" id="manualStatus" value="">
+
+<div class="form-group">
+  <label for="firstName">{{ 'contact_page.name_label' | t }}</label>
+  <input type="text" name="contact[name]" class="form-control" id="manualFirstName" placeholder="{{ 'contact_page.name_placeholder' | t }}" {% if customer %} value="{{ customer.first_name }}"{% endif %}>
+</div> 
+<div class="form-group">
+  <label for="lastName">{{ 'contact_page.phone_label' | t }}</label>
+  <input type="text" name="contact[phone]" class="form-control" id="manualPhone" placeholder="{{ 'contact_page.phone_placeholder' | t }}" {% if customer %} value="{{ customer.phone }}"{% endif %}>
+</div>           
+<div class="form-group">
+  <label for="userEmail">{{ 'contact_page.mail_label' | t }}</label>
+  <input name="contact[email]" type="email" class="form-control" id="manualUserEmail" placeholder="{{ 'contact_page.mail_placeholder' | t }}" required{% if customer %} value="{{ customer.email }}"{% endif %}>
+</div>
+
+<div class="hide-content">  
+  
+  <input type="hidden" id="manualFormPlace" name="contact[Adresse de livraison]">
+  <input type="hidden" id="manualFormDate" name="contact[Date de livraison]">
+  <input type="hidden" id="manualFormTime" name="contact[Heure de livraison]">
+  <script>
+    function orderFormFiller() {
+      var place = $('#delivery_place').val(),
+          date = $('#datepicker').val(),
+          time = $('#delivery_hour').val();     
+      $('#manualFormPlace').val(place); 
+      $('#manualFormDate').val(date); 
+      $('#manualFormTime').val(time); 
+    }       
+    $(document).ready(function() {
+      orderFormFiller();
+    });
+    
+    $('#delivery_form').submit(function( event ) {
+      setTimeout(orderFormFiller,500);
+    });
+  </script>  
+
+  
+  <input type="hidden" id="manualFormItems" name="contact[Liste Produits]" value="Liste des produits commandés ci-dessous">
+
+  {% for item in cart.items %}
+  {% assign prop = 'na' %}
+  {% for property in item.properties %}
+  {% if property.first contains 'pour' %}
+  {% assign prop = property.last %}
+  {% break %} 
+  {% endif %}
+  {% endfor %}
+  <input type="hidden" id="manualFormProductName{{ forloop.index }}" name="contact[({{ forloop.index }}) - {{ item.product.type }} {{ item.title }}]" value="Vendeur : {{ item.product.vendor }} // Quantité : {{ item.quantity }}{% unless prop == 'na' %} pour {{ prop }}{% endunless %}">
+  {% endfor %}  
+  
+</div>
+
+<input type="submit" id="manualFormSubmit" value="{{ 'cart.checkout' | t }}" class="btn full" />
+</div>
+{% endform %}

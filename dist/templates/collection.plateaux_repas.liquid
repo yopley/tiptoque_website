@@ -1,0 +1,44 @@
+<section id="banner">
+  <div class="container-banner">
+    {% if collection.image %}
+    	{% assign image = collection.image %}
+    {% else %}
+    {% for product in collection.products limit:1 %}
+    	{% assign image = product.featured_image %}
+    {% endfor %}    
+    {% endif %}
+    <div class="banner-content" style="background:url({{ image | img_url: '2000x250', crop:'center', format:'pjpg' }}) no-repeat center">
+      <div class="banner-content--relative">
+        <div class="inner-content">
+        <h1 class="text-center lighter">{{ collection.title }}</h1>          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<nav id="stickyMenu">
+<section id="collections_nav">
+  {% section 'menu_collections' %}
+</section>
+
+<section id="delivery_nav">
+  {% section 'menu_livraison' %}
+</section>
+  
+<div id="mobileMenuToggle" class="hidden-md hidden-lg">
+	{% section 'menu_livraison_mobile_button' %}
+</div>  
+</nav>
+
+<div class="loading center-block text-center"><img src="{{ 'ajax-loader.gif' | asset_img_url:'20x20' }}" class="center-block"></div>
+<section id="collections_list" class="hide-content">  
+  {% section 'plateaux_chefs' %}  
+</section>
+
+<section id="locatedCollections">    
+</section>
+
+<section id="collections_empty" class="hide-content">  
+  {% section 'plateaux_empty' %}  
+</section>

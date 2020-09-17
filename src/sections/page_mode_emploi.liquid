@@ -1,0 +1,138 @@
+
+  {% unless section.settings.title == blank and section.settings.subtitle == blank and section.settings.content == blank %}
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1 text-center">
+      {% unless section.settings.title == blank %}
+      <h1 class="text-center neutral">{{ section.settings.title }}</h1>
+      {% endunless %}
+      {% unless section.settings.subtitle == blank %}
+      <h2 class="text-center bolded downcase neutral">{{ section.settings.subtitle }}</h2>
+      {% endunless %}
+      {% unless section.settings.content == blank %}
+      <p class="text-center">{{ section.settings.content }}</p>
+      {% endunless %}
+    </div>
+  </div>
+  {% endunless %}
+  
+  {% unless section.blocks.size < 1 %}
+  {% comment %}Assign col width amongst section blocks size case {% endcomment %}
+  {% if section.blocks.size == 1 %}
+  {% assign col = 'col-sm-12' %}
+  {% elsif section.blocks.size == 2 %}
+  {% assign col = 'col-sm-6' %}
+  {% elsif section.blocks.size == 3 %}
+  {% assign col = 'col-sm-4' %}
+  {% else %}
+  {% assign col = 'col-sm-3' %}
+  {% endif %}
+  
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="row">
+      {% for block in section.blocks %}
+        <div class="{{ col }}">
+          <img src="{{ block.settings.image | img_url:'400x400', scale:'x2' }}" class="mode-emploi-icon img-responsive center-block">
+          <h4 class="text-center bolded">{{ block.settings.title }}</h4>
+          <h5 class="text-center">{{ block.settings.subtitle }}</h5>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endunless %}
+  
+  {% unless section.settings.cta_text and section.settings.content_bottom == blank %}
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1 text-center">
+      {% unless section.settings.content_bottom == blank %}
+      <p class="text-center">{{ section.settings.content_bottom }}</p>
+      {% endunless %}
+      {% unless section.settings.cta_text == blank %}
+      <a href="{{ section.settings.cta_link }}" class="btn text-center">{{ section.settings.cta_text }}</a>
+      {% endunless %}
+    </div>
+  </div>
+  {% endunless %}
+
+
+{% schema %}
+  {
+    "name": "Page Mode d'Emploi",
+    "max_blocks": 4,
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Titre en introduction",
+        "info": "Laisser vide pour ne pas afficher"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Sous-titre en introduction",
+        "info": "Laisser vide pour ne pas afficher"
+      },
+      {
+        "type": "richtext",
+        "id": "content",
+        "label": "Paragraphe en introduction",
+        "info": "Laisser vide pour ne pas afficher"
+      },
+      {
+        "type": "richtext",
+        "id": "content_bottom",
+        "label": "Paragraphe de conclusion",
+        "info": "Laisser vide pour ne pas afficher"
+      },
+      {
+        "type": "text",
+        "id": "cta_text",
+        "label": "Texte de l'appel à l'action",
+        "default": "Démarrer",
+        "info": "Laisser vide pour ne pas afficher"
+      },
+      {
+        "type": "url",
+        "id": "cta_link",
+        "label": "Lien de l'appel à l'action"
+      },
+      {
+        "type": "paragraph",
+        "content": "Ajoutez vos blocs de contenu d'étapes ci-dessous"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Etape",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image",
+            "info": "Taille minimale conseillée de 400x400px"
+          },		
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Titre",
+          "info": "Laisser vide pour ne pas afficher"
+          },
+          {
+            "type": "text",
+            "id": "subtitle",
+            "label": "Sous Titre",
+            "info": "Laisser vide pour ne pas afficher"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

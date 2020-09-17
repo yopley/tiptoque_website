@@ -1,0 +1,8 @@
+<address>
+  {% unless address.company == blank %}<strong>{{ address.company }}</strong><br><br/>{% endunless %}
+  {% unless address.address1 == blank %}{{ address.address1 }}<br>{% endunless %}
+  {% unless address.address2 == blank %}{{ address.address2 }}<br>{% endunless %}
+  {% unless address.zip == blank %}{{ address.zip }} {% endunless %}{% unless address.city == blank %}{{ address.city }}<br>{% endunless %}
+  {% unless address.country == blank %}{{ address.country }}<br>{% endunless %}
+  {% unless address.phone == blank %}<br/><abbr title="Téléphone">{{ 'account.addresses_content.phone_abbr' | t }}</abbr> {{ address.phone }}{% endunless %}
+</address>

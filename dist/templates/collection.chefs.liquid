@@ -1,0 +1,116 @@
+{% comment %} Retrieving collection image if empty retrieve first product image available{% endcomment %}
+{% if collection.image %}
+{% assign image = collection.image %}
+{%- capture collection_image -%}
+  <img src="{{ collection.image | img_url: '400x400', crop:'center', scale:2, format:'pjpg' }}" alt="{{ collection.title | escape }}" class="center-block img-responsive">
+{%- endcapture -%}
+{% else %}
+{% for product in collection.products %}
+{% unless product.featured_image.src == blank %}
+{% assign image = product.featured_image %}
+{%- capture collection_image -%}
+  <img src="{{ product.featured_image.src | img_url: '400x400', crop:'center', scale:2, format:'pjpg' }}" alt="{{ collection.title | escape }}" class="center-block img-responsive">
+{%- endcapture -%}
+{% break %}
+{% endunless %}
+{% endfor %}
+{% endif %}
+
+<section id="banner">
+  {% section 'collection_chefs_banner' %}
+</section>
+
+<nav id="stickyMenu">
+<section id="collections_nav">
+  {% section 'menu_collections' %}
+</section>
+
+<section id="delivery_nav">
+  {% section 'menu_livraison' %}
+</section>
+  
+<div id="mobileMenuToggle" class="hidden-md hidden-lg">
+	{% section 'menu_livraison_mobile_button' %}
+</div>  
+</nav>
+
+<section id="collection_metas">
+  <div class="container container-collection-metas">
+    <div class="col-md-3">
+      <div class="collection-image-container">
+      {{ collection_image }}
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="rte">
+        {{ collection.description }}
+      </div>
+    </div>
+  </div>
+</section>
+
+<strong><p id="loading" class="text-center"></p></strong>
+
+<section id="products">
+
+  <div class="container container-products">
+    
+      {% if collection.products_count > 0 %}
+    
+      <div class="product-list">
+        <div class="row">
+          <div class="col-xs-12">        
+          <h4 class="bolded">{{ 'collection.collection_chef.product_list_title' | t }}</h4>
+          </div>
+        </div>
+          {% assign pagination = 24 %}
+          {% paginate collection.products by pagination %}
+          {% assign j = 0 %}
+          <div class="row">
+          {% for product in collection.products %}
+          {% unless product.tags contains 'hidden' %}        
+          {% assign modulo = j | modulo:3 %}
+
+            {% if modulo == 0 or forloop.first %}
+
+            {% endif %}
+            <div class="col-sm-4">
+            <br/>
+            {% include 'global_product_block' with 'no_purchase' %}             
+            </div>          
+            {% if modulo == 2 or forloop.last %}
+
+            {% endif %}
+          {% assign j = j | plus: 1 %}
+          {% endunless %}
+          {% endfor %}
+          </div>
+        </div>
+        {% if paginate.pages > 1 %}
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="collection-pagination-container center-block text-center">
+               {% include 'pagination' %}
+             </div>
+           </div>
+        </div>
+        {% endif %}
+        {% endpaginate %}
+   
+      {% else %}
+    
+      <div class="row">
+        <div class="col-xs-12">
+        <p class="text-center">{{ 'collection.no_product' | t }}</p>
+        </div>
+      </div>
+    
+      {% endif %}
+    
+  </div>  
+</section>
+
+<section id="cta">
+  {% section 'collection_chefs_cta' %}
+</section>
+

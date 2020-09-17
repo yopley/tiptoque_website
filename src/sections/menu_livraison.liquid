@@ -1,0 +1,415 @@
+<div data-section-id="{{ section.id }}" data-section-type="form">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-1 hidden-sm hidden-xs">
+          {% if customer %}
+          <div class="customer-info">
+            <h4 class="text-uppercase">{{ customer.name }}</h4>
+            <h5 class="text-uppercase">{{ customer.default_address.company }}</h5>
+          </div>
+          {% else %}
+           {% unless section.settings.ico_left == blank %}
+            <img src="{{ section.settings.ico_left | img_url: 'x42' }}" alt="{{ section.settings.ico_left.alt }}" class="img-responsive">
+            {% endunless %}
+          {% endif %}
+      </div>
+      <div class="col-md-10">
+        <form id="delivery_form">
+          <div class="col-md-3 col-spec">
+            <div class="form-group day">
+              {% assign now_limit ='now' | date: '%Y-%m-%d' %}
+              {% unless section.settings.ico_cal == blank %}
+              <img src="{{ section.settings.ico_cal | img_url: 'x16' }}" alt="{{ section.settings.ico_cal.alt }}" class="icon">
+              {% else %}
+              <img src="{{ 'icon-delivery-day.png'  | asset_img_url: 'x16' }}" class="icon">
+              {% endunless %}
+              <label for="delivery_day" class="text-uppercase">{{ 'layout.delivery_form.day_label' | t }}</label>
+              <input type="text" class="form-control text-uppercase" min="{{- now_limit -}}" id="datepicker" placeholder="{{ 'layout.delivery_form.day_placeholder' | t }}" required autocomplete="off">
+            </div>
+          </div>
+          <div class="col-md-3 col-spec">
+            <div class="form-group hour">
+              {% unless section.settings.ico_time == blank %}
+              <img src="{{ section.settings.ico_time | img_url: 'x16' }}" alt="{{ section.settings.ico_time.alt }}" class="icon">
+              {% else %}
+              <img src="{{ 'icon-delivery-hour.png'  | asset_img_url: 'x16' }}" class="icon">
+              {% endunless %}
+              <label for="delivery_hour" class="text-uppercase">{{ 'layout.delivery_form.hour_label' | t }}</label>
+              <input type="text" class="form-control text-uppercase" id="delivery_hour" min="06:00" max="23:59" placeholder="{{ 'layout.delivery_form.hour_placeholder' | t }}" pattern="[0-9]{2}:[0-9]{2}" required autocomplete="off">
+              <div id="timerContainer"></div>
+            </div>
+          </div>
+          <div class="col-md-3 col-spec">
+            <div class="form-group place">
+              {% unless section.settings.ico_place == blank %}
+              <img src="{{ section.settings.ico_place | img_url: 'x16' }}" alt="{{ section.settings.ico_place.alt }}" class="icon">
+              {% else %}
+              <img src="{{ 'icon-delivery-place.png'  | asset_img_url: 'x16' }}" class="icon">
+              {% endunless %}
+              <label for="delivery_place" class="text-uppercase">{{ 'layout.delivery_form.place_label' | t }}</label>
+
+              {% if customer and customer.addresses_count > 0 %}
+              <select class="form-control text-uppercase" id="delivery_place_customer">
+                {% for address in customer.addresses %}
+                <option{% if address == customer.default_address %} select{% endif %}
+                        value="{{ address.address1 }} - {{ address.zip }} {{ address.city }}"
+                        data-phone="{{ address.phone }}" data-company="{{ address.company }}"
+                        data-address1="{{ address.address1 }}" data-address2="{{ address.address2 }}"
+                        data-zip="{{ address.zip }}" data-city="{{ address.city }}" data-country="{{ address.country }}">
+                  {{ address.address1 }} - {{ address.zip }} {{ address.city }}
+                </option>
+                {% endfor %}
+                <option class="create-address" value="create">
+                  <em>{{ 'layout.delivery_form.create_address' | t }}</em>
+                </option>
+              </select>
+              {% endif %}
+              <input type="text" class="form-control text-uppercase{% if customer and customer.addresses_count > 0 %} hide-content{% endif %}" id="delivery_place" placeholder="{{ 'layout.delivery_form.place_placeholder' | t }}"{% unless customer and customer.addresses_count > 0 %} required{% endunless %} autocomplete="off">
+
+
+              <div id="address">
+                <input id="street_number" disabled="true" type="hidden">
+                <input id="route" disabled="true" type="hidden">
+                <input id="locality" disabled="true" type="hidden">
+                <input id="postal_code" disabled="true" type="hidden">
+              </div>
+
+            </div>
+          </div>
+          <div class="col-md-3 col-spec last">
+            <div class="form-group">
+            <button type="submit" class="btn pull-right">{{ 'layout.delivery_form.submit' | t }}</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      {% comment %}Count items in cart excepting delivery and service items{% endcomment %}
+      {% assign cart_item_count = 0 %}
+      {% for item in cart.items %}
+      {% unless item.product.type == 'Livraison' or item.product.type == 'Service' %}
+      {% assign cart_item_count = cart_item_count | plus: item.quantity %}
+      {% else %}
+      {% continue %}
+      {% endunless %}
+      {% endfor %}
+      <div class="col-md-1 hidden-sm hidden-xs">
+        <div class="cart-link-container pull-right">
+          <a href="/cart" class="cart-link" id="globalCartButton">
+            <img src="{{ 'icon-cart-white.png'  | asset_img_url: 'x28' }}" class="img-responsive pull-right">
+            <span class="cart-counter">{{ cart_item_count }}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- FORM FILLING MANAGEMENT -->
+
+{% comment %}DATE{% endcomment %}
+{{ 'datepicker_fr.js' | asset_url | script_tag }}
+<script>
+
+     /** Days to be disabled as an array */
+    var disableddates = [];
+    {% unless section.blocks.size < 1 %}
+    {% for block in section.blocks %}
+    disableddates.push({{ block.settings.date | json }});
+    {% endfor %}
+    {% endunless %}
+
+    function DisableSpecificDates(date) {
+	  /* Based upon Ankit function */
+
+     var m = date.getMonth();
+     var d = date.getDate();
+     var y = date.getFullYear();
+
+     // First convert the date in to the mm-dd-yyyy format
+     // Take note that we will increment the month count by 1
+     var currentdate = d + '/' + (m + 1) + '/' + y ;
+
+
+
+     // We will now check if the date belongs to disableddates array
+     for (var i = 0; i < disableddates.length; i++) {
+
+     // Now check if the current date is in disabled dates array.
+     if ($.inArray(currentdate, disableddates) != -1 ) {
+     return [false];
+     }
+     }
+
+     // In case the date is not present in disabled array, we will now check if it is a weekend.
+     // We will use the noWeekends function
+     var weekenddate = $.datepicker.noWeekends(date);
+     return weekenddate;
+
+    }
+
+
+    // Calendar Manager //
+    $( "#datepicker" ).datepicker({
+      minDate: 1,
+      showAnim: 'drop',
+      beforeShowDay: DisableSpecificDates
+    });
+
+</script>
+
+{% comment %}HOUR{% endcomment %}
+{% comment %}Hours form managed in dedicated global_horaires section{% endcomment %}
+
+{% comment %}PLACE{% endcomment %}
+{% include 'form_autocomplete' %}
+
+<!-- PARSING AND AUTOFILLING -->
+<script>
+    /*--- FUNCTIONS ---*/
+    function formChecker(confirmMessage) {
+      var deliveryDate = $('#datepicker').val(),
+          deliveryHour = $('#delivery_hour').val(),
+          deliveryAddress1 = $('#address #street_number').val() + ' ' + $('#address #route').val(),
+          deliveryZipCode = $('#postal_code').val(),
+          deliveryCity = $('#address #locality').val();
+
+          {% if customer and customer.addresses_count > 0 %}
+
+          if (!deliveryZipCode) {
+            var defaultAddress = $('#delivery_place_customer option:selected').attr('data-zip');
+            if (defaultAddress) {
+                $('#postal_code').val(defaultAddress);
+            }else {
+               defaultAddress = $($('#delivery_place_customer option')[0]).attr('data-zip');
+               $('#postal_code').val(defaultAddress);
+            }
+          }
+
+          var deliveryPlace = $('#delivery_place_customer').val();
+      	  /* Check if address entered before connection exists, if not add it and select it */
+          if (!deliveryPlace) {
+            var route = $('#address #route').val().trim(),
+                zip = $('#postal_code').val(),
+                city = $('#address #locality').val(),
+                newAddress = route + ' - ' + zip + ' ' + city;
+            $('#delivery_place_customer').append($('<option>', {value: newAddress,text: newAddress}));
+            $('#delivery_place_customer option[value="' + newAddress + '"]').prop('selected', true).attr('data-address1', route).attr('data-zip', zip).attr('data-city', city);
+          	var deliveryPlace = $('#delivery_place_customer').val();
+          }
+
+          {% else %}
+          var deliveryPlace = $('#delivery_place').val();
+          {% endif %}
+      //alert(deliveryAddress1 + deliveryZipCode + deliveryCity);
+
+      if (deliveryDate && deliveryHour && deliveryPlace && deliveryZipCode) {
+
+        $('body').attr('data-delivery', 'completed');
+        // hide button
+        $('#delivery_form .btn[type="submit"]').css('transition', 'initial');
+        $('#delivery_form .btn[type="submit"]').fadeOut(2000);
+        deliveryCart(deliveryPlace, deliveryDate, deliveryHour);
+        cartAttr(deliveryDate,deliveryHour,deliveryPlace);
+        if(confirmMessage) {
+          var message = '{{ 'layout.delivery_form.confirmation' | t }}';
+          feedback(message);
+        }
+        Cookies.set('date', deliveryDate , { expires: 0.05 });
+        Cookies.set('hour', deliveryHour , { expires: 0.05 });
+        Cookies.set('place', deliveryPlace , { expires: 360 });
+        Cookies.set('address1', deliveryAddress1 , { expires: 360 });
+        Cookies.set('zip', deliveryZipCode , { expires: 360 });
+        Cookies.set('city', deliveryCity , { expires: 360 });
+      } else if (deliveryDate && deliveryHour && deliveryPlace) {
+
+        $('body').attr('data-delivery', 'uncomplete');
+        var zipEx = deliveryPlace.match(/\b\d{5}\b/g);
+        if (zipEx) {
+          $('#postal_code').val(zipEx);
+          $('body').attr('data-delivery', 'completed');
+          deliveryCart(deliveryPlace, deliveryDate, deliveryHour);
+          if(confirmMessage) {
+            var message = '{{ 'layout.delivery_form.confirmation' | t }}';
+            feedback(message);
+          }
+        } else {
+          var message = '{{ 'layout.delivery_form.unvalid_zip' | t }}';
+          feedback(message);
+          CartJS.clear();
+          if(!deliveryZipCode){Cookies.remove('zip');};
+        }
+        Cookies.set('date', deliveryDate , { expires: 0.05 });
+        Cookies.set('hour', deliveryHour , { expires: 0.05 });
+        Cookies.set('place', deliveryPlace , { expires: 360 });
+      } else {
+
+        $('body').attr('data-delivery', 'uncomplete');
+          if(confirmMessage) {
+            var message = '{{ 'layout.delivery_form.unvalid_form' | t }}';
+            feedback(message);
+          }
+          CartJS.clear();
+          if(!deliveryDate){Cookies.remove('date');};
+          if(!deliveryHour){Cookies.remove('hour');};
+          if(!deliveryPlace){Cookies.remove('place');};
+          if(!deliveryZipCode){Cookies.remove('zip');};
+      }
+    }
+
+    function retrieveInformations() {
+      var deliveryDate = Cookies.get('date'),
+          deliveryHour = Cookies.get('hour'),
+          deliveryPlace = Cookies.get('place'),
+          deliveryAddress1 = Cookies.get('address1'),
+          deliveryZipCode = Cookies.get('zip'),
+          deliveryCity = Cookies.get('city');
+      if (deliveryDate !== undefined) {$('#datepicker').val();$('#datepicker').val(deliveryDate);}
+      if (deliveryHour !== undefined) {$('#delivery_hour').val();$('#delivery_hour').val(deliveryHour);}
+      if (deliveryPlace !== undefined) {$('#delivery_place, #delivery_place_customer').val();$('#delivery_place, #delivery_place_customer').val(deliveryPlace);}
+      if (deliveryZipCode !== undefined) {$('#postal_code').val();$('#postal_code').val(deliveryZipCode);}
+      if (deliveryAddress1 !== undefined) {$('#address #route').val();$('#address #route').val(deliveryAddress1);}
+      if (deliveryCity !== undefined) {$('#address #locality').val();$('#address #locality').val(deliveryCity);}
+    }
+
+
+    function selectListener(newZip) {
+      $('#postal_code').val(newZip);
+      Cookies.set('zip', newZip , { expires: 360 });
+      formChecker();
+      CartJS.clear();
+    }
+
+    function deliveryCart(deliveryPlace, deliveryDate, deliveryHour) {
+        $('#cartAddress').html(deliveryPlace);
+        $('#cartDate').html(deliveryDate + ' {{ 'cart.at' | t }} ' + deliveryHour);
+        //alert(deliveryPlace + deliveryDate + deliveryHour);
+    };
+
+
+    function infoReset() {
+      Cookies.remove('date'),
+      Cookies.remove('hour'),
+      Cookies.remove('place'),
+      Cookies.remove('zip');
+    }
+
+    function checkTemplate() {
+      if(!$('body').hasClass('template-collection') && !$('body').hasClass('template-index ') ) {
+        window.location.href = '/#collections_links';
+      }
+    }
+
+    /* Adding hour & date as cart attributes to use them in order attributes when validate cart */
+    function cartAttr(deliveryDate,deliveryHour,deliveryPlace) {
+      CartJS.setAttribute('Date', deliveryDate.replace(/[#]/gi,'').replace(/[&]/gi,' and '));
+      CartJS.setAttribute('Heure',deliveryHour.replace(/[#]/gi,'').replace(/[&]/gi,' and '));
+      CartJS.setAttribute('Lieu',deliveryPlace.replace(/[#]/gi,'').replace(/[&]/gi,' and ').replace(/[,]/gi,''));
+      console.log(CartJS.cart);
+    }
+
+  /*--- EXE ---*/
+    $('#delivery_form').submit(function( event ) {
+      event.preventDefault();
+      CartJS.clear();
+      var confirmMessage = true;
+      formChecker(confirmMessage);
+      checkTemplate();
+      // HIDE VALIDATE BUTTON
+      $('#delivery_form .btn[type="submit"]').css('transition', 'initial');
+      $('#delivery_form .btn[type="submit"]').fadeOut(2000);
+    })
+
+      // show VALIDATE BUTTON
+    $('input#datepicker, input#delivery_hour, input#delivery_place').click(function() {
+      $('#delivery_form .btn[type="submit"]').fadeIn(2000, function() {
+        $(this).css('transition', 'all .3s ease .10s');
+      });
+    })
+
+
+    $(document).ready(function() {
+      retrieveInformations();
+      var confirmMessage = false;
+      formChecker(confirmMessage);
+    });
+
+
+  /* Specific functions for customers case && non customer cases  */
+  {% if customer and customer.addresses_count > 0 %}
+  $('#delivery_place_customer').change(function() {
+    var newZip = $(this).find('option:selected').attr('data-zip');
+      if ($(this).val() === 'create') {
+        /* Managing redirect when select Create an address */
+        window.location.href = '/account/addresses/#addresses';
+      } else {
+        /* Or check for Zip */
+        selectListener(newZip);
+      }
+  });
+  {% else %}
+  /*$('#delivery_place').change(function() {
+    alert('changed');
+    var newZip = $('#postal_code').val();
+    selectListener(newZip);
+  });*/
+  {% endif %}
+</script>
+
+
+
+{% schema %}
+  {
+    "name": "Formulaire de Livraison",
+    "max_blocks": 10,
+    "settings": [
+      {
+      "type": "image_picker",
+      "id":"ico_left",
+      "label": "Icône à gauche du formulaire",
+      "info": "Laisser vide pour ne pas afficher"
+      },
+      {
+      "type": "image_picker",
+      "id":"ico_cal",
+      "label": "Icône jour de livraison",
+      "info": "Dimensions 16x16"
+      },
+      {
+      "type": "image_picker",
+      "id":"ico_time",
+      "label": "Icône heure de livraison",
+      "info": "Dimensions 16x16"
+      },
+      {
+      "type": "image_picker",
+      "id":"ico_place",
+      "label": "Icône lieu de livraison",
+      "info": "Dimensions 16x16"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "date",
+        "name": "Jour de Fermeture",
+        "settings": [
+          {
+            "type": "text",
+            "id": "date",
+            "label": "Jour non ouvré",
+            "info": "IMPORTANT, une seule date par bloc en respectant le format suivant d/m/yyyy sans les 0. Par exemple pour le 6 juillet 2018, entrer 6/7/2018",
+            "placeholder": "6/7/2018"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+
+{% endstylesheet %}
+
+{% javascript %}
+
+{% endjavascript %}

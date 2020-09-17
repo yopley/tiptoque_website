@@ -1,0 +1,68 @@
+{% if section.blocks.size > 0 %}
+<script>
+  // Creating object to store limitation info for each type of product in the loop
+  var types = [];  
+  // Store global information
+  {% for block in section.blocks %}  
+  var blockType = {{ block.settings.type | handleize | json }},
+      blockHour = {{ block.settings.hour | json }},
+      blockDay = {{ block.settings.days | json }};
+       types.push({
+         type: blockType,
+         hourLimit: blockHour,
+         dayLimit: blockDay
+       });
+  {% endfor %}
+</script>
+
+{% endif %}
+{% schema %}
+  {
+    "name": "Contraintes Horaires",
+    "max_blocks": 20,
+    "settings": [
+      {
+      "type": "paragraph",
+      "content": "Ajoutez ci-dessous tous les types de produits nécessitant une contrainte horaire (par exemple, plus de commande possible la veille après 18h00)"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "product",
+        "name": "Contrainte Horaire",
+        "settings": [
+          {
+             "type": "text",
+             "id": "type",
+             "label": "Type de produit concerné",
+             "info": "Entrez ici le type de produit concerné par la limitation horaire tel qu'entré dans les fiches produits. Par exemple, Plateau Repas Froid. Les majuscules et les accents n'ont pas d'importance."
+          },
+          {
+              "type":      "range",
+              "id":        "days",
+              "min":       1,
+              "max":        20,
+              "step":       1,
+              "unit":       "j",
+              "label":     "Nombre de jours",
+              "info": "Assignez ici le nombre de jours minimum avant laquelle la commande pour le type de produit peut être passée. Par exemple 1 jour pour les plateaux repas froids ou bien 4 jours pour les cocktails.",
+              "default":   1
+          },
+          {
+              "type":      "text",
+              "id":        "hour",
+              "label":     "Heure limite",
+              "info": "Au format hh:mm. Entrez ici l'heure à partir de laquelle il n'est plus possible de commander ce type de plat si le nombre de jours minimum n'est pas respecté. Par exemple, si vous notez 18:00 pour les plateaux repas avec limité à 1 jour, il ne sera plus possible d'en commander pour le lendemain si nous sommes après 18h00.", 
+              "placeholder": "18:00"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

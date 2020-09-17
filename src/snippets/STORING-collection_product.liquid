@@ -1,0 +1,41 @@
+{% for product in collection.products %}           
+  <div class="product" id="product-{{ forloop.index | plus:paginate.current_offset }}">  
+            <div class="col-md-4 container-products--image desktop-image">
+                <a href="{{ product.url | within: collection }}" class="product-info-block">
+                  <div class="row">
+                    <div class="col-xs-7">
+                      <p class="products-title text-left">{{ product.title }} </p>
+                      <div class="color-set">
+                        {% include 'product_colors' %}
+                      </div>         
+                      {% assign published = product.published_at | date: "%s" %}
+                      {% assign now = "now" | date: "%s" %}
+                      {% assign date_difference = now | minus: published %}
+                      {% assign day_difference = date_difference | divided_by: 3600 | divided_by: 24 %}
+                      {% if day_difference <= settings.new_product %}
+                      {% assign new = true %}                                   
+                      {% endif %}
+                      {% assign soldout = false %}
+                      {% unless product.available %}
+                      {% assign soldout = true %}
+                      {% endunless %}
+                      {% if new or soldout %}
+                        <p>
+                          {% if new %}<span class="products-subtitle">{{ 'collection.new' | t }}</span>{% endif %}
+                          {% if soldout %}<span class="products-subtitle soldout">{{ 'collection.sold_out' | t }}</span>{% endif %}
+                        </p>
+                      {% endif %}
+                    </div>
+                    <div class="col-xs-5">
+                      <p class="products-price text-right">
+                      {% if product.compare_at_price > product.price %}            		
+                         <s id="ComparePrice" class="sale-price">{{ product.compare_at_price_max | money }}</s>            		
+                       {% endif %}            
+                       {{ product.price_min | money }}
+                      </p>
+                    </div>
+                  </div> 
+                </a>
+              </div>
+  </div> 
+{% endfor %}   

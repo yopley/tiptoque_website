@@ -1,0 +1,43 @@
+<div data-section-id="{{ section.id }}" data-section-type="image">
+  <div class="container-banner">
+    <div class="banner-content"{% unless section.settings.banner == blank %} style="background:url({{ section.settings.banner | img_url: '2000x250', crop:'center', format:'pjpg' }}){% unless section.settings.banner.width < 2000 %} no-repeat{% endunless %} center"{% endunless %}>
+      <div class="banner-content--relative">
+        <div class="inner-content">
+		{% case template %}
+        {% when 'customers/login' %}
+          {% assign title = 'account.login.title' | t %}
+        {% when 'customers/reset_password' %}
+          {% assign title = 'account.reset_password.title' | t %}
+        {% when 'customers/register' %}
+          {% assign title = 'account.register.title' | t %}
+        {% when 'customers/activate_account' %}
+          {% assign title = 'account.activate.activate_account' | t %}     
+        {% else %}
+          {% assign title = 'account.profile' | t %}
+        {% endcase %}
+        <h1 class="text-center lighter">{{ title }}</h1>          
+        </div>
+      </div>
+    </div>    
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Bannière Compte Client",
+    "settings": [
+      {
+      "type": "image_picker",
+      "id": "banner",
+      "label": "Image de une du compte client",
+      "info": "Largeur minimum 2000px"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

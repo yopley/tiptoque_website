@@ -1,0 +1,60 @@
+<div data-section-id="{{ section.id }}" data-section-type="content">
+{% comment %}Storing hidden templating info to display when empty results{% endcomment %}
+<section class="no-results">
+  <div class="container">
+  	<div class="row">
+      <div class="col-xs-12">
+        {% unless section.settings.content == blank and section.cta_link == blank %}
+        	{% unless section.settings.content == blank %}
+            <h2 class="text-center neutral downcase basic">{{ section.settings.content }}</h2>
+        	{% endunless %}
+        	{% unless section.settings.cta_link == blank or section.settings.cta_content == blank %}
+            <div class="text-center">
+                <a href="{{ section.settings.cta_link }}" role="button" class="btn">{{ section.settings.cta_content }}</a>
+            </div>
+        	{% endunless %}
+        {% else %}
+        <h2 class="text-center neutral downcase basic">{{ 'collection.no_chef' | t }}</h2>
+        {% endunless %}
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+{% schema %}
+  {
+    "name": "Aucun chef trouvé",
+    "settings": [
+    {
+    "type": "header",
+    "content": "Définissez ici le contenu à afficher",
+    "info": "Ceci sera affiché dans le cas où aucun chef n'est disponible dans la zone de livraison demandée par le client"
+    },
+    {
+    "type": "text",
+    "id": "content",
+    "label": "Message à afficher",
+    "info" : "Laisser vide pour ne pas afficher"
+    },
+    {
+    "type": "url",
+    "id": "cta_link",
+    "label": "Lien vers lequel pointer l'appel à l'action",
+    "info" : "Laisser vide pour ne pas afficher"
+    },
+    {
+    "type": "text",
+    "id": "cta_content",
+    "label": "Texte du bouton d'appel à l'action",
+    "info": "Laisser vide pour ne pas afficher"
+    }
+]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

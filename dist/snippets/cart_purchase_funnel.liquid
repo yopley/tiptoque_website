@@ -1,0 +1,38 @@
+<div class="funnel-container">
+  
+  {% comment %}CAS NON CONNECTE{% endcomment %}
+  {% unless customer %}
+  <div id="step1">
+    <a href="#" class="btn full big-submit">{{ 'cart.order' | t }}</a>
+  </div>
+  
+  <div id="step2" class="text-center hide-content">
+    <p><strong>{{ 'cart.has_account_question' | t }}</strong></p>
+    <ul class="list-inline">
+      <li class="text-uppercase"><a href="#" id="yes_account">{{ 'cart.yes' | t }}</a></li>
+      <li class="text-uppercase"><a href="#" id="no_account">{{ 'cart.no' | t }}</a></li>
+    </ul>
+  </div>
+  
+  <div id="step3_yes" class="hide-content">
+    <p class="login-title">{{ 'cart.login' | t }}</p>
+    {% include 'cart_purchase_funnel_login' %} 
+  </div> 
+  
+  <div id="step3_no" class="text-center hide-content">
+    <p><strong><a href="#" id="new_account">{{ 'cart.account_creation_ad' | t }}</a></strong></p>   
+    <form action="/cart" novalidate method="post" id="checkoutForm">
+        <!--<input type="hidden" name="discount" value="test" />
+        <input type="hidden" name="address[company]" value="hobof" />-->
+        <input id="date-de-livraison" type="hidden" name="attributes[Date de Livraison]" value="">
+        <input id="heure-de-livraison" type="hidden" name="attributes[Heure de Livraison]" value="">  
+    	<input type="submit" name="checkout" value="{{ 'cart.order_without_account' | t }}" class="btn full" /> 
+    </form>
+  </div>   
+  
+  {% comment %}CAS CONNECTE{% endcomment %}
+  {% else %}
+  {% include 'cart_order_form' %}
+  {% endunless %}
+  
+</div>

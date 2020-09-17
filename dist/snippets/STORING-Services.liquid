@@ -1,0 +1,123 @@
+<script>
+/*--------- Additionnal Services Management Functions----------*/
+  
+  /* Retrieving current information */
+  function getServices () {
+    /* Check only if cart has not been cleared */ 
+    console.log('CHECK CART COUNTER : ' + CartJS.cart.item_count);
+    //if (CartJS.item_count > 0) {
+      $('.service-checkbox').each(function () {
+        var currVariant = $(this).attr('data-variant'),
+            currentType = $('.product-bloc').attr('data-clear-type'),
+            cartSelector = $('.cart-container .service-checkbox[data-variant="' + currVariant + '"][data-type="' + currentType + '"]'),
+            storedVariant = Cookies.get(currVariant + currentType);
+        if (storedVariant !== undefined && cartSelector.length) {
+          var storedData = storedVariant.split(','),
+              storedType = storedData[2];
+          if(currentType === storedType) {
+            $(this).prop('checked', true);
+          }
+        } else {
+          console.log('COOKIE REMOVED');
+          Cookies.remove(currVariant + currentType);
+        }
+      });
+    //}
+  }
+
+  /* Storing and removing information on change */
+  function checkServices() {
+    $('.service-checkbox').change(function() {
+      var management = $(this).attr('data-management'),
+          product = $(this).attr('data-product'),
+          variant = $(this).attr('data-variant'),
+          type = $('.product-bloc').attr('data-clear-type'),
+          cookieContent = management + ',' + product + ',' + type;    
+      if(this.checked) {
+        $('.service-checkbox[data-variant="' + variant + '"][data-type="' + type + '"]').prop('checked', true);
+          Cookies.set(variant + type, cookieContent, { expires: 1 });
+      } else {      
+        $('.service-checkbox[data-variant="' + variant + '"][data-type="' + type + '"]').prop('checked', false);
+          Cookies.remove(variant + type); 
+      }
+    });
+  }
+
+
+  /* Activate or deactivate service add amongst cart content */
+  function cartListener() {
+    var currentType = $('.product-bloc').attr('data-type'),
+        cartTypeSelector = $('.cart-container .items-list .row-item[data-type="' + currentType + '"]');
+    /* If one product from collection is in cart, activate checkbox */
+    if (cartTypeSelector.length){
+        $('input[name="service"]').prop('disabled',false);
+    } else {
+        $('.container-collection input[name="service"]').prop('disabled',true);
+    }
+  };
+
+
+  /* Display more info on i span hover */
+  function moreService () {
+      $('.service-item').hover(function() {
+        var moreID = $(this).find('.more').attr('id'),
+            moreSelector = '#' + moreID + '',
+            infoID = $(this).find('.info-container').attr('id'),
+            infoSelector = '#' + infoID + '';
+        $(infoSelector).hover(function() {
+          $(moreSelector).fadeIn(400);
+        }, function() {
+          $(moreSelector).fadeOut(500);
+        }
+        )
+      });
+  }
+
+
+
+/*--------- Additionnal Services Management Executions----------*/
+  //Ready doc
+  $(document).ready(function() {
+    getServices();
+    cartListener();    
+    checkServices();
+  });
+
+  // Ajax queries performed
+  $(document).ajaxComplete(function() {
+    getServices(); 
+    cartListener();      
+    checkServices();
+  });
+   
+</script>
+
+<script>
+function checkListener(selector) {
+  var currService = $(selector).attr('data-product'),
+      currServiceID = $(selector).attr('data-variant'),
+      currentType = $('.product-bloc').attr('data-type');
+  if ($(selector).is(':checked')) {   
+   $('.service-form[data-product="' + currService + '"]:first').submit();
+  } else {
+    var cartLine = $('.cart-container .service-management *[data-prop-type="' + currentType + '"]').attr('data-line');
+    CartJS.removeItem(cartLine);
+  };
+};
+
+
+
+  //Ready doc
+  $(document).ready(function() {
+  });
+
+  // Ajax queries performed
+  $(document).ajaxComplete(function( event, xhr, settings ) {
+  });
+
+  //Checkbox change	
+  $(document).on('change', 'input[name="service"]', function () {
+    var selector = this;
+    checkListener(selector);
+  });
+</script>

@@ -1,0 +1,82 @@
+  <div data-cart-view="data-cart-view" class="cart-content">
+      <div class="row greyed-row" rv-show="cart.item_count | gt 0">
+        <div class="col-xs-12">
+          <h3 class="text-center cart-title text-uppercase">{{ 'cart.title' | t }}</h3>
+          <br/>                 
+        </div>
+      </div> 
+      <div class="row delivery-info" rv-show="cart.item_count | gt 0">
+        <div class="col-sm-12">
+          <ul class="list-unstyled">
+            <li><img src="{{ 'icon-delivery-place.png'  | asset_img_url: 'x16' }}" class="icon pull-left"> <span id="cartAddress"></span></li>
+            <li><img src="{{ 'icon-delivery-day.png'  | asset_img_url: 'x16' }}" class="icon pull-left"> <span id="cartDate"></span></li>
+          </ul>
+        </div>
+      </div>
+    <hr  rv-show="cart.item_count | gt 0">   
+    <div class="row">
+      <div class="col-xs-12">
+          <p class="loader text-center hide-content">
+              <img src="{{ 'ajax-loader.gif' | asset_url }}" width="16" height="16" class=""/>            
+          </p> 
+        <br/>
+      </div>
+    </div>    
+      <div class="items-list">
+            <div class="row row-item" rv-each-item="cart.items">
+              <div class="col-xs-7">
+                <span rv-text="item.product_title" class="bolded"></span>
+              </div>             
+              <div class="col-xs-3 text-center">
+                <ul class="list-unstyled lighter">                  
+                  <li rv-hide="item.properties.pack"><span rv-html="item.variant_title | size Size.currentSize"></span></li>
+                  <li class="qty-container">
+                    <a href="#" rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | minus 1">-</a>
+                    <span rv-text="item.quantity"></span>
+                    <a href="#" rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | plus 1">+</a>   
+                  </li>
+                </ul>
+              </div>
+              <div class="col-xs-2 text-right">
+                <span rv-html="item.line_price | money Currency.currentCurrency" class="cart-price"></span>
+              </div>                  
+            </div>
+      </div>      
+          <div class="row" rv-show="cart.item_count | lt 1">
+            <div class="col-xs-12 text-center">
+              {% section 'cart_empty_state' %}
+              <!-- <p>{{ 'cart.empty_cart' | t }}</p> -->
+            </div>
+          </div>
+    <div class="buy-zone" rv-show="cart.item_count | gt 0">
+      <div class="row">
+        <div class="col-sm-12">
+          <hr/>
+        </div>
+      </div>   
+    
+      <div class="row total" rv-show="cart.item_count | gt 0">
+        <div class="col-xs-6">
+          {{ 'cart.subtotal' | t }}
+        </div>
+        <div class="col-xs-6 text-right">
+         <p rv-html="cart.total_price | money Currency.currentCurrency"></p>
+        </div>
+      </div>
+      {% if settings.free_delivery and settings.free_delivery_amount != blank %}
+      <div class="row" rv-show="cart.total_price | gt {{ settings.free_delivery_amount }}" style="display:none;">
+        <div class="col-xs-12">
+          <p class="red">{{ 'cart.free_shipping' | t }}</p>
+        </div>
+      </div>  
+      {% endif %}
+      <div class="row checkout">
+        <div class="col-xs-12">
+    		<form action="/cart" method="post" novalidate="">      
+            <input type="submit" name="checkout" value="{{ 'cart.checkout' | t }}" class="btn full big-submit" rv-enabled="cart.item_count | gt 0" /> 
+    		</form>
+        </div>      
+  		</div>  
+    </div>
+    
+  </div>

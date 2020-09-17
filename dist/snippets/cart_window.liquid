@@ -1,0 +1,19 @@
+<div class="cart-window container-fluid" id="cart_display">
+<div class="close">
+  <span aria-hidden="true">&times;</span>
+</div>
+  
+<div class="row">
+    <div class="col-xs-12">
+        <p class="loader text-center hide-content">
+            <img src="{{ 'ajax-loader.gif' | asset_url }}" width="16" height="16" class=""/>            
+        </p> 
+      <br/>
+    </div>
+</div>  
+  
+<!-- Cart table, rendered using DOM Binding  -->
+  <div class="cart-container">
+  {% include 'cart_layout' %}
+  </div>
+</div>

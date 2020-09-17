@@ -1,0 +1,51 @@
+<section id="banner">
+  {% section 'account_banner' %}
+</section>
+
+<nav id="stickyMenu">
+<section id="collections_nav">
+  {% section 'menu_collections' %}
+</section>
+
+<section id="delivery_nav">
+  {% section 'menu_livraison' %}
+</section>
+  
+<div id="mobileMenuToggle" class="hidden-md hidden-lg">
+	{% section 'menu_livraison_mobile_button' %}
+</div>  
+</nav>
+
+<section id="activate_account">
+  <div class="container page-container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+          {% form 'activate_customer_password', class: 'center-block' %}
+          {% if form.errors %}
+          {% capture form_feedback %}
+          <div class="form-feedback error">
+            <div class="form-feedback--content">
+            {{ form.errors | default_errors }}
+            </div>
+          </div>
+          {% endcapture %}
+          {% endif %}
+
+          <div class="form-group password">
+            <label for="password">{{ 'account.activate.password' | t }}</label>
+            <input class="form-control" type="password" name="customer[password]" placeholder="{{ 'account.activate.password_placeholder' | t }}" />
+          </div>
+          <div class="form-group password_confirm">
+            <label for="password_confirmation">{{ 'account.activate.confirm_password' | t }}</label>
+            <input class="form-control" type="password" name="customer[password_confirmation]" placeholder="{{ 'account.activate.password_placeholder' | t }}" />
+          </div>
+          <div class="text-center">
+            <input type="submit" class="btn full solid" value="{{ 'account.activate.activate_confirmation' | t }}" />            
+            <input class="btn text-center" type="submit" name="decline" value="{{ 'account.activate.decline' | t }}" />
+          </div>
+
+          {% endform %}
+      </div>
+    </div>
+  </div>
+</section>

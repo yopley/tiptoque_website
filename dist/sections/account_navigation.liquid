@@ -1,0 +1,179 @@
+{% if section.blocks.size > 0 %}
+<h1>{{ template.suffix }} </h1>
+  {% if section.blocks.size < 4 %}
+  {% assign col = 'col-sm-4' %}
+  {% else %}
+  {% assign col = 'col-sm-3' %}
+  {% endif %}
+
+<div class="container account-navigation-container">
+  <div id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="row">      
+    {% for block in section.blocks %}
+    <div class="{{ col }} account-navigation-item">
+      
+      {% if block.type == 'account' %}
+      
+      {% case block.settings.link %}
+      {% when 'account' %}
+      {% assign title = 'account.informations' | t %}
+      {% assign link = 'informations' %}
+      {% assign templating = 'account_informations' %}
+      {% when 'addresses' %}
+      {% assign title = 'account.addresses' | t %}
+      {% assign link = 'addresses' %}
+      {% assign templating = 'account_addresses' %}        
+      {% when 'orders' %}
+      {% assign title = 'account.orders' | t %}
+      {% assign link = 'orders' %}
+      {% assign templating = 'account_orders' %}        
+      {% endcase %}        
+      <a data-toggle="collapse" href="#{{ link }}" aria-expanded="false" aria-controls="collapse{{ link }}" data-parent="#accordion" class="collapsed">        
+      <ul class="list-inline">
+        {% unless block.settings.icon == blank %}
+        <li><img src="{{ block.settings.icon | img_url: '50x50' }}" class="account-navigation-icon" alt="{{ block.settings.icon_alt }}"></li>
+        {% endunless %}
+        <li>{{ title }}</li>
+        <li><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></li>
+      </ul>
+      </a>
+
+      
+      {% else %}      
+      {% assign page = pages[block.settings.page] %}
+      {% assign link = page.handle %}
+      {% assign title = page.title %}
+      {% assign templating = page.content %}
+      
+      <a data-toggle="collapse" href="#{{ link }}" aria-expanded="false" aria-controls="collapse{{ link }}" class="collapsed">        
+      <ul class="list-inline">
+        {% unless block.settings.icon == blank %}
+        <li><img src="{{ block.settings.icon | img_url: '50x50' }}" class="account-navigation-icon" alt="{{ block.settings.icon_alt }}"></li>
+        {% endunless %}
+        <li>{{ title }}</li>
+        <li><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></li>
+      </ul>
+      </a>
+   
+      
+      {% endif %}
+      
+    </div>
+    {% endfor %}
+  </div>
+    
+  <div class="row">  
+    <div class="accordion-group">
+    {% for block in section.blocks %}
+    <div class="col-xs-12 account-navigation-content">
+      {% if block.type == 'account' %}
+      {% case block.settings.link %}
+      {% when 'account' %}
+      {% assign title = 'account.informations' | t %}
+      {% assign link = 'informations' %}
+      {% assign templating = 'account_informations' %}
+      {% when 'addresses' %}
+      {% assign title = 'account.addresses' | t %}
+      {% assign link = 'addresses' %}
+      {% assign templating = 'account_addresses' %}        
+      {% when 'orders' %}
+      {% assign title = 'account.orders' | t %}
+      {% assign link = 'orders' %}
+      {% assign templating = 'account_orders' %}        
+      {% endcase %}        
+      <div class="collapse{% unless template contains 'addresses' %}{% if forloop.first %} in{% endif %}{% else %}{% if link == 'addresses' %} in{% endif %}{% endunless %}" id="{{ link }}">
+        {% include templating %}
+      </div>      
+      {% else %}
+      {% assign link = page.handle %}
+      {% assign title = page.title %}
+      {% assign templating = page.content %}      
+      <div class="collapse{% unless template contains 'addresses' %}{% if forloop.first %} in{% endif %}{% else %}{% if link == 'addresses' %} in{% endif %}{% endunless %}" id="{{ link }}">
+        <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="rte">
+            {{ templating }}
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>     
+      {% endif %}
+      
+    </div>
+    {% endfor %}
+    </div>
+  </div>
+  
+</div>
+
+{% endif %}
+</div>
+
+<script>
+  var $collapseGroup = $('#accordion');
+  $collapseGroup.on('show.bs.collapse','.collapse', function() {
+      $collapseGroup.find('.collapse.in').collapse('hide');
+  });
+
+$(function() {
+    if ( document.location.href.indexOf('#orders_tab') > -1 ) {
+        $collapseGroup.find('.collapse.in').collapse('hide');
+        $collapseGroup.find('#orders').collapse('toggle');
+    }
+});  
+</script>
+{% schema %}
+  {
+    "name": "Navigation Compte Client",
+    "max_blocks": 4,
+    "settings": [],
+    "blocks": [
+      {
+        "type": "account",
+        "name": "Lien Compte Client",
+        "settings": [
+          {
+             "type": "select",
+             "id": "link",
+             "options": [
+                { "value": "account", "label": "Informations"},
+                { "value": "addresses", "label": "Addresses"},
+                { "value": "orders", "label": "Commandes" }
+             ],
+             "label": "Type de lien"
+          },
+          {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icône du lien"
+          }
+        ]
+      },
+      {
+        "type": "page",
+        "name": "Lien de page",
+        "settings": [
+          {
+             "type": "page",
+             "id": "page",
+             "label": "Lien vers une page"
+          },
+          {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icône du lien"
+          }
+        ]
+      }
+    ]	
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+
+{% endjavascript %}

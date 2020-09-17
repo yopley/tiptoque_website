@@ -1,0 +1,70 @@
+<div id="delivery_sources">
+  <div class="default" data-vendor="{{ shop.name }}" data-address="{{ section.adresses.default_address }}" ></div>
+  {% for block in section.blocks %}
+  <div
+    class="vendor"
+    data-fermetures="{{ block.settings.ferm-hebd }}"
+    data-vendor="{{ block.settings.vendor }}"
+    data-address="{{ block.settings.address }}"
+    data-ferm-exc="{{ block.settings.ferm-exc }}"></div>
+  {% endfor %}
+</div>
+
+
+{% schema %}
+  {
+    "name": "Informations Restaurants",
+    "max_blocks": 200,
+    "settings": [
+      {
+        "type": "text",
+        "label": "Adresse par défaut",
+        "id": "default_address",
+        "info": "Adresse utilisée pour calculer la distance dans le cas où aucune adresse n'existe pour le fournisseur",
+        "default": "rue Richer, 75009 Paris, France"
+      },
+      {
+      "type": "paragraph",
+      "content": "Ajoutez ci-dessous tous les fournisseurs avec leur adresse d'expédition de commande associée"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "vendor",
+        "name": "Adresse de fournisseur",
+        "settings": [
+          {
+             "type": "text",
+             "id": "vendor",
+             "label": "Nom du fournisseur",
+             "info": "Celui-ci doit être exactement le même que celui indiqué dans le champ Vendor des fiches produits. Ex : Chef Pierre Siewe"
+          },
+          {
+             "type": "text",
+             "id": "address",
+             "label": "Adresse du fournisseur",
+             "info": "Entrez l'adresse du fournisseur. Par exemple, 15, rue de Rivoli, 75001 Paris, France"
+          },
+          {
+             "type": "text",
+             "id": "ferm-hebd",
+             "label": "Fermetures (ex: dimanche,lundi)",
+             "info": "Entrez les jours de fermetures, séparés par des virgules"
+          },
+          {
+             "type": "text",
+             "id": "ferm-exc",
+             "label": "Fermetures exceptionnelles",
+             "info": "Entrez les jours de fermetures, séparés par des poins-virgules. Vous devez mettre des plages de date en séparant la date de début et de fin par une virgule. (ex: 10-05-2019,15-05-2019; 04-06-2019,04-06-19)"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

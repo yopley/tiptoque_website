@@ -1,0 +1,319 @@
+<footer id="footer">
+  <div class="container-fluid footer-container">
+	<div class="container">
+        <div class="flex-container" id="footer_menu">
+          {% for i in (1..3) %}
+          <div class="flex-item">            
+            {% for block in section.blocks %}
+            	{% capture col %}{{ i }}{% endcapture %}
+            	{% if block.settings.col == col %}
+            		{% if block.type == 'title' %}
+            			<h4 class="text-uppercase bolded">{{ block.settings.title }}</h4>
+            		{% endif %}
+            		{% if block.type == 'menu' %}
+                    <h4 class="text-uppercase bolded">{{ linklists[block.settings.menu].title }}</h4>
+                    <div class="menu-container">   
+                      <ul class="list-unstyled menu-container">
+                        {% for link in linklists[block.settings.menu].links %}
+                        <li>
+                          <a href="{{ link.url }}">{{ link.title }}</a>
+                        </li>
+                        {% endfor %}
+                      </ul>            
+                    </div>            			                            
+            		{% endif %}
+            		{% if block.type == 'social' %}
+                    <div class="menu-container">   
+                      <ul class="list-inline social-container">
+                        {% for i in (1..4) %}
+                        {% capture img %}social_image{{ i }}{% endcapture %}
+                        {% capture link %}social_link{{ i }}{% endcapture %}
+                          {% unless block.settings[img] == blank or block.settings[link] == blank %}
+                            <li>
+                              <a href="{{ block.settings[link] }}" target="_blank"><img src="{{ block.settings[img] | img_url:'32x32' }}" class="img-responsive" alt="{{ block.settings[img].alt }}"></a>
+                            </li>
+                          {% endunless %}
+                        {% endfor %}
+                      </ul>            
+                    </div>            			                            
+            		{% endif %}        
+            		{% if block.type == 'image' %}
+            		<div class="menu-container custom-image">
+                      {% unless block.settings.image_link == blank %}
+                      <a href="{{ block.settings.image_link }}">
+                      {% endunless %}
+                        {% if block.settings.image.width <= block.settings.image.height %}
+                        <img src="{{ block.settings.image | img_url: '60x' }}" alt="{{ block.settings.image.alt }}" class="img-responsive">
+                        {% else %}
+                        <img src="{{ block.settings.image | img_url: 'x35' }}" alt="{{ block.settings.image.alt }}" class="img-responsive">
+                        {% endif %}
+                      {% unless block.settings.image_link == blank %}
+                      </a>
+                      {% endunless %}                        
+                    </div>
+            		{% endif %}
+            		{% if block.type == 'text' %}
+            		<div class="menu-container">
+                      {% unless block.settings.content == blank %}
+                        <div class="rte">
+                          {{ block.settings.content }}
+                        </div>
+                      {% endunless %}                        
+                    </div>
+            		{% endif %}            
+            	{% endif %}
+            {% endfor %}
+          </div>
+          {% endfor %}
+        </div>
+    </div>
+  </div>
+</footer>
+
+
+<style>
+  
+  /* Réglages du fond */
+  {% unless section.settings.background_img == blank %}
+  .footer-container {
+      position: relative;
+      overflow: hidden;
+  }
+  
+  .footer-container:before {
+      content: ' ';
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    opacity: {{ section.settings.opacity | divided_by:100.0 }};
+      background-image: url('{{ section.settings.background_img | img_url:'1920x', format:'pjpg' }}');
+      background-repeat: no-repeat;
+      background-position: center;
+      -ms-background-size: cover;
+      -o-background-size: cover;
+      -moz-background-size: cover;
+      -webkit-background-size: cover;
+      background-size: cover;
+  }  
+  {% endunless %}
+  {% unless section.settings.bg_color == blank %}
+  #footer {background-color:{{ section.settings.bg_color }};}
+  {% endunless %}
+  
+  /* Réglages de couleur */
+  {% if section.settings.color == '#FFFFFF' %}
+  footer .footer-container {color:{{ section.settings.color }};}
+  footer .footer-container h4 {color:{{ section.settings.color }};}
+  footer .footer-container a {color:{{ section.settings.color }};}
+  {% endif %}
+</style>
+
+
+{% schema %}
+  {
+    "name": "Footer",
+    "max_blocks": 6,
+    "settings": [
+          {
+          "type": "header",
+          "content": "Réglages généraux"
+          },
+          {
+          "type": "image_picker",
+          "id": "background_img",
+          "label": "Image de fond",
+          "info": "Facultatif. Largeur de 2000px."
+          },
+          {
+             "type": "select",
+             "id": "color",
+             "options": [
+                { "value": "#000000", "label": "Typo Noire"},
+                { "value": "#FFFFFF", "label": "Typo Blanche"}
+             ],
+             "label": "Couleur de la typographie",
+             "default":"#000000"
+          },
+          {
+              "type":   "range",
+              "id":     "opacity",
+              "min":       0,
+              "max":       100,
+              "step":      10,
+              "unit":      "%",
+              "label":     "Opacité de l'image",
+              "default":   0
+          },
+          {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Aplat de couleur en fond"
+          }
+
+    ],
+    "blocks": [
+      {
+        "type": "menu",
+        "name": "Menu de Navigation",
+        "settings": [
+          {
+             "type": "select",
+             "id": "col",
+             "options": [
+                { "value": "1", "label": "Colonne 1"},
+                { "value": "2", "label": "Colonne 2"},
+                { "value": "3", "label": "Colonne 3" }
+             ],
+             "label": "Colonne d'affichage",
+             "info": "Choisissez la colonne du footer dans lequel afficher ce bloc"
+          },
+          {
+            "type": "link_list",
+            "id": "menu",
+            "label": "Menu à afficher",
+            "info": "Le titre sera le nom que vous avez attribué à votre menu de navigation"
+          }
+        ]
+      },
+      {
+        "type": "social",
+        "name": "Réseaux Sociaux",
+        "settings": [
+          {
+             "type": "select",
+             "id": "col",
+             "options": [
+                { "value": "1", "label": "Colonne 1"},
+                { "value": "2", "label": "Colonne 2"},
+                { "value": "3", "label": "Colonne 3" }
+             ],
+             "label": "Colonne d'affichage",
+             "info": "Choisissez la colonne du footer dans lequel afficher ce bloc"
+          },
+          {
+             "type": "image_picker",
+             "id": "social_image1",
+             "label": "Icône 1"
+          },
+          {
+            "type": "url",
+            "id": "social_link1",
+            "label": "Lien 1 vers votre profil"
+          },
+          {
+             "type": "image_picker",
+             "id": "social_image2",
+             "label": "Icône 2"
+          },
+          {
+            "type": "url",
+            "id": "social_link2",
+            "label": "Lien 2 vers votre profil"
+          },
+          {
+             "type": "image_picker",
+             "id": "social_image3",
+             "label": "Icône 3"
+          },
+          {
+            "type": "url",
+            "id": "social_link3",
+            "label": "Lien 3vers votre profil"
+          },
+          {
+             "type": "image_picker",
+             "id": "social_image4",
+             "label": "Icône 4"
+          },
+          {
+            "type": "url",
+            "id": "social_link4",
+            "label": "Lien 4 vers votre profil"
+          }
+        ]
+      },
+      {
+        "type": "title",
+        "name": "Titrage",
+        "settings": [
+          {
+             "type": "select",
+             "id": "col",
+             "options": [
+                { "value": "1", "label": "Colonne 1"},
+                { "value": "2", "label": "Colonne 2"},
+                { "value": "3", "label": "Colonne 3" }
+             ],
+             "label": "Colonne d'affichage",
+             "info": "Choisissez la colonne du footer dans lequel afficher ce bloc"
+          },
+          {
+             "type": "text",
+             "id": "title",
+             "label": "Bloc Titre"
+          }
+        ]
+      },
+      {
+        "type": "image",
+        "name": "Image",
+        "settings": [
+          {
+             "type": "select",
+             "id": "col",
+             "options": [
+                { "value": "1", "label": "Colonne 1"},
+                { "value": "2", "label": "Colonne 2"},
+                { "value": "3", "label": "Colonne 3" }
+             ],
+             "label": "Colonne d'affichage",
+             "info": "Choisissez la colonne du footer dans lequel afficher ce bloc"
+          },
+          {
+             "type": "image_picker",
+             "id": "image",
+             "label": "Image"
+          },
+          {
+            "type": "url",
+            "id": "image_link",
+            "label": "Lien de l'image",
+            "info": "Lien vers lequel faire pointer l'image (facultatif)"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "name": "Texte",
+        "settings": [
+          {
+             "type": "select",
+             "id": "col",
+             "options": [
+                { "value": "1", "label": "Colonne 1"},
+                { "value": "2", "label": "Colonne 2"},
+                { "value": "3", "label": "Colonne 3" }
+             ],
+             "label": "Colonne d'affichage",
+             "info": "Choisissez la colonne du footer dans lequel afficher ce bloc"
+          },
+          {
+             "type": "richtext",
+             "id": "content",
+             "label": "Contenu"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

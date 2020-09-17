@@ -1,0 +1,37 @@
+<div class="mobile-toggle-button-container text-center" id="mobileMenuToggleTrigger">
+  {% unless section.settings.image == blank %}
+    <img src="{{ section.settings.image | img_url: '160x160' }}" class="img-responsive center-block main-icon">
+  {% endunless %}
+  {% unless section.settings.text == blank %}
+    <div class="cta-text">{{ section.settings.text }}</div>
+  {% endunless %}
+    <div class="icon-container"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></div>
+</div>
+
+{% schema %}
+  {
+    "name": "Bouton Menu Mobile",
+    "settings": [
+      {
+        "type": "text",
+        "id": "text",
+        "label": "Texte du bouton",
+        "info": "Attention à garder un texte court pour un affichage correct sur tous les supports",
+        "default": "Me faire livrer"
+      },
+      {
+        "type":"image_picker",
+        "id": "image",
+        "label": "Icône du bouton",
+        "info": "Format optimal, carré, 160px par 160px"
+      }
+
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

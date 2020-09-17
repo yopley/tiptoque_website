@@ -1,0 +1,60 @@
+<div id="delivery_rates">
+{% assign delivery_default = all_products[section.settings.default_rate] %}
+<div class="default" data-vendor="{{ shop.name }}" data-id="{{ delivery_default.first_available_variant.id }}" data-product="{{ delivery_default.title }}"></div>
+{% for block in section.blocks %}
+{% assign delivery_product = all_products[block.settings.product] %}
+<div class="delivery_product" data-type="{{ block.settings.type }}">
+  {% for variant in delivery_product.variants %}
+  {% assign variant_distance = variant.option1 | split:'-' %}
+  {% assign variant_quantity = variant.option2 | split:'-' %}
+  <div class="delivery_variant" data-id="{{ variant.id }}" 
+       data-distance="{{ variant.option1 }}" data-distance-min="{{ variant_distance | first }}" data-distance-max="{{ variant_distance | last }}"
+       data-quantity="{{ variant.option2 }}" data-quantity-min="{{ variant_quantity | first }}" data-quantity-max="{{ variant_quantity | last }}"></div>
+  {% endfor %}
+</div>
+{% endfor %}
+</div>
+
+{% schema %}
+  {
+    "name": "Tarifs de Livraison",
+    "max_blocks": 20,
+    "settings": [
+      {
+        "type": "product",
+        "label": "Tarif de livraison par défaut",
+        "id": "default_rate",
+        "info": "Produit de livraison à utiliser par défaut si le type de prestation ne dispose d'aucun produit de livraison dédiée, la variante par défaut sera appliquée sans aucune considération de type quantité, type ou distance."
+      },
+      {
+      "type": "paragraph",
+      "content": "Ajoutez ci-dessous tous les produits de livraison liés à un type de prestation"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "product",
+        "name": "Produit de Livraison",
+        "settings": [
+          {
+              "type":      "product",
+              "id":        "product",
+              "label":     "Produit de livraison"
+          },
+          {
+             "type": "text",
+             "id": "type",
+             "label": "Type de produit associé à ce produit de livraison",
+             "info": "Entrez ici le type de produit concerné par le produit de livraison. Ex : Plateau Repas"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

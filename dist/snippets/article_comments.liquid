@@ -1,0 +1,43 @@
+{% assign number_of_comments = article.comments_count %}
+
+{% if comment and comment.created_at %}
+  {% assign number_of_comments = article.comments_count | plus: 1 %}
+{% endif %}
+
+{% paginate article.comments by 50 %}
+
+{% unless number_of_comments == 0 %}
+<div class="row">
+	<div class="col-xs-12 citem">
+		<div class="ccontent text-left">
+          {% include 'article_comments_form' %}
+        </div>
+      </div>
+{% if number_of_comments > 0 %}
+
+
+{% for comment in article.comments %}
+  <div class="col-xs-12 citem">
+	<div class="ccontent text-left">
+      <div class="p15 border-grey">
+      <div id="{{ comment.id }}" class="comment{% unless number_of_comments > article.comments_count %}{% if forloop.first %} first{% endif %}{% endunless %}{% if forloop.last %} last {% endif %}">
+        {% include 'article_comments_comment' %}
+      </div>
+      </div>
+    </div>
+  </div>
+  {% unless forloop.last %}
+  <hr/>
+  {% endunless %}
+{% endfor %}
+{% endif %}
+</div>
+{% else %}
+<div class="row">
+  <div class="col-md-12 text-left">
+    {% include 'article_comments_form' %}
+  </div>
+</div>
+{% endunless %}
+
+{% endpaginate %}

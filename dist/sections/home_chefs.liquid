@@ -1,0 +1,141 @@
+<div data-section-id="{{ section.id }}" data-section-type="products" id="zone">
+  {% if section.blocks.size > 0 %}
+
+    {% for block in section.blocks %} 
+  
+      {% if block.type == 'collection' and block.settings.collection_default %}
+      {% assign collection = collections[block.settings.collection] %}  
+      <div class="container-collection visible" id="chefList-{{ block.settings.collection }}" data-zoning="{{ section.settings.zoning_mode }}" data-zone="{{ block.settings.zone }}" data-handle="{{ block.settings.collection }}" data-default="visible">
+        <div class="container">
+          <section id="visibleProductList{{ collection.handle }}">
+            <div class="row">
+                <div class="col-sm-3">
+                <div class="img-container">
+                  {% unless block.settings.illustration == blank %}
+                  <img src="{{ block.settings.illustration | img_url: '150x150', format:'pjpg', crop:'center' }}" alt="{{ block.settings.illustration.alt }}" class="img-responsive img-circle bordered center-block">
+                  {% else %}
+                   {% unless collection.image == blank %}
+                   <img src="{{ collection.image | img_url: '150x150', format:'pjpg', crop:'center' }}" alt="{{ collection.image.alt }}" class="img-responsive img-circle bordered center-block">
+                   {% else %}
+                   <img src="{{ 'icon-toque.png' | asset_img_url: '150x150', crop:'center' }}" alt="{{ collection.title | escape }}" class="img-responsive img-circle bordered center-block">
+                   {% endunless %}
+                  {% endunless %}
+                </div>
+                {% assign collection_title = collection.title | split: '|' %}
+                <h3 class="text-center upgraded">{{ collection_title | first }}</h3>                   
+                </div>              
+                {% assign i = 0 %}
+                {% for product in collection.products %}
+                {% assign tag_list = product.tags | join: ' ' %}
+                {% unless tag_list contains 'hidden' %}
+                <div class="col-sm-3">
+                  {% include 'global_product_block' with 'visible' %}
+                </div>
+                {% endunless %}
+                {% assign i = 0 | plus:1 %}
+                {% if i > 2 %}
+                {% break %}
+                {% endif %}
+                {% endfor %}    
+            </div>
+          </section>
+        </div>
+      </div>
+  	  {% elsif block.type == 'collection' and block.settings.collection_default == false %}
+  	  <div class="container container-collection" id="chefList{{ block.settings.collection }}" data-zoning="{{ section.settings.zoning_mode }}" data-zone="{{ block.settings.zone }}" data-handle="{{ block.settings.collection }}" data-default="hidden">        
+      </div>
+      {% else %}
+      {% continue %}
+      {% endif %} 
+  
+    {% endfor %}    
+  
+  {% else %}
+  <div class="container">
+  	<div class="row">
+      <div class="col-xs-12">
+        <h2 class="text-center neutral downcase basic">{{ 'collection.no_chef' | t }}</h2>
+      </div>
+    </div>
+  </div>
+  {% endif %}  
+</div>
+
+{% comment %}Storing hidden templating info to clone into located results{% endcomment %}
+<section class="summary-template hide-content">
+      <div class="col-sm-3">
+      <div class="img-container">
+        <img src="{{ 'icon-toque.png' | asset_img_url: '150x150', crop:'center' }}" alt="{{ collection.title | escape }}" class="img-responsive center-block img-circle bordered">
+      </div>
+      <h3 class="text-center upgraded">{{ collection_title | first }}</h3> 
+      </div> 
+</section>
+
+{% schema %}
+  {
+    "name": "Chefs à la une",
+    "max_blocks": 50,
+    "settings": [
+      {
+         "type": "select",
+         "id": "zoning_mode",
+         "options": [
+            { "value": "2", "label": "Par département"},
+            { "value": "5", "label": "Par code postal"}
+         ],
+         "label": "Méthode de localisation",
+         "default": "5"
+      },
+      {
+      "type": "paragraph",
+      "content": "Ajoutez ci-dessous les collections de plateaux/chefs disponibles sur la homepage"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "collection",
+        "name": "Collection de produits",
+        "settings": [
+          {
+          "type": "header",
+          "content": "Illustration"
+          },
+          {
+            "type": "image_picker",
+            "id": "illustration",
+            "label": "Image d'illustration personnalisée",
+            "info": "S'affichera à côté du nom de la collection, par défaut, l'image de la collection s'affichera"
+          },
+          {
+          "type": "header",
+          "content": "Collection de produits"
+          },
+          {
+            "type": "checkbox",
+            "id": "collection_default",
+            "label": "Activer l'affichage à la une",
+            "info": "Si activée, cette collection s'affichera aux visiteurs n'ayant pas renseigné de code postal"
+          },
+          {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection présentée"
+          },
+          {
+            "type": "text",
+            "id": "zone",
+            "label": "Zones Livrées",
+            "placeholder": "75001,75002,75019...",
+            "info": "Entrez la liste des codes postaux disponibles à la livraison en les séparant par des virgules et sans espace"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

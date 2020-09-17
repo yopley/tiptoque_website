@@ -1,0 +1,179 @@
+{% assign global_content = false %}
+{% unless section.settings.allergens_description == blank %}
+{% assign global_content = true %}
+  {% capture template_global_content %}
+    <div class="rte">{{ section.settings.allergens_description }}</div>
+  {% endcapture %}
+{% endunless %}
+
+{% if section.blocks.size > 0 %}
+<script>
+  // Creating object to store limitation info for each type of product in the loop
+  var allergens = [];
+  // Store global information
+  {% for block in section.blocks %}
+
+	{% comment %}For each allergen created, push to object to store information{% endcomment %}
+
+    {% capture template_list_elem %}
+        {%- unless block.settings.icon == blank -%}
+        <img src="{{ block.settings.icon | img_url: '18x18', crop:'center' }}" alt="{{ block.settings.name}}">
+        {%- endunless -%}
+        {%- unless block.settings.name == blank -%}
+        <span class="allergen-name">{{ block.settings.name }}</span>
+        {%- endunless -%}
+    {% endcapture %}
+
+    {% assign template_content_elem  = '' %}
+    {% unless block.settings.content == blank %}
+        {% capture template_content_elem %}
+        <div class="rte {{ block.settings.code | handleize }}">{{ block.settings.content }}</div>
+        {% endcapture %}
+    {% endunless %}
+
+    var allergID = {{ block.settings.code | handleize | json }},
+        allergElems = {{ template_list_elem | json }},
+        allergContent = {{ template_content_elem | json }};
+         allergens.push({
+           ID: allergID,
+           elems: allergElems,
+           content: allergContent
+         });
+  {% endfor %}
+</script>
+{% endif %}
+
+<script>
+  //console.log(allergens);
+
+  // Retrieving allergens info and displaying if needed
+  function displayAllergens () {
+
+    /* Icons */
+    $('.allergen-elem').each (function() {
+      var currAllergID = $(this).attr('data-allergen'),
+          currElem = $(this);
+      // Map allergens object to compare to current
+      jQuery.map(allergens, function(allergen) {
+        var allergen;
+        if(allergen.ID === currAllergID) {
+ 			var allergTemplate = allergen.elems;
+          	currElem.html(allergTemplate);
+        }
+      });
+    });
+
+      /* Toggle Content */
+    $('.detailed-allergens-container').each (function() {
+      var currAllergList = $(this).attr('data-allergenlist'),
+          currElem = $(this);
+      // Map allergens object to compare to current
+      jQuery.map(allergens, function(allergen) {
+        var allergen;
+        if (currAllergList.indexOf(allergen.ID) !== -1) {
+            var allergContent = allergen.content,
+                check = currElem.html().indexOf(allergContent);
+          //console.log(check);
+            if (check === -1) {
+              if (!$(currElem).hasClass(allergen.ID)) {
+                currElem.addClass(allergen.ID).append(allergContent);
+              }
+            }
+        }
+      });
+    });
+
+    /* Display global content on each product */
+    $('.global-allergens-container').each(function(){
+        $(this).html({{ template_global_content | json }});
+    });
+
+    /* Check if toggle needed */
+    var globalContent = {{ global_content | json }};
+    $('.bundle-allergens-container .collapse').each (function() {
+      var currentId = $(this).attr('id'),
+          parentCollapse = '[data-target="#' + currentId + '"]';
+      if ($(this).find('.detailed-allergens-container').is(':empty') && globalContent === false) {
+        // console.log('nothing left bye');
+        $(parentCollapse).attr('data-toggle', '').css('cursor', 'auto').find('.glyphicon').hide();
+      }
+    });
+
+    //console.log('allergens executed');
+
+  };
+
+  // Executions
+
+  //Ready doc
+  $(document).ready(function() {
+      displayAllergens();
+
+  });
+
+  // Ajax queries performed
+  $(document).ajaxComplete(function(event, xhr, settings) {
+    if (settings.url.indexOf('/cart') >= 0) {
+    } else {
+      displayAllergens();
+    }
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Allergènes",
+    "max_blocks": 25,
+    "settings": [
+      {
+      "type": "richtext",
+      "id": "allergens_description",
+      "label": "Contenu explicatif global",
+      "info": "Si rempli, ce contenu s'affichera sur tous les produits disposant de spécifications à propos des allergènes. Laisser vide pour ne pas afficher."
+      },
+      {
+      "type": "paragraph",
+      "content": "Personnalisez ci-dessous les différents paramètres d'affichage des allergènes en fonction des product tags"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "product_info",
+        "name": "Allergène",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "icon",
+            "label": "Icône de l'allergène",
+            "info": "Icône à afficher pour l'allergène"
+          },
+          {
+            "type": "text",
+            "id": "name",
+            "label": "Nom de l'allergène",
+            "info": "Nom à afficher, par exemple Lactose"
+          },
+          {
+             "type": "text",
+             "id": "code",
+             "label": "Identifiant de l'allergène",
+             "info": "Entrez ici la partie du tag produit de référence pour lequel déclencher l'affichage de l'allergène. Par exemple, si votre tag est ALLERGEN|lactose|gluten, et que vous souhaitez définir les paramètres d'affichage pour le lactose, entrez lactose ici. Les accents et les majuscules n'ont pas d'importance."
+          },
+          {
+          "type": "richtext",
+          "id": "content",
+          "label": "Texte explicatif complémentaire",
+          "info": "Ne pas remplir pour ne pas afficher"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

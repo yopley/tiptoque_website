@@ -1,0 +1,114 @@
+<div data-section-id="{{ section.id }}" data-section-type="main-navigation">
+  <header id="menuEdito">
+    <nav class="navbar">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3">            
+              <ul class="nav navbar-nav navbar-left">
+                {% if settings.site_logo %}
+                <li><a href="{{ shop.url }}">
+                  <div class="logo-container">
+                  <img src="{{ settings.site_logo | img_url:'x50', scale:x2 }}" class="img-responsive">
+                  </div>
+                  </a></li>                
+                {% else %}
+                <li><a href="{{ shop.url }}">{{ shop.name }}</a></li>   
+                {% endif %}
+              </ul>
+          </div>
+          <div class="col-md-9 right-menu">
+            <ul class="nav navbar-nav navbar-right">
+                {% if section.settings.main_menu %}
+                  {% for link in linklists[section.settings.main_menu].links %}
+                    {% if link.links != blank %}
+                    <li class="dropdown">
+                        <a href="{{ link.url }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ link.title }} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                          {% for sub_link in link.links %}
+                          {% if sub_link.type == 'collection_link' %}
+                          <li>
+                            <a href="{{ sub_link.url }}">
+                              <div class="sublink-image-container">
+                              <img src="{{ sub_link.object.image | img_url: '50x50', crop: 'center' }}" class="img-circle img-responsive">
+                              </div>{{ sub_link.title }}
+                            </a>
+                          </li>
+                          {% else %}
+                          <li class="no-image"><a href="{{ sub_link.url }}">{{ sub_link.title }}</a></li>
+                          {% endif %}
+                          {% endfor %}
+                        </ul>
+                     </li>    
+                    {% else %}
+                    <li>
+                       <a href="{{ link.url }}"{% if link.active %} class="active"{% endif %}>{{ link.title }}</a>
+                    </li>              
+              		 {% endif %}
+                  {% endfor %}    
+                {% else %}
+                <li><a>Please select a menu in your theme settings</a></li>
+                {% endif %}
+                {% if section.settings.account %}
+              	{% unless customer %}
+                    <li>
+                       <a href="/account"{% if template contains 'customer' %} class="active"{% endif %}>{{ 'layout.header.account' | t }}</a>
+                    </li>
+              	{% else %}                
+                    <li class="dropdown">
+                        <a href="/account" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ 'layout.header.account' | t }} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="/account">{{ 'layout.header.info' | t }}</a></li>
+                          <li><a href="/account/addresses">{{ 'layout.header.addresses' | t }}</a></li>
+                          <li><a href="/account#orders_tab">{{ 'layout.header.orders' | t }}</a></li>
+                          <li><a href="/account/logout">{{ 'layout.header.logout' | t }}</a></li>
+                        </ul>
+                     </li>
+                {% endunless %}
+                {% endif %}
+            </ul>
+          </div>
+        </div><!-- / .row -->        
+      </div><!-- /.container-fluid -->
+      <div class="mobile-tool-container visible-xs-block" id="toggleMenu">
+          <div class="border-menu" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+          </div>       
+      </div>
+    </nav>
+  </header>
+    
+</div>
+
+
+
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [
+      {
+      "type": "header",
+      "content": "Navigation"
+      },
+
+      {
+            "type":      "link_list",
+            "id":        "main_menu",
+            "label":     "Menu Editorial",
+            "info":      "Menu en haut à droite"
+      },
+      {
+      "type": "checkbox",
+      "id": "account",
+      "label": "Activer l'affichage d'un lien Mon Compte",
+      "default": true
+      }
+    ]
+  }
+
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

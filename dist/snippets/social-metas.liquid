@@ -1,0 +1,120 @@
+{% comment %}
+  Open graph tags
+{% endcomment %}
+<!-- Retrieving social logo settings variable -->
+  {% if settings.site_logo %}
+  {% capture social_logo_src %}{{ settings.site_logo | img_url:'400x400', crop:'center', scale: '2' }}{% endcapture %}
+  {% else %}
+    {% capture social_logo_src %}{{ 'logo-social.jpg' | asset_url }}{% endcapture %}
+  {% endif %}
+
+
+{% if template contains 'index' %}
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ shop.name }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+    <meta property="og:description" content="{{ page_description }}">
+{% for product in collections['all'].products limit:3 %}
+  {% for image in product.images limit:3 %}
+  <meta property="og:image" content="http:{{ image.src | img_url: '1200x628', crop: 'top' }}">
+  <meta property="og:image:secure_url" content="https:{{ image.src | img_url: '1200x628', crop: 'top' }}">
+  {% endfor %}
+{% endfor %}
+{% elsif template contains 'collection' %}
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+    <meta property="og:description" content="{{ page_title }} {{ page_description }}">
+{% for product in collection.products limit:3 %}
+  {% for image in product.images limit:3 %}
+  <meta property="og:image" content="http:{{ image.src | img_url: '1200x628', crop: 'center' }}">
+  <meta property="og:image:secure_url" content="https:{{ image.src | img_url: '1200x628', crop: 'center' }}">
+  {% endfor %}
+{% endfor %}
+{% elsif template contains 'product' %}
+  <meta property="og:type" content="product">
+  <meta property="og:title" content="{{ product.title }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  {% for image in product.images limit:3 %}
+  <meta property="og:image" content="http:{{ image.src | img_url: '1200x628', crop: 'center' }}">
+  <meta property="og:image:secure_url" content="https:{{ image.src | img_url: '1200x628', crop: 'center' }}">
+  {% endfor %}
+  <meta property="og:price:amount" content="{{ product.price | money_without_currency | strip_html | escape }}">
+  <meta property="og:price:currency" content="{{ shop.currency }}">
+{% elsif template contains 'article' %}
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{{ article.title }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  {% if article.image %}
+  <meta property="og:image" content="http:{{ article | img_url: '1200x628', crop: 'center' }}">
+  <meta property="og:image:secure_url" content="https:{{ article | img_url: '1200x628', crop: 'center' }}">
+  {% endif %}
+{% elsif template == 'password' %}
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ shop.name }}">
+  <meta property="og:url" content="{{ shop.url }}">
+  <meta property="og:image" content="http:{{ social_logo_src }}">
+  <meta property="og:image:secure_url" content="https:{{ social_logo_src }}">
+{% else %}
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:image" content="http:{{ social_logo_src }}">
+  <meta property="og:image:secure_url" content="https:{{ social_logo_src }}">
+{% endif %}
+{% unless template contains 'index' %}
+{% if page_description %}
+  <meta property="og:description" content="{{ page_description }}">
+{% endif %}
+{% endunless %}
+<meta property="og:site_name" content="{{ shop.name }}">
+
+
+{% comment %}
+  This snippet renders meta data needed to create a Twitter card.
+{% endcomment %}
+{% if template contains 'article' and article.image %}
+  <meta name="twitter:card" content="summary_large_image">
+{% elsif template == 'index' %}
+  <meta name="twitter:card" content="summary_large_image">
+{% else %}
+  <meta name="twitter:card" content="summary">
+{% endif %}
+  <meta name="twitter:site" content="@radshop">
+{% if template == 'index' %}
+  <meta name="twitter:title" content="{{ page_title }}">
+  <meta name="twitter:description" content="{{ page_description | escape }}">
+  {% for product in collections['all'].products limit:3 %}
+  {% for image in product.images limit:3 %}
+  <meta name="twitter:image" content="https:{{ image.src | img_url: '1024x512', crop: 'top' }}">
+  {% endfor %}
+{% endfor %}
+{% elsif template contains 'collection' %}
+  <meta name="twitter:title" content="{{ collection.title | strip_html | escape }}">
+  <meta name="twitter:description" content="{{ collection.description | strip_html | truncate: 200, '' | escape }} | {% if current_tags %}{{ current_tags | join: ' - ' }}{% endif %}">
+  {% for product in collection.products limit:3 %}
+  {% for image in product.images limit:3 %}
+  <meta name="twitter:image" content="https:{{ image.src | img_url: '1024x512', crop: 'top' }}">
+  {% endfor %}
+  {% endfor %}
+  <meta name="twitter:image:width" content="1024">
+  <meta name="twitter:image:height" content="512">
+{% elsif template contains 'product' %}
+  <meta name="twitter:title" content="{{ product.title | strip_html | escape }}">
+  <meta name="twitter:description" content="{{ product.description | strip_html | truncate: 200, '' | escape }}">
+  <meta name="twitter:image" content="https:{{ product | img_url: '1024x512', crop: 'top' }}">
+  <meta name="twitter:image:width" content="1024">
+  <meta name="twitter:image:height" content="512">
+{% elsif template contains 'article' %}
+  <meta name="twitter:title" content="{{ article.title | strip_html | escape }}">
+  <meta name="twitter:description" content="{{ article.excerpt_or_content | strip_html | truncate: 200, '' | escape }}">
+  {% if article.image %}
+  <meta property="twitter:image" content="https:{{ article | img_url: '1024x512', crop: 'top' }}">
+  {% endif %}
+{% else %}
+  <meta name="twitter:title" content="{{ shop.name }} - {{ page_title }}">
+  <meta name="twitter:description" content="{{ page_description }} | {% if current_tags %}{{ current_tags | join: ' - ' }}{% endif %}">
+  <meta name="twitter:image" content="https:{{ social_logo_src }}">
+  <meta name="twitter:image:width" content="400">
+  <meta name="twitter:image:height" content="400">
+{% endif %}

@@ -1,0 +1,35 @@
+<section id="banner">
+  {% section 'account_banner' %}
+</section>
+
+<nav id="stickyMenu">
+<section id="collections_nav">
+  {% section 'menu_collections' %}
+</section>
+
+<section id="delivery_nav">
+  {% section 'menu_livraison' %}
+</section>
+  
+<div id="mobileMenuToggle" class="hidden-md hidden-lg">
+	{% section 'menu_livraison_mobile_button' %}
+</div>  
+</nav>
+
+
+<section id="register">
+  <div class="container page-container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+		{% include 'account_register_form' %}              
+      </div>
+    </div>
+    <br/>
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2 text-center">
+        <div class="bolded create-account-cta">{{ 'account.register.already_have_an_account' | t }}</div>
+        <a href="/account/login">{{ 'account.login.title' | t }}</a>
+      </div>
+    </div>    
+  </div>
+</section>

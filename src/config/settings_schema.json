@@ -1,0 +1,148 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Tipt Toque B2B Theme",
+    "theme_author": "Bows",
+    "theme_version": "1.0.0",
+    "theme_documentation_url": "https://www.bows.fr/tiptoque",
+    "theme_support_url": "https://www.bows.fr/tiptoque"
+  },
+  {
+    "name": "General",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Icône et logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "site_icon",
+        "label": "Icône"
+      },
+      {
+        "type": "image_picker",
+        "id": "site_logo",
+        "label": "Logo par défaut",
+        "info": "Le logo sera utilisé pour les partages de contenus sur les réseaux sociaux ne contenant pas d'images disponibles.Dimensions minimales 400x400px"
+      }
+    ]
+  },
+  {
+    "name": "Messages d'erreurs",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Message d'erreurs personnalisés pour l'ajout au panier"
+      },
+      {
+        "type": "textarea",
+        "id": "error_delivery_uncomplete",
+        "label": "Informations de livraison incomplètes",
+        "info": "Message à afficher au survol du formulaire d'ajout dans le cas où les informations de livraison n'ont pas été indiquées",
+        "default": "Afin de pouvoir commander ce plat, veuillez renseigner la date, l'heure et l'adresse de livraison souhaités."
+      },
+      {
+        "type": "textarea",
+        "id": "error_delay_delayed",
+        "label": "Commande trop tardive",
+        "info": "Message à afficher au survol du formulaire d'ajout dans le cas où les délais de livraison demandés sont trop courts",
+        "default": "Nous sommes désolés mais nous ne pouvons vous livrer ce produit dans les délais demandés. Veuillez sélectionner une autre date de livraison."
+      },
+      {
+        "type": "textarea",
+        "id": "error_chef_deactivated",
+        "label": "Chef indisponible",
+        "info": "Message à afficher au survol du formulaire d'ajout dans le cas où le client souhaite commander une prestation équivalente chez deux prestataires différents",
+        "default": "Nous sommes désolés mais vous avez déjà une commande en cours sur ce type de prestation avec un autre chef."
+      }
+    ]
+  },
+  {
+    "name": "Produit",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Product"
+      },
+      {
+        "type": "text",
+        "id": "product_cta_text",
+        "label": "Intitulé du bouton d'appel à l'action"
+      },
+      {
+        "type": "paragraph",
+        "content": "Dans le cas où le produit n'appartiendrait à aucune collection de type plateau repas ou prestation, indiquez ci-dessous le lien par défaut vers lequel faire pointer le bouton d'appel à l'action de commande"
+      },
+      {
+        "type": "url",
+        "id": "product_cta_link",
+        "label": "Lien du bouton d'appel à l'action par défaut"
+      }
+    ]
+  },
+  {
+    "name": "Google Maps Services",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Google Maps Services"
+      },
+      {
+        "type": "paragraph",
+        "content": "Afin de pouvoir récupérer les adresses depuis Google Maps et calculer les distances, vous avez besoin de fournir une clé API pouvant accéder à l'API Google Maps JavaScript. Créez un projet gratuitement sur [Google's API Manager](https://console.developers.google.com/apis/)."
+      },
+      {
+        "type": "text",
+        "id": "gp_add_merchant_api_key",
+        "label": "Indiquez votre clé API",
+        "default": "AIzaSyCIzTjet8ryRe9x1M6yFvBZT-qBtpQJsaQ",
+        "info": "La clé API est obligatoire pour permettre de communiquer avec l'API Google Maps. En conservant la clé par défaut vous courez le risque de voir le service s'interrompe dans la cas où le quota gratuit quotidien serait atteint."
+      }
+    ]
+  },
+  {
+    "name": "Panier",
+    "settings": [
+      {
+        "type": "text",
+        "id": "excluded_types",
+        "label": "Entrez ici les types de produits non concernés par la tarification de livraison",
+        "info": "Chaque type doit être séparé par une virgule",
+        "placeholder": "Eau, Jus"
+      },
+      {
+        "type": "text",
+        "id": "vat_rate",
+        "label": "Taux de TVA applicable",
+        "info": "Entrez en chiffres le taux de TVA standard à appliquer, hors exceptions. Exemple : 10.",
+        "placeholder": "10",
+        "default": "10"
+      },
+      {
+        "type": "collection",
+        "id": "vat_collection",
+        "label": "Collection de produits avec exception TVA",
+        "info": "Choisissez la collection contenant les produits concernés par un taux de TVA exceptionnel"
+      },
+      {
+        "type": "text",
+        "id": "vat_special_rate",
+        "label": "Taux de TVA des produits avec exception TVA",
+        "info": "Entrez en chiffres le taux de TVA à appliquer aux produits appartenant à la collection ci-dessus. Exemple : 20.",
+        "placeholder": "20",
+        "default": "20"
+      }
+    ]
+  },
+  {
+    "name": "Blog",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "blog_default_img",
+        "label": "Image de une par défaut des articles",
+        "info": "Sera utilisée si aucune image de une n'est fournie pour l'article. Format recommandé : 700*500 pixels"
+      }
+    ]
+  }
+]

@@ -1,0 +1,36 @@
+<script>
+// FONCTIONS //
+
+/* Gestion des flèches */
+function closeArrow (select) {
+  select.html('<span class="icon icon-accordion-arrow-down"></span>').removeClass('opened').addClass('closed');
+}
+
+function openArrow (select) {
+  select.html('<span class="icon icon-accordion-arrow-up"></span>').removeClass('closed').addClass('opened');
+}
+
+
+// EXE //
+
+/* OUverture auto d'un accordéon depuis un lien */
+if(location.hash != null && location.hash != ""){
+  $('.collapse').removeClass('in');
+  $(location.hash + '.collapse').collapse('show')
+  $;
+} 
+
+/* Cas de redirection vers la page addresse */
+if (location.hash == "" && window.location.href.indexOf("addresses") > -1) {  
+    $('.main.collapse').removeClass('in');
+    $('#collapseAddress').collapse('show').addClass('in');
+    $('.profile').removeClass('active');
+	$('.address').addClass('active'); 
+    var select = $('#headingAddress .arrow');
+    openArrow (select);    
+}
+
+
+
+  
+</script>

@@ -1,0 +1,70 @@
+{% comment %}ASSIGN DEFAULT IMAGE IF NONE CUSTOM IMAGE AVAILABLE{% endcomment %}
+{% if collection.image %}
+{% assign image = collection.image %}
+{% endif %}
+
+{% comment %}MODIFY DEFAULT VAR IMAGE IF CUSTOME IS SET IN BLOCKS FOR THIS COLLECTION{% endcomment %}
+{% for block in section.blocks %}
+{% if block.settings.handle == collection.handle %}
+{% assign image = block.settings.image %}
+{% endif %}
+{% endfor %}
+
+<div class="container-banner">
+  <div class="banner-content"{% unless image == blank %} style="background:url({{ image | img_url: '2000x250', crop:'center', format:'pjpg' }}){% unless image.width < 2000 %} no-repeat{% endunless %} center"{% endunless %}>
+    <div class="banner-content--relative">
+      <div class="inner-content">
+      {% if collection.title contains '|' %}
+      {% assign title = collection.title | split: '|' %}
+      {% assign subtitle = title | last %}
+        <h1 class="text-center lighter">{{ title | first }}</h1>
+        {% unless title.size < 2 %}
+        <h2 class="text-center lighter">{{ subtitle }}</h2>
+        {% endunless %}
+      {% else %}
+        <h1 class="text-center lighter">{{ collection.title }}</h1>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Bannière de collection",
+    "max_blocks": 50,
+    "settings": [
+      {
+      "type": "header",
+      "content": "Ajoutez ci-dessous des bannières de collection",
+      "info": "Dans le cas où aucune bannière spécifique ne serait indiqué, l'image de une de votre collection sera utilisée par défaut pour le bandeau d'en-tête de la collection"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Bannière personnalisée",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Bannière à afficher",
+            "info": "IMPORTANT, pour un affichage correct sur tous les écrans, une largeur minimale de 2000 pixels est requise"
+          },
+          {
+          "type": "collection",
+          "id": "handle",
+          "label": "Collection sur laquelle afficher la bannière",
+          "info": "Choisissez ici la page d'affichage pour le service sélectionné"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

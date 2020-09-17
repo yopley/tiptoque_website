@@ -1,0 +1,59 @@
+<!-- Assign genre -->
+{% for tag in product.tags %}
+	{% if tag contains 'GENRE|' %}
+	{% assign genre = tag %}
+        {% if genre contains 'Man' %}
+        {% capture genre_t %}{{ 'product.genre.man' | t }}{% endcapture %}
+        {% elsif genre contains 'Woman' %}
+        {% capture genre_t %}{{ 'product.genre.woman' | t }}{% endcapture %}
+        {% elsif tag contains 'Unisex' %}
+        {% capture genre_t %}{{ 'product.genre.unisex' | t }}{% endcapture %}
+        {% endif %}
+	{% endif %}
+    {% if tag contains 'SUPPORT|' %}
+		{% assign category_link = tag %}
+        {% assign category_name = tag | split: '|' %}
+	{% endif %}
+	{% if tag contains 'COLLECTION|' %}
+		{% assign collection_link = tag %}
+        {% assign collection_name = tag | split: '|' %}
+	{% endif %}
+{% endfor %}
+
+{% unless collection %}
+  {% for collection in product.collections %}
+	{% unless collection.handle == 'all' %}
+		{% assign collection = collection %}
+		{% break %}
+	{% endunless %}
+  {% endfor %}
+{% endunless %}
+
+{% if collection.handle == 'all' or collection.handle == blank %}
+<ul class="nav-breadcrumb unstyled-list list-inline">
+  <li><a href="/">{{ 'layout.home' | t }}</a></li> /
+  {% unless collection_name[1] == blank %}
+  <li><a href="/collections/all/{{ collection_link | handleize }}">{{ 'product.collection' | t }} {{ collection_name[1] }}</a></li> /
+  {% endunless %}
+  {% unless genre_t == blank %}
+  <li><a href="/collections/all/{{ collection_link | handleize }}+{{ genre | handleize }}">{{ genre_t }}</a></li> /
+  {% endunless %}
+  {% unless category_name[2] == blank %}
+  <li><a href="/collections/all/{{ collection_link | handleize }}+{{ genre | handleize }}+{{ category_link | handleize }}">{{ category_name[2] }}</a></li> /
+  {% endunless %}
+  <li>{{ product.title }}</li>
+</ul>
+{% else %}
+<ul class="nav-breadcrumb unstyled-list list-inline">
+  <li><a href="/">{{ 'layout.home' | t }}</a></li> /
+  <li><a href="{{ collection.url }}">{{ collection.title }}</a></li> /
+  {% unless genre_t == blank %}
+  <li><a href="{{ collection.url }}/{{ genre | handleize }}">{{ genre_t }}</a></li> /
+  {% endunless %}
+  {% unless category_name[2] == blank %}
+  <li><a href="{{ collection.url }}/{{ genre | handleize }}+{{ category_link | handleize }}">{{ category_name[2] }}</a></li> /
+  {% endunless %}
+  <li>{{ product.title }}</li>
+</ul>
+{% endif %}
+

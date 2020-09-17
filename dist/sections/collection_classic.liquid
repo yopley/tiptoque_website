@@ -1,0 +1,64 @@
+{% assign classic_display = true %}
+{% assign current_handle = collection.handle %}
+
+{% unless section.blocks.size < 1 %}
+{% for block in section.blocks %}
+{% if block.settings.handle == current_handle %}
+{% assign classic_display = false %}
+{% assign collection = collections[block.settings.collection] %}
+{% include 'collection_classic_display' %}
+{% else %}
+{% continue %}
+{% endif %}
+{% endfor %}
+{% endunless %}
+
+{% if classic_display %}
+{% include 'collection_classic_display' %}
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Collections Multiples",
+    "max_blocks": 15,
+    "settings": [
+      {
+      "type": "paragraph",
+      "content": "Ajoutez ci-dessous les collections souhaitées ainsi que la page dans lesquelles les afficher"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "collection",
+        "name": "Collection de produits",
+        "settings": [
+          {
+          "type": "header",
+          "content": "Page d'affichage"		  
+          },
+          {
+          "type": "collection",
+          "id": "handle",
+          "label": "Page d'affichage pour la collection",
+          "info": "Choisissez ici la page d'affichage pour la collection sélectionnée (par exemple la page de collection Boissons pour la collection Eau)"
+          },
+          {
+          "type": "header",
+          "content": "Collection de produits"
+          },
+          {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection présentée"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

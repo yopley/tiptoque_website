@@ -1,0 +1,29 @@
+<section id="banner">
+  {% section '404_banner' %}
+</section>
+
+<nav id="stickyMenu">
+<section id="collections_nav">
+  {% section 'menu_collections' %}
+</section>
+
+<section id="delivery_nav">
+  {% section 'menu_livraison' %}
+</section>
+  
+<div id="mobileMenuToggle" class="hidden-md hidden-lg">
+	{% section 'menu_livraison_mobile_button' %}
+</div>  
+</nav>
+
+<section id="page-404">
+  <div class="container page-container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="page-container--content rte text-center">
+          <p>{{ 'layout.404_message_html' | t }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><script id="esc-redirects-404-script" src="https://redirects.eastsideco.io/js/app.js"></script>

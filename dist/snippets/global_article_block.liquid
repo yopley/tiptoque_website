@@ -1,0 +1,18 @@
+<div class="page-container--content">
+  <div class="img-container">
+    <a href="{{ article.url }}">
+      {% if article.image %}
+      <img src="{{ article.image.src | img_url: '750x500', format:'pjpg', crop:'center' }}" alt="{{ article.title | escape }}" class="img-responsive center-block">
+      {% else %}
+      <img src="{{ settings.blog_default_img | img_url: '750x500', format:'pjpg', crop:'center' }}" alt="{{ article.title | escape }}" class="img-responsive center-block">
+      {% endif %}
+      <div class="overlay"></div>
+      <div class="relative-content">
+        <h4 class="text-center lighter">{{ article.excerpt_or_content  | truncatewords: 15 | strip_html }}</h4>
+      </div>
+      <div class="relative-content visible-content">
+        <h3 class="text-center lighter text-uppercase">{{ article.title }}</h3>
+      </div>              
+    </a>
+  </div>           
+</div>

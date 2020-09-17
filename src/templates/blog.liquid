@@ -1,0 +1,65 @@
+<section id="banner">
+{% section 'blog_banner' %}
+</section>
+
+{% assign unfiltered = true %}
+{% if current_tags.first %}
+{% assign unfiltered = false %}
+  {% if current_tags.first contains '|' %}
+  {% assign cat_split = current_tags.first | split: '|' %}
+  {% assign cat_display = cat_split.last %}
+  {% else %}
+  {% assign cat_display = current_tags.first %}
+  {% endif %}
+{% endif %}
+
+<div id="blogMenu">
+  {% section 'blog_menu' %}
+</div>
+
+<div id="blogCover">
+  {% section 'blog_cover' %}
+</div>
+
+<div id="blogCat">
+  {% section 'blog_categories' %}
+</div>
+
+{% paginate blog.articles by 12 %}
+
+<section id="blog">
+  <div class="container page-container blog-container">
+    
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="upgraded summary-title{% if unfiltered %} neutral{% endif %}">{{ 'blog.all_articles' | t }}{% unless unfiltered %} "{{ cat_display }}"{% endunless %}</h2>
+      </div>
+    </div>
+       
+    {% for article in blog.articles %}
+    {% assign modulo = forloop.index | modulo:3 %}
+    {% if forloop.first or modulo == 1 %}
+    <div class="row">
+    {% endif %}
+      <div class="col-md-4">
+      {% include 'global_article_block' %}
+      </div>
+    {% if forloop.last or modulo == 0 %}
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+  
+  {% if paginate.pages > 1 %}
+    <div class="row">
+      <div class="col-xs-12">
+      <div class="center-block text-center">{% include 'pagination' %}</div>
+      </div>           
+    </div>
+  {% endif %}
+  
+</section>
+
+{% endpaginate %}
+
+

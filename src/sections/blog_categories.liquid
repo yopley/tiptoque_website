@@ -1,0 +1,67 @@
+{% assign unfiltered = true %}
+{% if current_tags.first %}
+{% assign unfiltered = false %}
+{% endif %}
+
+{% if unfiltered %}
+{% unless section.blocks.size < 1 %}
+<div class="container page-container blog-container">
+  {% for block in section.blocks %}  
+    {% unless block.settings.title == blank %}
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="upgraded summary-title">{{ block.settings.title }}</h2>
+      </div>
+    </div>
+    {% endunless %}
+    <div class="row">
+      {% assign i = 0 %}
+      {% for article in blog.articles %}
+      {% if article.tags contains block.settings.tag and i < 3 %}
+      <div class="col-md-4">        
+          {% include 'global_article_block' %}
+      </div>
+      {% assign i = i | plus:1 %}
+      {% else %}
+      {% continue %}
+      {% endif %}
+      {% endfor %}
+    </div>
+  {% endfor %}
+</div> 
+{% endunless %}
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Catégories",
+    "max_blocks":4,
+    "settings": [
+    ],
+    "blocks": [
+      {
+        "type": "tag",
+        "name": "Catégorie",
+        "settings": [
+          {
+          "type": "text",
+          "id": "title",
+          "label": "Titre de catégorie"
+          },
+          {
+                "type":      "text",
+                "id":        "tag",
+                "label":     "Tag article de la catégorie souhaitée",
+                "info":      "Copiez ici le tag des articles que vous souhaitez afficher. Les 3 derniers articles publiés avec ce tag seront affichés."
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

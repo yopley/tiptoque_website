@@ -1,0 +1,43 @@
+<div data-section-id="{{ section.id }}" data-section-type="content">
+  {% if section.settings.cta %}
+  {% unless section.settings.cta_link == blank or section.settings.cta_content == blank %}
+  <div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="text-center">
+        <a href="{{ section.settings.cta_link }}" role="button" class="btn">{{ section.settings.cta_content }}</a>
+      </div>
+    </div>
+  </div>
+  </div>
+  {% endunless %}
+  {% endif %}
+</div>
+{% schema %}
+  {
+    "name": "Appel à l'action",
+    "settings": [
+      {
+      "type": "checkbox",
+      "id": "cta",
+      "label": "Afficher un bouton d'appel à l'action"
+      },
+      {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Lien vers lequel pointer le bouton"
+      },
+      {
+      "type": "text",
+      "id": "cta_content",
+      "label": "Texte du bouton d'appel à l'action"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

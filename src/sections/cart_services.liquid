@@ -1,0 +1,113 @@
+{% comment %}Define current collection{% endcomment %}
+{% assign current_handle = collection.handle %}
+{% comment %}Define collection type{% endcomment %}
+{% for product_type in collection.all_types %}
+  {% assign current_type = type %}
+  {% break %}
+{% endfor %}  
+
+{% if section.blocks.size > 0 %}
+  {% comment %}First capture which services have been added to cart{% endcomment %}
+  {% capture services_incart %}
+    {% for item in cart.items %}
+      {% if item.product.type == 'Service' %}
+      {{ item.product.handle }} 
+      {% else %}
+      {% continue %}
+      {% endif %}
+    {% endfor %}
+  {% endcapture %}
+  {% comment %}Then display if they aren't already in cart{% endcomment %}
+  {% for block in section.blocks %} 
+    <div class="service-unactive-block hide-content" data-current-block="{{ block.settings.handle }}">
+    {% assign product = all_products[block.settings.service] %}
+      {% unless services_incart contains product.handle %}      
+      <div class="row row-item" data-product="{{ product.handle }}">
+        <div class="col-xs-7">
+          <div class="bolded item-title">{{ product.title }}</div>
+        </div>             
+        <div class="col-xs-3 text-center">
+          <div class="service-management">
+          <div class="service-form" data-product="{{ product.handle }}">
+            <label class="switch">
+              <input type="checkbox" name="service" data-type="{{ current_type }}"  data-product="{{product.handle}}" 
+                     data-variant="{{ product.first_available_variant.id }}" data-line="{{ forloop.index }}" 
+                     data-management="{% if block.settings.service_auto %}auto{% else %}unique{% endif %}" class="service-checkbox-addtocart">
+              <span class="slider round"></span> 
+              <input type="hidden" name="id" value="{{ product.first_available_variant.id }}">
+              <input type="hidden" name="quantity" value="1">
+              <input type="hidden" name="properties[pour]" value="{{ current_type }}" data-prop-type="{{ current_type | handleize }}" data-line="{{ forloop.index }}">
+            </label>
+          </div>
+          </div>
+        </div>
+        <div class="col-xs-2 text-right">
+          <div class="cart-price item-price-ht">{{ product.price | money }}</div>
+        </div>                  
+      </div>
+      {% endunless %}
+    </div>
+  {% endfor %}
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Panier & Services",
+    "max_blocks": 50,
+    "settings": [
+      {
+      "type": "paragraph",
+      "content": "Ajoutez ci-dessous les services à afficher dans le panier ainsi que la collection associée."
+      }
+    ],
+    "blocks": [
+      {
+        "type": "product",
+        "name": "Services associés",
+        "settings": [
+          {
+          "type": "header",
+          "content": "Service"
+          },
+          {
+          "type": "paragraph",
+          "content": "Attention, pour des raisons d'ergonomie seuls 3 services par page différente seront affichés"
+          },
+          {
+            "type": "product",
+            "id": "service",
+            "label": "Service proposé"
+          },
+          {
+            "type": "image_picker",
+            "id": "service_icon",
+            "label": "Icône du service proposé"
+          },
+          {
+            "type": "checkbox",
+            "id": "service_auto",
+            "label": "Activer le comptage automatisé",
+			"info": "Si cette option est activée, le nombre de produits de service ajouté au panier sera équivalent au nombre de produits (plateaux, cocktails, etc)",
+            "default": true
+          },
+          {
+          "type": "header",
+          "content": "Page d'affichage du service"		  
+          },
+          {
+          "type": "collection",
+          "id": "handle",
+          "label": "Page d'affichage pour le service",
+          "info": "Choisissez ici la page d'affichage associée pour le service sélectionné. Par exemple, la collection plateaux froids. Auquel cas les services seront proposés dans le panier lorsque cette page sera affichée."
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

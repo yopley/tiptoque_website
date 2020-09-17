@@ -1,0 +1,31 @@
+<div data-section-id="{{ section.id }}" data-section-type="image">
+  <div class="container-banner">
+    <div class="banner-content"{% unless section.settings.banner == blank %} style="background:url({{ section.settings.banner | img_url: '2000x250', crop:'center', format:'pjpg' }}){% unless section.settings.banner.width < 2000 %} no-repeat{% endunless %} center"{% endunless %}>
+      <div class="banner-content--relative">
+        <div class="inner-content">
+        <h1 class="text-center lighter">{{ 'layout.404_title' | t }}</h1>          
+        </div>
+      </div>
+    </div>    
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Bannière de Page 404",
+    "settings": [
+      {
+      "type": "image_picker",
+      "id": "banner",
+      "label": "Image de une par défaut des pages",
+      "info": "Largeur minimum 2000px"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

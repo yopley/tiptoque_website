@@ -1,0 +1,383 @@
+{%- comment -%}Check if product is bundle and retrieving component information{%- endcomment -%}
+{% assign bundle = false %}
+{% for tag in product.tags %}
+	{% if tag contains 'COMP|' %}
+	{% assign bundle = true %}
+	{% assign composition = tag | split: '|' %}
+	{% assign composition_size = composition | size %}
+	{% else %}
+	{% continue %}
+	{% endif %}
+{% endfor %}
+
+{% comment %}Customer pricing attribution{% endcomment %}
+
+{% assign var_id = product.first_available_variant.id %}
+{% assign product_price = product.first_available_variant.price %}
+{% if customer %}
+{% for tag in customer.tags %}
+  {% if tag contains 'PRICING|' %}
+	{% assign pricing = tag | remove:'PRICING|' %}
+	{% for variant in product.variants %}
+		{% if variant.title == pricing %}
+		{% assign var_id = variant.id %}
+		{% assign product_price = variant.price %}
+		{% else %}
+		{% continue %}
+		{% endif %}
+    {% endfor %}
+  {% else %}
+  {% continue %}
+  {% endif %}
+{% endfor %}
+{% endif %}
+
+{%- comment -%}Generetating product block{%- endcomment -%}
+<article id="product{{ product.handle }}{% if global_product_block == 'visible' %}Visible{% endif %}" data-type="{{ product.type | handleize }}" data-clear-type="{{ product.type | strip }}" class="product-bloc" data-variant="{{ var_id }}">
+  <a href="#" data-toggle="modal" data-target="#bundle-modal-lg-{{ product.handle }}{% if global_product_block == 'visible' %}Visible{% endif %}">
+    <div class="img-container">
+      {% unless product.featured_image.src == blank %}
+      <img src="{{ product.featured_image.src| img_url: '750x500', format:'pjpg', crop:'center' }}" alt="{{ block.settings.illustration.alt }}" class="img-responsive center-block">
+      {% else %}
+      <img src="{{ 'default-product.jpg'| asset_img_url: '750x500', format:'pjpg', crop:'center' }}" alt="{{ product.title | escape }}" class="img-responsive center-block">
+      {% endunless %}
+      <div class="overlay"></div>
+      <div class="relative-content">        
+        <h5 class="product-description text-center">{{ product.description | strip_html | truncatewords: 10, "(...)" }}</h5>
+        <h5 class="overlay-qty"></h5>
+      </div>
+    </div>
+    <h4 class="bolded">{{ product.title }}</h4>    
+  </a> 
+  {% unless global_product_block == 'no_purchase' %}
+  <hr/>
+  <div class="row buy-row">
+  <div class="no-order-container hide-content">
+    <h6></h6>
+  </div>    
+    <div class="col-lg-4">
+      <div class="price">{{ product_price | money_without_trailing_zeros }} HT</div>
+    </div>
+    
+    <div class="col-lg-8 text-right"> 
+      {% if global_product_block == 'classic' %}
+        {% include 'global_buy_zone' with 'classic' %}
+      {% else %}
+      	{% include 'global_buy_zone' %}
+      {% endif %}
+    </div>    
+  </div>
+  {% endunless %}
+</article>
+  
+{%- comment -%}Generating bundle modal if needed, else display detailed product modal{%- endcomment -%}
+{% if bundle %}
+  <!-- Large modal -->
+  <div class="modal fade bundle-modal" tabindex="-1" role="dialog" aria-labelledby="EncartProduit" id="bundle-modal-lg-{{ product.handle }}{% if global_product_block == 'visible' %}Visible{% endif %}">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <h2 class="upgraded">{{ product.title }} {{ 'collection.bundle.by' | t }} {{ product.vendor }}</h2>              
+            </div>
+            <div class="col-md-6">
+              <div class="services-container">
+              {{ services }}
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            {% assign loop_length = composition_size | minus:1 %}
+            {% for i in (0..loop_length) %}
+            {% assign modulo = forloop.index | modulo:3 %} 
+            {% assign composition_index = composition[i]%}
+            {% assign current_product = all_products[composition_index] %}
+            <div class="component-infos" data-id="{{ current_product.first_available_variant.id }}" data-sku="{{ current_product.first_available_variant.sku }}" data-name="{{ current_product.title }}"></div>
+              <article id="product-{{ current_product.handle }}{% if global_product_block == 'visible' %}Visible{% endif %}" data-type="{{ current_product.type | handleize }}" class="product-bloc{% if forloop.first%} hide-content{% endif %}">                
+                <div class="col-md-4">
+                  <div class="img-container">
+                      {% unless current_product.featured_image == blank %}
+                      <img src="{{ current_product.featured_image | img_url: '550x309', format:'pjpg', crop:'center' }}" alt="{{ current_product.featured_image.alt }}" class="img-responsive center-block">
+                      {% else %}
+                      <img src="{{ 'default-product.jpg'| asset_img_url: '550x309', format:'pjpg', crop:'center' }}" alt="{{ current_product.title | escape }}" class="img-responsive center-block">
+                      {% endunless %}
+                      <div class="overlay"></div>  
+                      <div class="relative-content">      
+                      </div>   
+                  </div>
+                  <div class="bundle-infos-container">
+                    <h4 class="bolded">{{ current_product.title }}</h4>
+                    <p class="text-justify">{{ current_product.description | strip_html }}</p>
+                  </div>
+                  {% for tag in current_product.tags %}
+                  {% if tag contains 'INGREDIENTS|' %}
+                  <div class="bundle-ingredients-container">
+                    <h5 class="branded">{{ 'product.ingredients' | t }}</h5>
+                    <p>{{ tag | split: '|' | join: ', ' | remove: 'INGREDIENTS, ' }}</p>
+                  </div>
+                  {% else %}
+                  {% continue %}
+                  {% endif %}
+                  {% endfor %}   
+                  {% for tag in current_product.tags %}
+                  {% if tag contains 'ALLERGENS|' %}
+                    {% assign allergens = tag | split: '|' %}
+                    {% assign allergens_size = allergens | size | minus:1 %}               
+                    <div class="bundle-allergens-container">
+                      <div class="toggle-container" data-toggle="collapse" data-target="#collapseAllergens{{ current_product.handle }}-{{product.handle }}" aria-expanded="false" aria-controls="collapseAllergens{{ current_product.handle }}">
+                        <hr class="toggle" />
+                        <h5 class="branded">{{ 'product.allergens' | t }} <span class="glyphicon glyphicon-menu-down pull-right" aria-hidden="true"></span></h5>
+                      </div>                      
+                        <ul class="list-inline allergens-list">
+                        {% for i in (0..allergens_size) offset:1 %}
+                        {% assign allergens_index = allergens[i] %}
+                          {% unless allergens_index == blank %}
+                          <li class="allergen-elem" data-allergen="{{ allergens_index | handleize }}"></li>
+                          {% endunless %}
+                        {% endfor %}
+                        </ul>
+                      <div id="collapseAllergens{{ current_product.handle }}-{{product.handle }}{% if global_product_block == 'visible' %}Visible{% endif %}" class="collapse">
+                        <div class="toggle-content">
+                          <div class="global-allergens-container"></div>
+                          <div class="detailed-allergens-container" data-allergenList="{{ allergens | join: ' ' | handleize }}"></div>
+                        </div>
+                      </div>
+                    </div>
+                  {% else %}
+                  {% continue %}
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </article>
+              {% assign last = composition_size | minus:1 %}
+            {% endfor %}          
+          </div>
+          
+          {% unless global_product_block == 'no_purchase' %}        
+          
+            <hr/>
+            <div class="buy-container" data-type="{{ product.type | handleize }}" data-variant="{{ var_id }}">              
+              <div class="row buy-row">
+                <div class="no-order-container hide-content">
+                  <h6></h6>
+                </div>                  
+                <div class="col-md-6">
+                  <h5 class="buy-title bolded">{{ 'collection.bundle.order_the' | t }} {{ product.title }}</h5>
+                </div>
+                <div class="col-md-6 text-right">
+                  <ul class="list-inline">
+                    <li>
+                      <p class="buy-price text-uppercase">{{ product_price | money }} HT</p>
+                    </li>
+                    {% unless global_product_block == 'no_purchase' %}
+                    <li>
+                      {% if global_product_block == 'classic' %}
+                        {% include 'global_buy_zone' with 'classic' %}
+                      {% else %}
+                        {% include 'global_buy_zone' %}
+                      {% endif %}
+                    </li>
+                    {% endunless %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+                    
+            <hr class="reco" />                    
+            {% assign reco = '' %}
+            {% for tag in product.tags %}
+              {% if tag contains 'RECOMMENDED|' %}
+              {% assign reco = tag | remove: 'RECOMMENDED|' %}
+              {% assign reco_product = all_products[reco] %}
+              {% else %}
+              {% continue %}
+              {% endif %}
+            {% endfor %}
+            {% unless reco == blank or reco_product.title == blank %}
+            <div class="reco-container" data-type="{{ reco_product.type | handleize }}" data-variant="{{ reco_product.first_available_variant.id }}">
+              <div class="row">            
+                <div class="col-md-6">
+                    {% unless reco_product.featured_image == blank %}
+                    <div class="reco-container--image">
+                    <img src="{{ reco_product.featured_image | img_url:'55x55', format:'pjpg', crop:'center' }}" class="img-responsive img-circle pull-left">
+                    </div>
+                    {% endunless %}
+                      <h5 class="buy-title reco text-uppercase"><u>{{ reco_product.type }} {{ 'collection.bundle.recommended' | t }}</u> : {{ reco_product.title }}</h5>
+                </div>
+                <div class="col-md-6 text-right">
+                  <ul class="list-inline reco">
+                    <li>
+                      <p class="buy-price reco text-uppercase">{{ reco_product.price | money }} HT</p>
+                    </li>
+                    <li>
+                      {% include 'global_buy_zone' with 'reco' %}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>          
+            {% endunless %}
+          
+          {% endunless %}
+          
+        </div>
+      </div>
+    </div>
+  </div>  
+{% else %}
+  <!-- Large modal -->
+  <div class="modal fade bundle-modal" tabindex="-1" role="dialog" aria-labelledby="EncartProduit" id="bundle-modal-lg-{{ product.handle }}{% if global_product_block == 'visible' %}Visible{% endif %}">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <h2 class="upgraded">{{ product.title }}</h2>
+            </div>
+            <div class="col-md-6">
+              <div class="services-container">
+              {{ services }}
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <article id="product-{{ product.handle }}{% if global_product_block == 'visible' %}Visible{% endif %}" data-type="{{ product.type | handleize }}" class="product-bloc">                
+              <div class="col-md-6">
+                <div class="img-container">
+                   {% unless product.featured_image == blank %}
+                    {% include 'global_product_block_carousel' %}
+                   {% else %}
+                    <img src="{{ 'default-product.jpg'| asset_img_url: '800x400', format:'pjpg', crop:'center' }}" alt="{{ product.title | escape }}" class="img-responsive">
+                   {% endunless %} 
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="bundle-infos-container">
+                  <p class="rte">{{ product.description }}</p>
+                </div>
+                {% for tag in product.tags %}
+                {% if tag contains 'INGREDIENTS|' %}
+                <div class="bundle-ingredients-container">
+                  <h5 class="branded">{{ 'product.ingredients' | t }}</h5>
+                  <p>{{ tag | split: '|' | join: ', ' | remove: 'INGREDIENTS, ' }}</p>
+                </div>
+                {% else %}
+                {% continue %}
+                {% endif %}
+                {% endfor %}   
+                {% for tag in product.tags %}
+                {% if tag contains 'ALLERGENS|' %}
+                  {% assign allergens = tag | split: '|' %}
+                  {% assign allergens_size = allergens | size | minus:1 %}               
+                  <div class="bundle-allergens-container">
+                    <div class="toggle-container" data-toggle="collapse" data-target="#collapseAllergens{{ product.handle }}-{{product.handle }}" aria-expanded="false" aria-controls="collapseAllergens{{ product.handle }}">
+                      <hr class="toggle" />
+                      <h5 class="branded">{{ 'product.allergens' | t }} <span class="glyphicon glyphicon-menu-down pull-right" aria-hidden="true"></span></h5>
+                    </div>                      
+                      <ul class="list-inline allergens-list">
+                      {% for i in (0..allergens_size) offset:1 %}
+                      {% assign allergens_index = allergens[i] %}
+                        {% unless allergens_index == blank %}
+                        <li class="allergen-elem" data-allergen="{{ allergens_index | handleize }}"></li>
+                        {% endunless %}
+                      {% endfor %}
+                      </ul>
+                    <div id="collapseAllergens{{ product.handle }}-{{product.handle }}{% if global_product_block == 'visible' %}Visible{% endif %}" class="collapse">
+                      <div class="toggle-content">
+                        <div class="global-allergens-container"></div>
+                        <div class="detailed-allergens-container" data-allergenList="{{ allergens | join: ' ' | handleize }}"></div>
+                      </div>
+                    </div>
+                  </div>
+                {% else %}
+                {% continue %}
+                {% endif %}
+                {% endfor %}
+              </div>
+            </article>
+         
+          </div>
+          
+          {% unless global_product_block == 'no_purchase' %}        
+          
+            <hr/>
+            <div class="buy-container" data-type="{{ product.type | handleize }}" data-variant="{{ var_id }}">
+              <div class="row buy-row">   
+              <div class="no-order-container hide-content">
+                <h6></h6>
+              </div>                 
+                <div class="col-md-6">
+                  <h5 class="buy-title bolded">{{ 'collection.bundle.order_the' | t }} {{ product.title | replace: '|', ' - ' }}</h5>
+                </div>
+                <div class="col-md-6 text-right">
+                  <ul class="list-inline">
+                    <li>
+                      <p class="buy-price text-uppercase">{{ product_price | money }} HT</p>
+                    </li>
+                    {% unless global_product_block == 'no_purchase' %}
+                    <li>
+                      {% if global_product_block == 'classic' %}
+                        {% include 'global_buy_zone' with 'classic' %}
+                      {% else %}
+                        {% include 'global_buy_zone' %}
+                      {% endif %}
+                    </li>
+                    {% endunless %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+                    
+            <hr class="reco" />                    
+            {% assign reco = '' %}
+            {% for tag in product.tags %}
+              {% if tag contains 'RECOMMENDED|' %}
+              {% assign reco = tag | remove: 'RECOMMENDED|' %}
+              {% assign reco_product = all_products[reco] %}
+              {% else %}
+              {% continue %}
+              {% endif %}
+            {% endfor %}
+            {% unless reco == blank or reco_product.title == blank %}
+            <div class="reco-container" data-type="{{ reco_product.type | handleize }}" data-variant="{{ reco_product.first_available_variant.id }}">
+              <div class="row">            
+                <div class="col-md-6">
+                    {% unless reco_product.featured_image == blank %}
+                    <div class="reco-container--image">
+                    <img src="{{ reco_product.featured_image | img_url:'55x55', format:'pjpg', crop:'center' }}" class="img-responsive img-circle pull-left">
+                    </div>
+                    {% endunless %}
+                      <h5 class="buy-title reco text-uppercase"><u>{{ reco_product.type }} {{ 'collection.bundle.recommended' | t }}</u> : {{ reco_product.title }}</h5>
+                </div>
+                <div class="col-md-6 text-right">
+                  <ul class="list-inline reco">
+                    <li>
+                      <p class="buy-price reco text-uppercase">{{ reco_product.price | money }} HT</p>
+                    </li>
+                    <li>
+                      {% include 'global_buy_zone' with 'reco' %}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>          
+            {% endunless %}
+          
+          {% endunless %}
+          
+        </div>
+      </div>
+    </div>
+  </div>  
+{% endif %}
+
+

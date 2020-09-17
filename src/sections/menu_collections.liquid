@@ -1,0 +1,54 @@
+<div data-section-id="{{ section.id }}" data-section-type="navigation">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 text-center">
+        {% if section.settings.main_menu %}
+        <ul class="list-inline collection-nav text-center text-uppercase" role="navigation">
+          {% for link in linklists[section.settings.main_menu].links %}
+            {% if link.links != blank %}
+            <li class="dropdown">
+                <a href="{{ link.url }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ link.title }} <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  {% for sub_link in link.links %}
+                  <li><a href="{{ sub_link.url }}">{{ sub_link.title | capitalize }}</a></li>
+                  {% endfor %}
+                </ul>
+             </li>    
+            {% else %}
+            <li>
+               <a href="{{ link.url }}"{% if link.active %} class="active"{% endif %}>{{ link.title | capitalize }}</a>
+            </li>              
+             {% endif %}
+          {% endfor %}      
+        {% else %}
+          <li><a>Veuillez sélectionner un menu dans la section Menu Collections</a></li>
+        </ul>
+        {% endif %}       
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Menu Collections",
+    "settings": [
+      {
+      "type": "header",
+      "content": "Menu informatif sous l'image d'en-tête"
+      },
+
+      {
+            "type":      "link_list",
+            "id":        "main_menu",
+            "label":     "Menu à afficher"
+      }
+    ]
+  }
+
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

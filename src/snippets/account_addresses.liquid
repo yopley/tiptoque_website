@@ -1,0 +1,110 @@
+<div id="accountAddresses" class="account-content">
+  <div class="row">
+  {% for address in customer.addresses %}
+  {% assign modulo = forloop.index | modulo:3 %}
+    {% if modulo == 1 %}
+    {% unless forloop.first %}<div class="row">{% endunless %}
+    {% endif %}
+      <div class="col-md-4">
+        <div class="account-block address-block">
+          <div class="address-content" id="addressContent{{ address.id }}">
+            {% include 'account_block_address' %}
+            {% if address == customer.default_address %}
+            <p><i>{{ 'account.addresses_content.default' | t }}</i></p>
+            {% endif %}
+          <div class="cta-content">
+            <a id="update{{forloop.index}}" data-form-id="{{ address.id }}" class="update">{{ 'account.addresses_content.update' | t }}</a>
+            {% unless address == customer.default_address %}
+              <a id="delete{{forloop.index}}" data-form-id="{{ address.id }}" class="delete" data-confirm-message="{{ 'account.addresses_content.delete_confirm' | t }}">{{ 'account.addresses_content.delete' | t }} </a>
+            {% endunless %}
+          </div>
+          </div>
+          <div class="address-form hide-content" id="{{ address.id }}">
+            <div class="row">
+              <div class="col-xs-12">
+            	<button type="button" class="close close-forms close-edit" data-form-id="{{ address.id }}" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              </div>
+            </div>
+            {% include 'account_form_edit_address' %}
+          </div>
+        </div>
+        </div>
+    {% if modulo == 0 %}
+    </div>
+    {% endif %}
+    {% assign i = forloop.length | plus:1 %}
+  {% endfor %}
+    {% assign modulo = i | modulo:3 %}
+    {% if modulo == 1 %}
+    {% unless forloop.first %}<div class="row">{% endunless %}
+    {% endif %}
+    <div class="col-md-4">
+      <div class="account-block address-block">
+        <a id="newAddress">
+        <div class="relative-content">
+          <div class="step-one">
+            <h1 class="bolded">+</h1>
+            {{ 'account.addresses_content.new_address' | t }}
+          </div>
+        </div>
+        </a>
+          <div class="step-two hide-content">
+            <div class="row">
+              <div class="col-xs-12">
+            	<button type="button" class="close close-forms" id="closeNew" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              </div>
+            </div>
+            {% include 'account_form_new_address' %}
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% capture delete_message %}
+  <p class="text-center">{{ 'account.addresses_content.delete_confirm' | t }}</p>
+  <a href="" class="btn deletion-confirmed center-block">{{ 'account.addresses_content.delete_confirm_btn' | t }}</a>
+{% endcapture %}
+
+<script>
+  $('#newAddress').on('click', function (e) {
+    e.preventDefault();
+    $('.step-one').fadeOut();
+    $('.step-two').fadeIn();
+  });
+  $('#closeNew').on('click', function (e) {
+    e.preventDefault();
+    $('.step-two').fadeOut();
+    $('.step-one').fadeIn();
+  });
+
+  $('a.update').on('click', function (e) {
+    e.preventDefault();
+    var currentID = $(this).attr('data-form-id');
+    $('#addressContent' + currentID + '').fadeOut();
+    $('#' + currentID + '').fadeIn();
+  });
+  $('button.close-edit').on('click', function (e) {
+    e.preventDefault();
+    var currentID = $(this).attr('data-form-id');
+    $('#addressContent' + currentID + '').fadeIn();
+    $('#' + currentID + '').fadeOut();
+  });
+
+  $('a.delete').bind('click',function(e){
+    e.preventDefault();
+    var currentID = $(this).attr('data-form-id');
+    var message = {{ delete_message | json }};
+    feedback(message);
+    Shopify.CustomerAddress.destroy(currentID);
+  });
+
+  Shopify.CustomerAddress = {
+    destroy: function(currentID) {
+      $('a.deletion-confirmed').on('click', function (e) {
+        e.preventDefault();
+        Shopify.postLink('/account/addresses/'+currentID, {'parameters': {'_method': 'delete'}});
+      });
+    }
+  }
+</script>

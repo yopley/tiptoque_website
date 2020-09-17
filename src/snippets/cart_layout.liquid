@@ -1,0 +1,275 @@
+<div data-cart-view="data-cart-view" class="cart-content" id="cart_funnel">
+  
+  {% if cart.item_count > 0 %}
+  <div class="row greyed-row" id="cartHeader">
+    <div class="col-xs-12">
+      <h3 class="text-center cart-title text-uppercase">{{ 'cart.title' | t }}</h3>
+      <br/>                 
+    </div>
+  </div> 
+  {% endif %}
+  <div class="row delivery-info{% if cart.item_count < 1 %} hide-content{% endif %}" id="deliverySummary">
+    {% section 'cart_delivery_summary' %}
+  </div>
+  <hr {% if cart.item_count < 1 %} class="hide-content"{% endif %}/>
+  
+  
+  {% comment %} Generate data to count types in cart {% endcomment %}
+  <div class="global-cart-counter" id="cart_counter">
+    
+    {%- capture types -%}
+    {%- for item in cart.items -%}
+    #{{ item.product.type }}
+    {%- endfor -%}
+    {%- endcapture -%}    
+    {% assign types_array = types | strip_newlines | strip | split:'#' | uniq %}
+    {% assign types_size = types_array | size %}
+    
+    {% for i in (1..types_size) %}
+    {% unless forloop.first %}
+    {% assign index = i | minus:1 %}
+    {% assign type_counter = 0 %}
+    {% assign current_type = types_array[index] | strip %}
+    {% unless current_type == 'Service' or current_type == 'Livraison' %}
+    {% unless settings.excluded_types contains current_type %}
+    {% for item in cart.items %}    
+    	{% if current_type == item.product.type %}
+    	{% assign type_counter = type_counter | plus: item.quantity %}
+    	{% assign type_vendor = item.vendor %}
+    	{% else %}    
+    	{% continue %}
+    	{% endif %}    
+    {% endfor %}
+    <div class="type_counter" data-type="{{ current_type }}" data-count="{{ type_counter }}" data-vendor="{{ type_vendor }}"></div>
+    {% endunless %}
+    {% endunless %}
+    {% endunless %}
+    {% endfor %}
+  </div>
+  
+  {% comment %} Generate data to list delivery products available {% endcomment %}
+  <div class="global-cart-delivery-rates">
+    {% section 'global_delivery_rates' %}
+  </div>
+  
+  {% comment %} Generate data to list addresses for vendors {% endcomment %}
+  <div class="global-cart-delivery-addresses">
+    {% section 'global_delivery_addresses' %}
+  </div>  
+  
+  {% comment %} Generate data to retrieve for orders only if customer {% endcomment %}
+  {% if customer %}
+  <div id="cartOrderDetails">
+    {% assign vat_rate = settings.vat_rate | times:0.01 %}
+    {% assign vat_special_rate = settings.vat_special_rate | times:0.01 %}
+    {% assign exception_coll = settings.vat_collection %}
+    <ul>
+    {% for item in cart.items %}
+      
+      {% comment %}VAT{% endcomment %}
+      {% for collection in item.product.collections %}
+      	{% assign exception = false %}
+        {% if collection.handle == exception_coll %}
+        {% assign exception = true %}
+        {% break %}
+        {% endif %}
+      {% endfor %}
+      {% assign total_price = item.quantity | times: item.price %}      
+      {% if exception %}
+      {% assign vat = vat_special_rate %}
+      {% else %}
+      {% assign vat = vat_rate %}
+      {% endif %}
+      {% assign vat_price = total_price | times: vat %}
+      
+      {% comment %}BUNDLE COMPONENTS{% endcomment %}
+      {% for tag in item.product.tags %}
+      {% if tag contains 'COMP|' %}
+      {% assign components = tag | remove : 'COMP|' %}
+      {% break %}      
+      {% endif %}
+      {% endfor %}
+      
+      {% unless components == blank %}
+      <div data-id="{{ item.id }}" data-vat-rate="{{ vat }}" data-vat-price="{{ vat_price | times:0.01 }}" data-components="{{ components }}" data-barcode="{{ item.variant.barcode }}">
+      </div>
+      {% else %}
+      <div data-id="{{ item.id }}" data-vat-rate="{{ vat }}" data-vat-price="{{ vat_price | times:0.01 }}" data-components="none" data-barcode="{{ item.variant.barcode }}">
+      </div>      
+      {% endunless %}
+	  {% assign components = blank %}
+      
+    {% endfor %}      
+    </ul>
+  </div>
+  {% endif %}
+
+  {% if cart.item_count > 0 %}  
+    <div class="waiting-message hide-content text-center">      
+      <img src="{{ 'ajax-loader.gif' | asset_url }}" width="16" height="16" class=""/> 
+      <p>{{ 'cart.update_running' | t }}</p>
+    </div>  
+  <div class="items-list">
+    {% for item in cart.items %}
+    {% unless item.product.type == 'Service' or item.product.type == 'Livraison' %}
+    <div class="row row-item" data-type="{{ item.product.type | handleize }}" data-vendor="{{ item.product.vendor }}" data-id="{{ item.id }}">
+      <div class="col-xs-7">
+        <div class="bolded item-title">{{ item.product.title }}</div>
+          {% unless item.properties == empty %}
+            {% for property in item.properties %}
+        	<!--<p><small>{{ property.first }} : {{ property.last }}</small></p>-->
+        	{% unless property.first contains '_' %}
+            <p><small>{{ property.last }}</small></p>
+        	{% endunless %}
+            {% endfor %}
+          {% endunless %}        
+        <br/>
+      </div>             
+      <div class="col-xs-3 text-center">
+        <ul class="list-unstyled lighter">
+          <li class="qty-container">
+            <a href="#" data-line="{{ forloop.index }}" data-quantity="{{ item.quantity | minus:1 }}" data-clear-type="{{ item.product.type}}">-</a>
+            <span class="item-qty" data-item-line="{{ forloop.index }}" data-item-variant="{{ item.variant.id }}" data-item-qty="{{ item.quantity }}">{{ item.quantity }}</span>                
+            <a href="#" class="plus" data-line="{{ forloop.index }}" data-quantity="{{ item.quantity | plus:1 }}" data-clear-type="{{ item.product.type}}">+</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-xs-2 text-right">
+        <div class="cart-price item-price-ht">{{ item.price | money }}</div>
+      </div>                  
+    </div>
+    {% endunless %}
+    {% endfor %}
+  </div>  
+  <p></p><br/>
+  <div class="services-list" id="servicesList">
+    {% for item in cart.items %}
+    {% if item.product.type == 'Service' %}
+    <div class="row row-item" data-product="{{item.product.handle}}">
+      <div class="col-xs-7">
+        <div class="bolded item-title">{{ item.title }} x{{ item.quantity }}</div>
+          {% unless item.properties == empty %}
+            {% for property in item.properties %}
+            {% if property.first contains 'pour' %}
+            <p><small>{{ property.last }}</small></p>
+        	{% assign current_type = property.last %}
+            {% endif %}
+            {% endfor %}
+          {% endunless %}
+      </div>             
+      <div class="col-xs-3 text-center">
+        <div class="service-management">
+        <div class="service-form" data-product="{{item.product.handle}}">
+          <label class="switch">
+            <input type="checkbox" name="service" data-type="{{ current_type }}"  data-product="{{item.product.handle}}" data-variant="{{ item.product.first_available_variant.id }}" data-line="{{ forloop.index }}" data-management="{% if block.settings.service_auto %}auto{% else %}unique{% endif %}" class="service-checkbox-cart" checked>
+            <span class="slider round"></span> 
+            <input type="hidden" name="id" value="{{ item.product.first_available_variant.id }}">
+            <input type="hidden" name="quantity" value="0">
+            <input type="hidden" name="properties[pour]" value="{{ current_type }}" data-prop-type="{{ current_type | handleize }}" data-line="{{ forloop.index }}">
+          </label>
+        </div>
+        </div>
+      </div>
+      <div class="col-xs-2 text-right">
+        <div class="cart-price item-price-ht">{{ item.price | money }}</div>
+      </div>                  
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% section 'cart_services' %}
+  </div>     
+  
+  {% unless customer %}
+  <form action="/cart" novalidate method="post" id="checkoutForm">
+  {% endunless %}
+  <div class="cart-notes">
+    <br><br>
+        <!-- Additional note -->
+          <label for="mes-informations-complementaires">{{ 'cart.notes_form_label' | t }}</label>
+          <textarea class="form-control" id="mes-informations-complementaires" name="attributes[Mes informations complémentaires]" placeholder="{{ 'cart.notes_form_placeholder' | t }}" value="{{ cart.attributes["Mes informations complémentaires"] | strip_html }}">{{ cart.attributes["Mes informations complémentaires"] | strip_html }}</textarea>     
+  </div>
+  
+  <div class="buy-zone">
+    <div class="row">
+      <div class="col-sm-12">
+        <hr/>
+      </div>
+    </div>   
+
+    <div class="row total">
+      <div class="col-xs-6">
+        <p>{{ 'cart.delivery_total' | t }}</p>
+        <p>{{ 'cart.subtotal' | t }}</p>        
+        <p>{{ 'cart.vat' | t }}</p>
+        <p>{{ 'cart.total' | t }}</p>
+      </div>
+      <div class="col-xs-6 text-right cart-totals">
+        <div id="delivery_items">
+          {% assign delivery_total = 0 %}
+          {% for item in cart.items %}
+          {% if item.product.type == 'Livraison' %}        
+          <div class="delivery_item" data-type="{{ item.product.type }}" data-id="{{ item.id }}"  data-line="{{ forloop.index }}">
+            <!--<p>{{ item.title }} - {{ item.price | money }} - x{{ item.quantity }}</p>-->
+          </div> 
+          {% assign delivery_total = delivery_total | plus: item.price %}
+          {% else %}
+          {% continue %}
+          {% endif %}
+          {% endfor %}
+          <div class="delivery-total">
+            <p>{{ delivery_total | money }}</p>
+          </div>
+        </div>
+         <p class="cart-subtotal"  id="cartSubTotal" data-value="{{ cart.total_price }}">{{ cart.total_price | money }}</p>        
+        {% assign vat_amount = 0 %}
+        {% assign vat_rate = settings.vat_rate | plus:0 %}
+        {% assign exception_coll = settings.vat_collection %}
+        {% assign exception_vat_rate = settings.vat_special_rate | plus:0 %}        
+        {% for item in cart.items %}
+        {% assign exception = false %}
+          {% for collection in item.product.collections %}
+            {% if collection.handle == exception_coll %}
+            {% assign exception = true %}
+            {% break %}
+            {% endif %}
+          {% endfor %}
+          {% if exception %}
+          {%- capture single_vat_amount -%}
+          {{ item.price | times: item.quantity | times: exception_vat_rate  }}
+          {%- endcapture -%}
+          {% assign vat_amount = vat_amount | plus: single_vat_amount %}
+          {% else %}
+          {%- capture single_vat_amount -%}
+          {{ item.price | times: item.quantity | times: vat_rate  }}
+          {%- endcapture -%}
+          {% assign vat_amount = vat_amount | plus: single_vat_amount %}        
+          {% endif %}
+        {% endfor %}
+        
+        <p class="cart-vat" id="cartVAT" data-value="{{ vat_amount | times: 0.01 }}">{{ vat_amount | times: 0.01 | money }}</p>
+        {% assign vat_add = vat_amount  | times: 0.01 %}
+       <p class="cart-total" id="cartTotal" data-value="{{ cart.total_price | plus:vat_add }}">{{ cart.total_price | plus:vat_add | money }}</p>
+      </div>
+    </div>
+    
+
+
+    
+  </div>
+  {% unless customer %}
+  </form>
+  {% endunless %}
+    <div class="row checkout">
+      <div class="col-xs-12">
+        {% include 'cart_purchase_funnel' %}
+      </div>
+     </div>  
+  {% else %}
+  <div class="row">
+    <div class="col-xs-12 text-center">
+      {% section 'cart_empty_state' %}
+    </div>
+  </div> 
+  {% endif %}
+  
+</div>

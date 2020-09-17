@@ -1,0 +1,249 @@
+{% assign current_handle = collection.handle %}
+<div data-section-id="{{ section.id }}" data-section-type="products">
+  {% if section.blocks.size > 0 %}
+  
+  	{% comment %}Count services on this page{% endcomment %}
+  	{% assign s = 0 %}
+  	{% for block in section.blocks %}
+  		{% if block.type == 'product' and block.settings.handle == current_handle %}
+  		{% assign s = s | plus:1 %}
+  		{% endif %}
+  	{% endfor %}
+  
+  	{% case s %}
+  	{% when 1 %}  
+  	{% assign col = 'col-md-12' %}
+  	{% when 2 %}
+  	{% assign col = 'col-md-6' %}
+  	{% when 3 %}
+  	{% assign col = 'col-md-4' %}
+  	{% when 4 %}
+  	{% assign col = 'col-md-3' %}  
+  	{% endcase %}
+  
+  	{% comment %}Capture Services first{% endcomment %}
+  	{% capture services %}
+    {% for block in section.blocks %} 
+  	{% if block.settings.handle == current_handle %}
+  
+  		{% assign i = 0 %}
+  		{% if block.type == 'product' and i < 4 %}
+  		{% assign product = all_products[block.settings.service] %} 
+            <div class="{{ col }} text-right{% if i == s %} unmarge-right{% endif %} service-item" data-id="servicesList_{{ product.handle }}">
+              <div class="flex-container service-container">                
+                <div class="flex-item service--icon">
+                    {% unless block.settings.service_icon == blank %}
+                    	<img src="{{ block.settings.service_icon | img_url: '40x20'}}" alt="{{ block.settings.service_icon.alt }}" class="img-responsive">
+                    {% else %}
+                        <img src="{{ product.featured_image | img_url: '40x20'}}" alt="{{ block.settings.service_icon.alt }}" class="img-responsive">
+                    {% endunless %}
+                </div>
+                <div class="flex-item service-form">
+                    <label class="switch">
+                      <input type="checkbox" data-product="{{product.handle}}" data-variant="{{ product.first_available_variant.id }}" data-management="{% if block.settings.service_auto %}auto{% else %}unique{% endif %}" class="service-checkbox" id="{{ product.handle }}">
+                      <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="flex-item text-right">
+                  <p class="service--title">
+                    {{ product.title }} 
+                    <span class="info-container" id="serviceCont_{{ product.handle }}"><span class="info"><sup><small><em>i</em></small></sup></span></span>
+                  </p>
+                  <p class="service--description"><em>{{ product.price | money_without_trailing_zeros }} {{ 'collection.services.service_price_comment' | t }}</em></p>
+                </div>
+                <div class="more" id="serviceInfo_{{ product.handle }}">
+                  {{ product.description | strip_html }}
+               </div>                
+              </div>
+            </div>
+       	{% assign i = i | plus:1 %}
+  		{% else %}
+  		{% continue %}
+  		{% endif %}
+  
+  	{% endif %}
+  	{% endfor %}
+  	{% endcapture %}
+  
+  	{% comment %}Then display collections including captured services above{% endcomment %}
+    {% for block in section.blocks %} 
+  	{% if block.settings.handle == current_handle %}
+  
+      {% if block.type == 'collection' and block.settings.collection_default %}
+      {% assign product = all_products[block.settings.collection] %}  
+      <div class="container container-collection" id="chefList-{{ block.settings.collection }}" data-zone="{{ block.settings.zone }}" data-handle="{{ block.settings.collection }}" data-default="visible">
+        <section id="summary{{ collection.handle }}">
+        <div class="row">
+          <div class="col-md-5 col-md-offset-7">
+			{{ services }}
+          </div>
+        </div>
+        </section>
+        <section id="productList{{ product.handle }}">
+          <div class="row">  	
+
+              {% assign tag_list = product.tags | join: ' ' %}
+              {% unless tag_list contains 'hidden' %}
+              <div class="col-sm-4">
+                {% include 'global_product_block' %}
+              </div>
+              {% endunless %}
+  
+          </div>
+        </section>
+      </div>
+  	  {% elsif block.type == 'collection' and block.settings.collection_default == false %}
+  	  <div class="container container-collection" id="chefList{{ block.settings.collection }}" data-zone="{{ block.settings.zone }}" data-handle="{{ block.settings.collection }}" data-default="hidden">        
+      </div>
+      {% else %}
+      {% continue %}
+      {% endif %} 
+  
+  	{% endif %}
+    {% endfor %}    
+  
+  {% else %}
+  <div class="container">
+  	<div class="row">
+      <div class="col-xs-12">
+        <h2 class="text-center neutral downcase basic">{{ 'collection.no_chef' | t }}</h2>
+      </div>
+    </div>
+  </div>
+  {% endif %}  
+</div>
+
+
+{% comment %}Storing hidden templating info to clone into located results{% endcomment %}
+<section class="summary-template">
+<div class="row">
+    <div class="col-md-7">
+      <div class="col-sm-3">
+      <div class="img-container unmarge-left">
+        <img src="" alt="{{ collection.image.alt }}" class="img-responsive img-circle bordered">
+      </div>
+      </div>
+      <div class="col-sm-8">
+        <h2 class="upgraded summary-title"></h2>
+        <p class="summary-desc"></p>
+      </div>
+    </div> 
+  <div class="col-md-5">
+    {{ services }}
+  </div>
+</div>
+</section>
+
+{% schema %}
+  {
+    "name": "Prestations & Services",
+    "max_blocks": 50,
+    "settings": [
+      {
+      "type": "paragraph",
+      "content": "Ajoutez ci-dessous les collections de prestations, les services ainsi que la page dans lesquelles les afficher"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "product",
+        "name": "Services associés",
+        "settings": [
+          {
+          "type": "header",
+          "content": "Service"
+          },
+          {
+          "type": "paragraph",
+          "content": "Attention, pour des raisons d'ergonomie seuls les 4 premiers services seront affichés sur la page d'affichage associée"
+          },
+          {
+            "type": "product",
+            "id": "service",
+            "label": "Service proposé"
+          },
+          {
+            "type": "image_picker",
+            "id": "service_icon",
+            "label": "Icône du service proposé"
+          },
+          {
+            "type": "checkbox",
+            "id": "service_auto",
+            "label": "Activer le comptage automatisé",
+			"info": "Si cette option est activée, le nombre de produits de service ajouté au panier sera équivalent au nombre de plateaux",
+            "default": true
+          },
+          {
+          "type": "header",
+          "content": "Page d'affichage du service"		  
+          },
+          {
+          "type": "collection",
+          "id": "handle",
+          "label": "Page d'affichage pour le service",
+          "info": "Choisissez ici la page d'affichage pour le service sélectionné"
+          }
+        ]
+      },
+      {
+        "type": "collection",
+        "name": "Produits",
+        "settings": [
+          {
+          "type": "header",
+          "content": "Page d'affichage"		  
+          },
+          {
+          "type": "collection",
+          "id": "handle",
+          "label": "Page d'affichage pour le produit sélectionné",
+          "info": "Choisissez ici la page d'affichage pour le produit sélectionné (ex: collection Cocktails)"
+          },
+          {
+          "type": "header",
+          "content": "Produit"
+          },
+          {
+            "type": "checkbox",
+            "id": "product_default",
+            "label": "Activer l'affichage à la une",
+            "info": "Si activée, ce produit s'affichera aux visiteurs n'ayant pas renseigné de code postal"
+          },
+          {
+          "type": "product",
+          "id": "product",
+          "label": "Produit Présenté"
+          },
+          {
+            "type": "text",
+            "id": "zone",
+            "label": "Zones Livrées",
+            "placeholder": "75001,75002,75019...",
+            "info": "Entrez la liste des codes postaux disponibles à la livraison en les séparant par des virgules et sans espace"
+          }
+        ]
+      }
+    ],
+    "presets": [{
+      "name": "Présentation Produits",
+      "category": "collection",
+      "settings": {
+      },
+      "blocks": [
+        {
+          "type": "collection"
+        },
+        {
+          "type": "product"
+        }
+      ]
+    }]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

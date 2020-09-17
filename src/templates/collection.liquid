@@ -1,0 +1,89 @@
+<section id="banner">
+  <div class="container-banner">
+    {% if collection.image %}
+    	{% assign image = collection.image %}
+    {% else %}
+    {% for product in collection.products limit:1 %}
+    	{% assign image = product.featured_image %}
+    {% endfor %}    
+    {% endif %}
+    <div class="banner-content" style="background:url({{ image | img_url: '2000x250', crop:'center', format:'pjpg' }}) no-repeat center">
+      <div class="banner-content--relative">
+        <div class="inner-content">
+        <h1 class="text-center lighter">{{ collection.title }}</h1>          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<nav id="stickyMenu">
+<section id="collections_nav">
+  {% section 'menu_collections' %}
+</section>
+
+<section id="delivery_nav">
+  {% section 'menu_livraison' %}
+</section>
+</nav>
+
+
+{% comment %}Retrieving image src to display if this collection is called for located display{% endcomment %}
+ {% unless collection.image == blank %}
+ {% assign collection_image_src = collection.image | img_url: '280x280', format:'pjpg', crop:'center' %}
+ {% else %}
+ {% assign collection_image_src = 'icon-toque.png' | asset_img_url: '300x300', crop:'center' %}
+ {% endunless %}
+
+{% comment %}Retrieving first vendor{% endcomment %}
+{% for vendor in collection.all_vendors %}
+{% assign currVendor = vendor %}
+{% break %}
+{% endfor %}
+
+{% comment %}Retrieving first type{% endcomment %}
+{% for type in collection.all_types %}
+{% assign currType = type %}
+{% break %}
+{% endfor %}
+
+{% comment %}If all types empty{% endcomment %}
+{% if currType == blank %}
+{% for product in collection.products %}
+{% assign currType = product.type %}
+{% break %}
+{% endfor %}
+{% endif %}
+
+<div id="collections_list">  
+      <section class="container-collection" id="chefContent-{{ collection.handle }}" 
+           data-zone="" data-handle="{{ collection.handle }}" data-img="{{ collection_image_src }}"
+           data-title={{ collection.title | json }} data-desc="{{ collection.description | strip_html}}"
+           data-vendor="{{ currVendor }}" data-type="{{ currType }}" data-clear-type="{{ currType | handleize }}"
+           data-default="visible">
+        <div class="container">
+          <section id="productContent{{ collection.handle }}" class="collection-products">
+            <div class="row">  	
+                {% assign i = 0 %}
+                {% for product in collection.products %}
+                {% assign tag_list = product.tags | join: ' ' %}
+                {% unless tag_list contains 'hidden' %}
+                <div class="col-sm-4">
+                  {% include 'global_product_block' %}
+                </div>
+                {% endunless %}
+                {% assign i = 0 | plus:1 %}
+                {% if i > 3 %}
+                {% break %}
+                {% endif %}
+                {% endfor %}    
+            </div>
+          </section>
+          <div class="more-button-container">
+          </div>
+        </div>
+      </section>
+</div>
+
+<div class="loading center-block text-center"></div>
+

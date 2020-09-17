@@ -1,0 +1,32 @@
+<section id="banner">
+  {% section 'page_banner_chefs' %}
+</section>
+
+<nav id="stickyMenu">
+<section id="collections_nav">
+  {% section 'menu_collections' %}
+</section>
+
+<section id="delivery_nav">
+  {% section 'menu_livraison' %}
+</section>
+  
+<div id="mobileMenuToggle" class="hidden-md hidden-lg">
+	{% section 'menu_livraison_mobile_button' %}
+</div>  
+</nav>
+
+<section id="page">
+  {% unless page.content == blank %}
+  <div class="container page-container">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <div class="page-container--content rte">
+          {{ page.content }}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endunless %}
+  {% section 'page_chefs' %}
+</section>

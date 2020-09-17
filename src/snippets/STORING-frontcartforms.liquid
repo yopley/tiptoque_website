@@ -1,0 +1,194 @@
+/*---------- FUNCTIONS ----------*/
+
+/* Retrieve chosen delivery datas and compare to now information */
+function deliveryListener() {
+    var now = new Date(),
+    	selectedDay = $('#datepicker').val(),
+        splitDay = selectedDay.split('/'),
+        formattedDay = splitDay[2] + '-' + splitDay[1] + '-' + splitDay[0],
+        today = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate(),
+        dayDifference = Math.floor(( Date.parse(formattedDay) - Date.parse(today) ) / 86400000),
+        timer = parseInt(now.getHours() + (now.getMinutes()<10?'0':'') + now.getMinutes());
+  	return {dayDifference: dayDifference, timer: timer};        
+}
+
+
+/* Managing Time Limitation amongst product types */
+function checkTime () {
+    // Browse each product form to check type and time limitation for this one
+    $('.form-cart').each (function() {
+      var currType = $(this).attr('data-type'),
+          currForm = $(this);
+      // Map types object (view global_delivery_limits section) to compare to current
+      jQuery.map(types, function(type) {      
+        var type;        
+        if(type.type === currType) {
+          var delivery = deliveryListener(),
+              dayDiff = delivery.dayDifference,
+              now = delivery.timer,
+              hourLimit = parseInt(type.hourLimit.replace(':', ''));
+          // Check current time and remove one day more to limit if is missing deadline for today
+          if(now >= hourLimit) {
+            var dayDiff = dayDiff - 1;
+          }
+          // Check if delay is longer enough
+          if (dayDiff < type.dayLimit) {
+ 			// Store information
+            $('body').attr('data-delay', 'delayed');            
+          } else {
+            $('body').attr('data-delay', 'inTime');
+          }
+        }        
+      });
+      
+    });
+  };
+
+/* Managing chefs activation & deactivation */
+function checkActiveChef () {
+  var deliveryStatus = $('body').attr('data-delivery'),
+      deliveryDelay = $('body').attr('data-delay');
+  if (CartJS.cart.item_count > 0) {
+    // Execute only if delivery info are completed and if delay is ok
+    if (deliveryStatus == 'completed' && deliveryDelay == 'inTime') {
+      $.each(CartJS.cart.items, function (i, item) {
+        var selectorActive = '#locatedCollections .container-collection[data-vendor="' + item.vendor + '"][data-type="' + item.product_type + '"]',
+            selectorTypeActive = '#locatedCollections .container-collection[data-type="' + item.product_type + '"]',
+            active = '';
+
+            /* Case 1 - equivalent type found on the page*/
+            if ($(selectorTypeActive).length > 0) {
+              var active = true;
+              if($(selectorActive).length > 0) {
+                $(selectorActive).removeClass('unactive-chef').addClass('active-chef').find('button').prop('disabled',false);
+                /* Manage display of more button if active */
+                var moreStatus = $('.more-button-template').attr('data-active');
+                if (moreStatus === 'active') {
+                  var moreContent = $('.more-button-template').clone().removeClass('more-button-template').removeClass('hide-content').addClass('more-button-active');
+                  $(selectorActive + ' .more-button-active').remove();
+                  $(selectorActive).append(moreContent).fadeIn(500);
+                }
+              }
+              $('#locatedCollections .container-collection:not(.active-chef)').removeClass('active-chef').addClass('unactive-chef').find('button:not(.close)').prop('disabled',true);
+              $('#locatedCollections .container-collection:not(.active-chef) .more-button-active').remove();
+              $('#locatedCollections .container-collection:not(.active-chef) .form-cart .no-order-container').html({{ settings.error_chef_deactivated | json }}).show();
+            } 
+            /* Case 2 - not found */
+            else if (active !== true && item.product_type === 'Service') { 
+              $('#locatedCollections .container-collection').removeClass('active-chef').removeClass('unactive-chef').find('button:not(.close, .cart-minus)').prop('disabled',false);
+              $('#locatedCollections .form-cart .no-order-container').hide();
+            }
+      });
+    }
+  } else {
+    // Active only if delivery info are completed and if delay is ok
+    if (deliveryStatus == 'completed' && deliveryDelay == 'inTime') {
+    $('#locatedCollections .container-collection').removeClass('active-chef').removeClass('unactive-chef').find('button:not(.close, .cart-minus)').prop('disabled',false);
+    $('#locatedCollections .form-cart .no-order-container').hide();
+    }
+  }
+};
+
+/* Get cart then parse to targeted products on page */
+function parseQty () {
+  /* Clean previous datas */
+  var productSelector = $('#locatedCollections .product-bloc, #locatedCollections .buy-container, #locatedCollections .reco-container');
+  removedProduct(productSelector); 
+  /* Get cart then display added*/
+    $.each(CartJS.cart.items, function (i, item) {
+        var currSelector = $('#locatedCollections *[data-variant="' + item.variant_id + '"]'),
+            qtyMinus = item.quantity - 1,
+            qty = item.quantity,
+            line = i + 1;
+        addedProduct(currSelector, item, qtyMinus, line, qty);   
+    });
+}
+
+/* Item Added */
+function addedProduct (currSelector, item, qtyMinus,line, qty) {
+  currSelector.addClass('in-cart');
+  currSelector.find('.overlay-qty').html(item.quantity);
+  currSelector.find('.cart-qty').val(item.quantity).attr('data-quantity', qty); 
+  currSelector.find('.cart-minus').prop('disabled', false).attr('data-cart-update', line).attr('data-cart-quantity', qtyMinus);
+  console.log('added');
+}
+
+/* Item removde */
+function removedProduct (productSelector) {
+  productSelector.removeClass('in-cart');
+  productSelector.find('.overlay-qty').empty();   
+  productSelector.find('.cart-qty').val('0').attr('data-quantity', 0); ;          
+  productSelector.find('.cart-minus').prop('disabled', true);  
+}
+
+/* Qty field case */
+function updateQty () {
+  $('input.cart-qty').change(function(e){
+    e.preventDefault();
+    var currID=$(this).attr('data-variant'),
+        currQuantity=$(this).val(),
+        baseQuantity= $(this).attr('data-quantity');
+    if (baseQuantity > 0) {
+      CartJS.updateItemById(currID, quantity = currQuantity);
+      return false;
+    } else {
+      CartJS.addItem(currID, currQuantity);
+      return false;
+    }
+  });
+}
+
+/* Check if global conditions are ok to add to cart, alert message if not, active form if ok */
+/* deactivation sole chef are managed apart via checkActiveChef() function once global check (delivery and delay) is done*/
+function checkStatus () {
+  if(!$('body').hasClass('classic')) {
+      var deliveryStatus = $('body').attr('data-delivery'),
+          deliveryDelay = $('body').attr('data-delay');  
+      if (deliveryStatus == 'completed') {
+        if (deliveryDelay == 'inTime') {
+          $('#locatedCollections .form-cart .plus, #locatedCollections .form-cart .minus').prop('disabled', false);
+          $('#locatedCollections .form-cart .no-order-container').hide();
+        } else {
+          $('#locatedCollections .form-cart .plus, #locatedCollections .form-cart .minus').prop('disabled', true);
+          $('#locatedCollections .form-cart .no-order-container').html({{ settings.error_delay_delayed | json }}).show();
+        }
+      } else {
+          $('#locatedCollections .form-cart .plus, #locatedCollections .form-cart .minus').prop('disabled', true);
+          $('#locatedCollections .form-cart .no-order-container, #collections_list .no-order-container').html({{ settings.error_delivery_uncomplete | json }}).show();    
+      }
+  }
+}
+
+
+/*---------- EXECUTIONS ----------*/
+
+//Ready doc
+$(document).ready(function() {
+	//deliveryListener();
+  	checkTime();
+  	checkStatus();
+    parseQty();
+    console.log(CartJS.cart.items);
+});
+
+// Delivery form submit
+$('#delivery_form').submit(function() {
+  	checkTime();
+    checkStatus();
+    //checkActiveChef();
+});
+
+
+// Ajax queries performed
+$(document).ajaxComplete(function( event, xhr, settings ) { 
+  checkStatus();
+  checkActiveChef();
+  parseQty();
+  if (settings.url.indexOf('/cart') >= 0) {  
+  } else {
+    checkTime();
+  }  
+});
+
+// Update qty fields on change when dom loaded
+setTimeout(updateQty, 6000);

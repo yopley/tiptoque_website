@@ -1,0 +1,87 @@
+{% assign unfiltered = true %}
+{% if current_tags.first %}
+{% assign unfiltered = false %}
+{% endif %}
+<div class="container-fluid blog-navigation-container">
+  <div class="row">
+    <div class="col-xs-12">
+      <ul class="list-inline">
+       {% if section.settings.nav_mode == 'auto' or section.blocks.size < 1 %}
+       {% for tag in blog.all_tags %}
+        <li class="blog-navigation-item">          
+          <a href="{{ blog.url }}/tagged/{{ tag | handle }}"{% if tag == current_tags.first or article.tags contains tag %} class="active"{% endif %} >
+            {% if tag contains '|' %}
+            {% assign tag_split = tag | split: '|' %}
+            {% assign tag_display = tag_split.last %}
+            {% else %}
+            {% assign tag_display = tag %}
+            {% endif %}
+            {{ tag_display }}
+          </a>          
+        </li>
+        {% endfor %}
+        <li class="blog-navigation-item"> 
+          <a href="{{ blog.url }}"{% if unfiltered and template contains 'blog' %} class="active"{% endif %}{% if article.tags == blank and template contains 'article' %} class="active"{% endif %} >
+            {{ 'blog.view_all' | t  }}
+          </a>               
+        </li>
+        {% else %}
+        {% for block in section.blocks %}          
+            <li class="blog-navigation-item dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ block.settings.title }} <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  {% for link in linklists[block.settings.cat_menu].links %}
+                  <li class="no-image"><a href="{{ link.url }}">{{ link.title }}</a></li>
+                  {% endfor %}
+                </ul>
+             </li>
+        {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Menu du blog",
+    "max_blocks": 4,
+    "settings": [
+      {
+         "type": "select",
+         "id": "nav_mode",
+         "options": [
+            { "value": "auto", "label": "Automatique par catégorie"},
+            { "value": "manual", "label": "Manuel avec des menus déroulants"}
+         ],
+         "label": "Mode de navigation",
+         "info": "En mode automatique, les liens affichés seront basés sur les tags des articles disponibles afin de proposer un affichage par catégorie. En mode manuel, vous devrez indiquer les menus déroulants de votre choix via les blocs ci-dessous. Si aucun bloc n'est ajouté, le mode automatique sera activé par défaut."
+      }
+    ],
+    "blocks": [
+      {
+        "type": "navigation",
+        "name": "Menu déroulant",
+        "settings": [
+          {
+          "type": "text",
+          "id": "title",
+          "label": "Titre du menu"
+          },
+          {
+                "type":      "link_list",
+                "id":        "cat_menu",
+                "label":     "Menu Personnalisé",
+                "info":      "Ajoute un menu déroulant dans la zone de navigation du blog à condition que vos paramètres ci-dessus soient réglés sur Personnalisé"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

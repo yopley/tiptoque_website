@@ -1,0 +1,327 @@
+{% assign current_handle = collection.handle %}
+<div data-section-id="{{ section.id }}" data-section-type="products" id="zone">
+  {% if section.blocks.size > 0 %}
+  
+  	{% comment %}Count services on this page{% endcomment %}
+  	{% assign s = 0 %}
+  	{% for block in section.blocks %}
+  		{% if block.type == 'product' and block.settings.handle == current_handle %}
+  		{% assign s = s | plus:1 %}
+  		{% endif %}
+  	{% endfor %}
+  
+  	{% case s %}
+  	{% when 1 %}  
+  	{% assign col = 'col-md-12' %}
+  	{% when 2 %}
+  	{% assign col = 'col-md-6' %}
+  	{% when 3 %}
+  	{% assign col = 'col-md-4' %}
+  	{% when 4 %}
+  	{% assign col = 'col-md-3' %}  
+  	{% endcase %}
+  
+  	{% comment %}Check for product type then capture Services first{% endcomment %}
+  
+  	{% for block in section.blocks %}
+    {% if block.settings.handle == current_handle %}
+      {% if block.type == 'collection' %}
+      {% for product in collections[block.settings.collection].products %}
+        {% assign main_type = product.type %}
+  		{% break %}
+      {% endfor %}
+  	  {% else %}
+      {% continue %}
+  	  {% endif %}
+    {% else %}
+    {% continue %}
+    {% endif %}
+    {% endfor %}
+  
+  	{% capture services %}
+    {% for block in section.blocks %} 
+  	{% if block.settings.handle == current_handle %}
+  
+  		{% assign i = 0 %}
+  		{% if block.type == 'product' and i < 4 %}
+  		{% assign product = all_products[block.settings.service] %} 
+            <div class="{{ col }} text-right{% if i == s %} unmarge-right{% endif %} service-item" data-id="servicesList_{{ product.handle }}">
+              <ul class="service-container list-inline">                
+                <li class="service-item service--icon" data-variant="{{ product.first_available_variant.id }}">
+                    {% unless block.settings.service_icon == blank %}
+                    	<img src="{{ block.settings.service_icon | img_url: '40x40'}}" alt="{{ block.settings.service_icon.alt }}" class="img-responsive greyscale">
+                    {% else %}
+                        <img src="{{ product.featured_image | img_url: '40x40'}}" alt="{{ block.settings.service_icon.alt }}" class="img-responsive greyscale">
+                    {% endunless %}
+                </li>
+                <li class="service-item service-form-container">
+                  <form data-cart-submit="data-cart-submit" class="service-form" data-product="{{product.handle}}">
+                    <label class="switch">
+                      <input type="checkbox" name="service" data-product="{{product.handle}}" data-variant="{{ product.first_available_variant.id }}" data-type="{{ main_type }}" data-management="{% if block.settings.service_auto %}auto{% else %}unique{% endif %}" class="service-checkbox" disabled>
+                      <span class="slider round"></span> 
+                      <input type="hidden" name="id" value="{{ product.first_available_variant.id }}">
+                      <input type="hidden" name="quantity" value="1">
+                      <input type="hidden" name="properties[pour]" value="{{ main_type }}">
+                    </label>
+                  </form>                  
+                </li>
+                <li class="service-item service-desc-content text-right">
+                  <p class="service--title">
+                    {{ product.title }} 
+                    <a href="#" class="push-right" data-toggle="tooltip" data-placement="left" title="{{ product.description | strip_html }}">
+                      <span class="info-container"><span class="info"><sup><small><em>i</em></small></sup></span></span>
+                        </a>
+                    </p>
+                  <p class="service--description"><em>{{ product.price | money_without_trailing_zeros }} {{ 'collection.services.service_price_comment' | t }}</em></p>
+                </li>
+              </ul>
+            </div>
+       	{% assign i = i | plus:1 %}
+  		{% else %}
+  		{% continue %}
+  		{% endif %}
+  
+  	{% endif %}
+  	{% endfor %}
+  	{% endcapture %}
+  
+  	{% comment %}Then display collections including captured services above{% endcomment %}
+    {% for block in section.blocks %} 
+  	{% if block.settings.handle == current_handle %}
+  
+      {% if block.type == 'collection' and block.settings.collection_default %}
+      {% assign collection = collections[block.settings.collection] %}  
+      <div class="container-collection visible" id="chefList-{{ block.settings.collection }}" data-zoning="{{ section.settings.zoning_mode }}" data-zone="{{ block.settings.zone }}" data-handle="{{ block.settings.collection }}" data-default="visible">
+        <div class="container">
+          <section id="visibleSummary{{ collection.handle }}">
+          <div class="row">
+              <div class="col-md-5">
+                <h2 class="upgraded">{{ collection.title }}</h2>
+                  <p>{{ collection.description | strip_html }}</p>
+              </div> 
+            <div class="col-md-7">
+              {{ services }}
+            </div>
+          </div>
+          </section>
+          <section id="visibleProductList{{ collection.handle }}">
+            <div class="row">  	
+                {% assign i = 0 %}
+                {% for product in collection.products %}
+                {% assign tag_list = product.tags | join: ' ' %}
+                {% unless tag_list contains 'hidden' %}
+                <div class="col-sm-4">
+                  {% include 'global_product_block' with 'visible' %}
+                </div>
+                {% endunless %}
+                {% assign i = 0 | plus:1 %}
+                {% if i > 2 %}
+                {% break %}
+                {% endif %}
+                {% endfor %}    
+            </div>
+          </section>
+        </div>
+      </div>
+  	  {% elsif block.type == 'collection' and block.settings.collection_default == false %}
+  	  <div class="container container-collection" id="chefList{{ block.settings.collection }}" data-zoning="{{ section.settings.zoning_mode }}" data-zone="{{ block.settings.zone }}" data-handle="{{ block.settings.collection }}" data-default="hidden">        
+      </div>
+      {% else %}
+      {% continue %}
+      {% endif %} 
+  
+  	{% endif %}
+    {% endfor %}    
+  
+  {% else %}
+  <div class="container">
+  	<div class="row">
+      <div class="col-xs-12">
+        <h2 class="text-center neutral downcase basic">{{ 'collection.no_chef' | t }}</h2>
+      </div>
+    </div>
+  </div>
+  {% endif %}  
+</div>
+
+{% comment %}Storing hidden templating info to clone into located results{% endcomment %}
+<section class="summary-template hide-content">
+<div class="row">
+    <div class="col-md-6">
+        <h2 class="upgraded summary-title"></h2>
+    </div> 
+  <div class="col-md-6">
+    <div class="services-template">{{ services }}</div>
+  </div>
+</div>
+</section>
+
+{% comment %}Storing more button template to append to active chefs if needed{% endcomment %}
+{% assign more_status = 'inactive' %}
+{% if section.settings.more_button %}
+  {% unless section.settings.more_button_link == blank or section.settings.more_button_link == blank %}
+	{% assign more_status = 'active' %}
+  {% endunless %}
+{% endif %}
+
+<div class="more-button-template hide-content" data-active="{{ more_status }}">
+  <div class="container">
+    <div class="col-xs-12 text-center">
+      <p><a href="{{ section.settings.more_button_link }}" class="btn">{{ section.settings.more_button_content }}</a></p>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Chefs & Services",
+    "max_blocks": 50,
+    "settings": [
+      {
+         "type": "select",
+         "id": "zoning_mode",
+         "options": [
+            { "value": "2", "label": "Par département"},
+            { "value": "5", "label": "Par code postal"}
+         ],
+         "label": "Méthode de localisation",
+         "default": "5"
+      },
+      {
+      "type": "paragraph",
+      "content": "Si vous souhaitez afficher un bouton en lien vers une autre collection, comme par exemple les boissons, lorsqu'un des chefs dispose d'un plateau ajouté au panier, activez-le et personnalisez-le ci-dessous"
+      },
+      {
+      "type": "checkbox",
+      "id": "more_button",
+      "label": "Activer le bouton sous le chef activé",
+      "default": false
+      },
+      {
+      "type": "url",
+      "id":"more_button_link",
+      "label": "Lien vers lequel pointer le bouton"
+      },
+      {
+      "type": "text",
+      "id": "more_button_content",
+      "label": "Texte du bouton"
+      },
+      {
+      "type": "paragraph",
+      "content": "Ajoutez ci-dessous les collections de plateaux/chefs, les services ainsi que la page dans lesquelles les afficher"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "product",
+        "name": "Services associés",
+        "settings": [
+          {
+          "type": "header",
+          "content": "Service"
+          },
+          {
+          "type": "paragraph",
+          "content": "Attention, pour des raisons d'ergonomie seuls les 4 premiers services seront affichés sur la page d'affichage associée"
+          },
+          {
+            "type": "product",
+            "id": "service",
+            "label": "Service proposé"
+          },
+          {
+            "type": "image_picker",
+            "id": "service_icon",
+            "label": "Icône du service proposé"
+          },
+          {
+            "type": "checkbox",
+            "id": "service_auto",
+            "label": "Activer le comptage automatisé",
+			"info": "Si cette option est activée, le nombre de produits de service ajouté au panier sera équivalent au nombre de plateaux",
+            "default": true
+          },
+          {
+          "type": "header",
+          "content": "Page d'affichage du service"		  
+          },
+          {
+          "type": "collection",
+          "id": "handle",
+          "label": "Page d'affichage pour le service",
+          "info": "Choisissez ici la page d'affichage pour le service sélectionné"
+          }
+        ]
+      },
+      {
+        "type": "collection",
+        "name": "Collection de produits",
+        "settings": [
+          {
+          "type": "header",
+          "content": "Illustration"
+          },
+          {
+            "type": "image_picker",
+            "id": "illustration",
+            "label": "Image d'illustration personnalisée",
+            "info": "S'affichera à côté du nom de la collection, par défaut, l'image de la collection s'affichera"
+          },
+          {
+          "type": "header",
+          "content": "Page d'affichage"		  
+          },
+          {
+          "type": "collection",
+          "id": "handle",
+          "label": "Page d'affichage pour la collection de plateaux",
+          "info": "Choisissez ici la page d'affichage pour la collection de prestation sélectionnée (froid, chauds, etc...)"
+          },
+          {
+          "type": "header",
+          "content": "Collection de produits"
+          },
+          {
+            "type": "checkbox",
+            "id": "collection_default",
+            "label": "Activer l'affichage à la une",
+            "info": "Si activée, cette collection s'affichera aux visiteurs n'ayant pas renseigné de code postal"
+          },
+          {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection présentée"
+          },
+          {
+            "type": "text",
+            "id": "zone",
+            "label": "Zones Livrées",
+            "placeholder": "75001,75002,75019...",
+            "info": "Entrez la liste des codes postaux disponibles à la livraison en les séparant par des virgules et sans espace"
+          }
+        ]
+      }
+    ],
+    "presets": [{
+      "name": "Présentation Produits",
+      "category": "collection",
+      "settings": {
+      },
+      "blocks": [
+        {
+          "type": "collection"
+        },
+        {
+          "type": "product"
+        }
+      ]
+    }]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

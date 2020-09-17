@@ -1,0 +1,81 @@
+{% unless section.blocks.size < 1 %}
+<div class="row faq-row">
+  <div class="col-md-10 col-md-offset-1">    
+    <div class="panel cat-panel panel-default collapsed" role="button" data-toggle="collapse" href="#collapseCat3" aria-expanded="false" aria-controls="collapseCat3">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          {{ section.settings.title }}
+        </h4>
+      </div>
+    </div>    
+    
+    <div class="collapse" id="collapseCat3">
+      
+      <div class="panel-group" id="accordioncat3" role="tablist" aria-multiselectable="true">
+        
+        {% for block in section.blocks %}
+        <div class="panel panel-default{% unless forloop.first %} collapsed{% endunless %}" role="button" data-toggle="collapse" data-parent="#accordioncat3" href="#collapsecat3{{ forloop.index }}" aria-expanded="true" aria-controls="collapsecat3{{ forloop.index }}">
+          <div class="panel-heading" role="tab" id="headingcat3{{ forloop.index }}">
+            <h4 class="panel-title">
+                {{ block.settings.question }}
+            </h4>
+          </div>
+          <div id="collapsecat3{{ forloop.index }}" class="panel-collapse collapse{% if forloop.first %} in{% endif %}" role="tabpanel" aria-labelledby="headingcat3{{ forloop.index }}">
+            <div class="panel-body">
+              <div class="rte">
+                {{ block.settings.answer }}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        
+      </div>
+      
+      
+      
+    </div>    
+    
+  </div>
+</div>
+{% endunless %}
+
+
+{% schema %}
+  {
+    "name": "FAQ Catégorie 3",
+    "max_blocks": 15,
+    "settings": [
+      {
+      "type": "text",
+      "id": "title",
+      "label": "Intitulé de catégorie",
+      "default": "Livraison"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "radio",
+        "name": "Question Réponse",
+        "settings": [
+          {
+            "type": "text",
+            "id": "question",
+            "label": "Question"
+          },
+          {
+            "type": "richtext",
+            "id": "answer",
+            "label": "Réponse"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

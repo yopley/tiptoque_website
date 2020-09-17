@@ -1,0 +1,67 @@
+<section id="banner">
+  <div class="container-banner">
+    <div class="banner-content"{% unless product.featured_image == blank %} style="background:url({{ product.featured_image | img_url: '2000x250', crop:'center', format:'pjpg' }}) no-repeat center"{% endunless %}>
+      <div class="banner-content--relative">
+        <div class="inner-content">
+        <h1 class="text-center lighter">{{product.title }}</h1>          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<nav id="stickyMenu">
+<section id="collections_nav">
+  {% section 'menu_collections' %}
+</section>
+
+<section id="delivery_nav">
+  {% section 'menu_livraison' %}
+</section>
+  
+<div id="mobileMenuToggle" class="hidden-md hidden-lg">
+	{% section 'menu_livraison_mobile_button' %}
+</div>  
+</nav>
+
+<section id="product">
+  <div class="container product-container">
+	<div class="row">
+      <div class="col-sm-6">
+      <div class="img-container">
+        {% unless product.featured_image.src == blank %}
+        <img src="{{ product.featured_image.src| img_url: '750x500', format:'pjpg', crop:'center' }}" alt="{{ block.settings.illustration.alt }}" class="img-responsive center-block">
+        {% else %}
+        <img src="{{ 'default-product.jpg'| asset_img_url: '750x500', format:'pjpg', crop:'center' }}" alt="{{ product.title | escape }}" class="img-responsive center-block">
+        {% endunless %}
+      </div>        
+      </div>
+      <div class="col-md-6">
+        <h2 class="h1">{{ product.title }}</h2>
+        {% if product.price > 0 %}
+        <p>{{ product.price | money }}</p>
+        {% endif %}
+        <br/>
+        <h4 class="rte">{{ product.description }}</h4>
+        
+        {% for collection in product.collections %}
+        {% if collection.template_suffix == 'plateaux_repas' or collection.template_suffix == 'prestations' %}
+        {% assign cta_url = collection.url %}
+        {% endif %}
+        {% endfor %}
+        
+        {% if cta_url == blank %}
+        {% assign cta_url = settings.product_cta_link %}
+        {% endif %}
+        
+        
+        {% unless settings.product_cta_text == blank or cta_url == blank %}
+        <br/>
+        <p>
+          <a href="{{ cta_url }}" class="btn">{{ settings.product_cta_text }}</a>
+        </p>
+        {% endunless %}
+      </div>
+    </div>
+  </div>
+</section>

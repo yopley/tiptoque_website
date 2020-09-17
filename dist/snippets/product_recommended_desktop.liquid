@@ -1,0 +1,29 @@
+{% unless genre == 'undefined' %}
+          {% assign k = 1 %}
+          {% for product in collection.products %}
+            {% unless product.id == current_product %}
+          	{% if product.tags contains genre %}  
+              <div class="col-md-3">
+                <a href="{{ product.url | within: collection }}">
+                  <img src="{{ product.featured_image.src | product_img_url: 'x700' }}" alt="{{' product.title | escape }}" class="img-responsive">
+                </a>
+              </div>
+              {% assign k = k | plus:1 %}
+              {% if k > 4 %}{% break %}{% endif %}
+          	{% endif %}
+            {% endunless %}
+          {% endfor %} 
+{% else %}
+          {% assign k = 1 %}
+          {% for product in collection.products %}
+            {% unless product.id == current_product %}  
+              <div class="col-md-3">
+                <a href="{{ product.url | within: collection }}">
+                  <img src="{{ product.featured_image.src | product_img_url: 'x700' }}" alt="{{' product.title | escape }}" class="img-responsive">
+                </a>
+              </div>
+              {% assign k = k | plus:1 %}
+              {% if k > 4 %}{% break %}{% endif %}
+            {% endunless %}
+          {% endfor %} 
+{% endunless %}
